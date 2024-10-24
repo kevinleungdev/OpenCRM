@@ -1,1 +1,11 @@
 services:
+  postgres:
+    image: postgres:16.1-alpine
+    container_name: opencrm_db
+    command: ["postgres", "-c", "log_statement=all"]
+    environment:
+      - "POSTGRES_DB=opencrm"
+      - "POSTGRES_USER=opencrm"
+      - "POSTGRES_PASSWORD=opencrm!@#"
+    ports:
+      - "25432:5432"
