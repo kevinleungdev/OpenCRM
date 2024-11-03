@@ -3,11 +3,12 @@ import { API_URL } from "@/providers/urls";
 import { axiosInstance } from "./axios";
 
 export const client = new GraphQLClient(API_URL, {
+  // @ts-ignore
   fetch: async (url: string, options: any) => {
     try {
       const response = await axiosInstance.request({
         url,
-        data: options.body,
+        data: options?.body,
         ...options,
       });
 
