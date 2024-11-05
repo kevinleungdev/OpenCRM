@@ -1,7 +1,7 @@
 import type { IGraphQLConfig } from "graphql-config";
 
 const config: IGraphQLConfig = {
-  schema: "../backend/src/main/resources/graphql/schema.graphql",
+  schema: "../backend/src/main/resources/graphql/schema.graphqls",
   extensions: {
     codegen: {
       hooks: {

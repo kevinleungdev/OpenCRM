@@ -1,5 +1,7 @@
 package com.opencrm.app.model;
 
+import jakarta.persistence.MappedSuperclass;
+
 @MappedSuperclass
 public class NameEntity extends BaseEntity {
     private String name;

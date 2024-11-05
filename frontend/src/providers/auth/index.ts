@@ -1,4 +1,6 @@
-import { LoginMutation, MeQuery, RegisterMutation } from "@/graphql/types";
+import { User } from "@/graphql/schema.types";
+import { LoginMutation, RegisterMutation } from "@/graphql/types";
+import { enableAutoLogin } from "@/hooks";
 import { client, dataProvider } from "@/providers/data";
 import { API_BASE_URL, API_URL } from "@/providers/urls";
 import { AuthProvider } from "@refinedev/core";
@@ -8,8 +10,6 @@ import {
   LOGIN_MUTATION,
   REGISTER_MUTATION,
 } from "./queries";
-import { enableAutoLogin } from "@/hooks";
-import { User } from "@/graphql/schema.types";
 
 export const emails = [
   "michael.scott@dundermifflin.com",
