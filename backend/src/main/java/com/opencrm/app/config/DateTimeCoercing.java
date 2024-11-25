@@ -1,5 +1,7 @@
 package com.opencrm.app.config;
 
+import static com.opencrm.app.utils.Constants.UNIFIED_DATE_TIME_FORMAT;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -16,7 +18,7 @@ import graphql.schema.CoercingSerializeException;
 
 public class DateTimeCoercing implements Coercing<LocalDateTime, String> {
     private static DateTimeFormatter createIsoFormatter() {
-        return DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        return DateTimeFormatter.ofPattern(UNIFIED_DATE_TIME_FORMAT);
     }
 
     private static LocalDateTime fromString(String input) {

@@ -20,10 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Data
-public class FilterBase<T extends BaseEntity> implements Specification<T> {
+public class Filter<T extends BaseEntity> implements Specification<T> {
 
-    private List<FilterBase<T>> and;
-    private List<FilterBase<T>> or;
+    private List<Filter<T>> and;
+    private List<Filter<T>> or;
 
     @SuppressWarnings({ "unchecked", "rawtype" })
     protected Predicate toPredicateInternal(Root<T> root, CriteriaBuilder cb, String field,

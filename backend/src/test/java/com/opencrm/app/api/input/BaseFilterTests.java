@@ -2,6 +2,8 @@ package com.opencrm.app.api.input;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,10 +14,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.opencrm.app.api.input.common.enums.OperatorEnum;
+import com.opencrm.app.api.input.common.filter.DateFilterItem;
 import com.opencrm.app.api.input.common.filter.StringFilterItem;
 import com.opencrm.app.api.input.event.EventFilter;
 
-public class FilterBaseTests {
+public class BaseFilterTests {
 
     ObjectMapper objectMapper;
 
@@ -53,7 +56,7 @@ public class FilterBaseTests {
     }
 
     @Test
-    void whenSerializeFilterItems_thenCorrect() throws JsonProcessingException {
+    void whenSerializeStringFilterItem_thenCorrect() throws JsonProcessingException {
         StringFilterItem filterItem = new StringFilterItem(OperatorEnum.EQUAL, "Test");
         String json = objectMapper.writeValueAsString(filterItem);
 
@@ -61,7 +64,7 @@ public class FilterBaseTests {
     }
 
     @Test
-    void whenDeserializeFilterItems_thenCorrect() throws JsonProcessingException {
+    void whenDeserializeStringFilterItem_thenCorrect() throws JsonProcessingException {
         String stringFilterItemJson = "{\"like\":\"Test\"}";
 
         StringFilterItem desFilterItem = objectMapper.readValue(
@@ -71,5 +74,25 @@ public class FilterBaseTests {
         assertThat(desFilterItem).isNotNull();
         assertThat(desFilterItem.getOperator()).isEqualTo(OperatorEnum.LIKE);
         assertThat(desFilterItem.getValue()).isEqualTo("Test");
+    }
+
+    @Test
+    void whenSerializeDateFilterItem_thenCorrect() throws JsonProcessingException {
+        DateFilterItem filterItem = new DateFilterItem(OperatorEnum.GREATER_THAN, LocalDate.of(2024, 11, 25));
+        String json = objectMapper.writeValueAsString(filterItem);
+
+        assertThat(json).isEqualTo("{\"gt\":\"2024-11-25\"}");
+    }
+
+    @Test
+    void whenDeserializeDateFilterItem_thenCorrect() throws JsonProcessingException {
+        String dateFilterItemJson = "{\"gt\":\"2024-11-25\"}";
+        DateFilterItem desFilterItem = objectMapper.readValue(
+                dateFilterItemJson, new TypeReference<DateFilterItem>() {
+                });
+
+        assertThat(desFilterItem).isNotNull();
+        assertThat(desFilterItem.getOperator()).isEqualTo(OperatorEnum.GREATER_THAN);
+        assertThat(desFilterItem.getValue()).isEqualTo(LocalDate.of(2024, 11, 25));
     }
 }
