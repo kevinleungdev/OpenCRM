@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
-    private static final String DEMO_EMAIL = "stanley.hudson@dundermifflin.com01";
+    private static final String DEMO_EMAIL = "stanley.hudson@dundermifflin.com";
 
     private final UserService userService;
 
