@@ -37,6 +37,11 @@ public class StringFilterItemDeserializer extends JsonDeserializer<StringFilterI
         parser.nextToken();
         String value = parser.getText();
 
+        // Keep moving till the end
+        while (parser.getCurrentToken() != JsonToken.END_OBJECT) {
+            parser.nextToken();
+        }
+
         return new StringFilterItem(operator, value);
     }
 }

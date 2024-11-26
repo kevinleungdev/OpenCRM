@@ -42,17 +42,28 @@ public class BaseFilterTests {
                         "like": "Test"
                     },
                     "startDate": {
-                        "gt": "2022-01-01"
+                        "gt": "2024-11-23"
                     },
                     "endDate": {
-                        "lt": "2022-01-01T00:00:00"
+                        "lt": "2024-12-23"
                     }
                 }
                 """;
 
         EventFilter filter = objectMapper.readValue(eventFilterConfig, new TypeReference<EventFilter>() {
         });
+
         assertThat(filter).isNotNull();
+        assertThat(filter.getTitle().getOperator()).isEqualTo(OperatorEnum.EQUAL);
+        assertThat(filter.getTitle().getValue()).isEqualTo("Test");
+        assertThat(filter.getDescription().getOperator()).isEqualTo(OperatorEnum.LIKE);
+        assertThat(filter.getDescription().getValue()).isEqualTo("Test");
+        assertThat(filter.getStartDate().getOperator()).isEqualTo(OperatorEnum.GREATER_THAN);
+        assertThat(filter.getStartDate().getValue()).isEqualTo(LocalDate.of(2024, 11,
+                23));
+        assertThat(filter.getEndDate().getOperator()).isEqualTo(OperatorEnum.LESS_THAN);
+        assertThat(filter.getEndDate().getValue()).isEqualTo(LocalDate.of(2024, 12,
+                23));
     }
 
     @Test

@@ -42,6 +42,11 @@ public class DateFilterItemDeserializer extends JsonDeserializer<DateFilterItem>
         parser.nextToken();
         LocalDate value = LocalDate.parse(parser.getText(), FORMATTER);
 
+        // Keep moving till the end
+        while (parser.getCurrentToken() != JsonToken.END_OBJECT) {
+            parser.nextToken();
+        }
+
         return new DateFilterItem(operator, value);
     }
 }
