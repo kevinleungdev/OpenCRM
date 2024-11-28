@@ -1,6 +1,6 @@
 package com.opencrm.app.api.input.common.filter.json;
 
-import static com.opencrm.app.utils.Constants.UNIFIED_DATE_FORMAT;
+import static com.opencrm.app.utils.Constants.SHORT_DATE_FORMAT;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.opencrm.app.api.input.common.filter.DateFilterItem;
 
 public class DateFilterItemSerializer extends JsonSerializer<DateFilterItem> {
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(UNIFIED_DATE_FORMAT);
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(SHORT_DATE_FORMAT);
 
     @Override
     public void serialize(DateFilterItem item, JsonGenerator gen, SerializerProvider serializers)

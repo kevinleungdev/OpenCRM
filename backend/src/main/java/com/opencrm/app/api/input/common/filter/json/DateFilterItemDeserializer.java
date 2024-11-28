@@ -1,6 +1,6 @@
 package com.opencrm.app.api.input.common.filter.json;
 
-import static com.opencrm.app.utils.Constants.UNIFIED_DATE_FORMAT;
+import static com.opencrm.app.utils.Constants.SHORT_DATE_FORMAT;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -16,7 +16,7 @@ import com.opencrm.app.api.input.common.enums.OperatorEnum;
 import com.opencrm.app.api.input.common.filter.DateFilterItem;
 
 public class DateFilterItemDeserializer extends JsonDeserializer<DateFilterItem> {
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(UNIFIED_DATE_FORMAT);
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(SHORT_DATE_FORMAT);
 
     @Override
     public DateFilterItem deserialize(JsonParser parser, DeserializationContext context)

@@ -19,7 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class EventController {
     @QueryMapping
-    public Page<Event> events(EventFilter filter, @Argument List<Sort> sorting, @Argument OffsetPaging paging) {
+    public Page<Event> events(@Argument EventFilter filter, @Argument List<Sort> sorting,
+            @Argument OffsetPaging paging) {
         log.info("filter: {}, sorters: {}, paging: {}", filter, sorting, paging);
         return null;
     }
