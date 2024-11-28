@@ -1,4 +1,4 @@
-package com.opencrm.app.api.input.common.filter.json;
+package com.opencrm.app.json.serialize;
 
 import java.io.IOException;
 
@@ -9,7 +9,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.opencrm.app.api.input.common.enums.OperatorEnum;
-import com.opencrm.app.api.input.common.filter.StringFilterItem;
+import com.opencrm.app.json.StringFilterItem;
 
 public class StringFilterItemDeserializer extends JsonDeserializer<StringFilterItem> {
 

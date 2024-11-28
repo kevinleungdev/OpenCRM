@@ -1,4 +1,4 @@
-package com.opencrm.app.api.input.common.filter;
+package com.opencrm.app.json;
 
 import java.util.Optional;
 

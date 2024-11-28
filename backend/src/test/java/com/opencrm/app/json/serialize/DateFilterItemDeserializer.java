@@ -1,4 +1,4 @@
-package com.opencrm.app.api.input.common.filter.json;
+package com.opencrm.app.json.serialize;
 
 import static com.opencrm.app.utils.Constants.SHORT_DATE_FORMAT;
 
@@ -13,7 +13,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.opencrm.app.api.input.common.enums.OperatorEnum;
-import com.opencrm.app.api.input.common.filter.DateFilterItem;
+import com.opencrm.app.json.DateFilterItem;
 
 public class DateFilterItemDeserializer extends JsonDeserializer<DateFilterItem> {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(SHORT_DATE_FORMAT);

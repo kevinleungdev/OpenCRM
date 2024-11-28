@@ -12,7 +12,6 @@ import com.opencrm.app.api.input.common.Sort;
 import com.opencrm.app.api.input.event.EventFilter;
 import com.opencrm.app.model.Event;
 
-import graphql.schema.DataFetchingEnvironment;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller

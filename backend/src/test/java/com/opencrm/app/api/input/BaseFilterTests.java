@@ -1,7 +1,9 @@
 package com.opencrm.app.api.input;
 
+import static com.opencrm.app.api.input.common.enums.OperatorEnum.EQUAL;
+import static com.opencrm.app.api.input.common.enums.OperatorEnum.GREATER_THAN;
+import static com.opencrm.app.api.input.common.enums.OperatorEnum.LIKE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static com.opencrm.app.api.input.common.enums.OperatorEnum.*;
 
 import java.time.LocalDate;
 
@@ -10,13 +12,11 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.opencrm.app.api.input.common.filter.DateFilterItem;
-import com.opencrm.app.api.input.common.filter.StringFilterItem;
-import com.opencrm.app.api.input.event.EventFilter;
+import com.opencrm.app.json.DateFilterItem;
+import com.opencrm.app.json.StringFilterItem;
 
 public class BaseFilterTests {
 
@@ -29,41 +29,6 @@ public class BaseFilterTests {
                 .build();
 
         objectMapper.registerModule(new JavaTimeModule());
-    }
-
-    @Test
-    void whenDeserializeEventFilter_thenCorrect() throws JsonMappingException, JsonProcessingException {
-        String eventFilterConfig = """
-                {
-                    "title": {
-                        "eq": "Test"
-                    },
-                    "description": {
-                        "like": "Test"
-                    },
-                    "startDate": {
-                        "gt": "2024-11-23"
-                    },
-                    "endDate": {
-                        "lt": "2024-12-23"
-                    }
-                }
-                """;
-
-        EventFilter filter = objectMapper.readValue(eventFilterConfig, new TypeReference<EventFilter>() {
-        });
-
-        assertThat(filter).isNotNull();
-        assertThat(filter.getTitle().getOperator()).isEqualTo(EQUAL);
-        assertThat(filter.getTitle().getValue()).isEqualTo("Test");
-        assertThat(filter.getDescription().getOperator()).isEqualTo(LIKE);
-        assertThat(filter.getDescription().getValue()).isEqualTo("Test");
-        assertThat(filter.getStartDate().getOperator()).isEqualTo(GREATER_THAN);
-        assertThat(filter.getStartDate().getValue()).isEqualTo(LocalDate.of(2024, 11,
-                23));
-        assertThat(filter.getEndDate().getOperator()).isEqualTo(LESS_THAN);
-        assertThat(filter.getEndDate().getValue()).isEqualTo(LocalDate.of(2024, 12,
-                23));
     }
 
     @Test

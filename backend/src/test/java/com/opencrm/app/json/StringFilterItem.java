@@ -1,12 +1,12 @@
-package com.opencrm.app.api.input.common.filter;
+package com.opencrm.app.json;
 
 import java.util.Optional;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.opencrm.app.api.input.common.enums.OperatorEnum;
-import com.opencrm.app.api.input.common.filter.json.StringFilterItemDeserializer;
-import com.opencrm.app.api.input.common.filter.json.StringFilterItemSerializer;
+import com.opencrm.app.json.serialize.StringFilterItemDeserializer;
+import com.opencrm.app.json.serialize.StringFilterItemSerializer;
 import com.opencrm.app.model.BaseEntity;
 
 import jakarta.persistence.criteria.CriteriaBuilder;

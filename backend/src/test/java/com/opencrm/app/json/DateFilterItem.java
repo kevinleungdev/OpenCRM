@@ -1,4 +1,4 @@
-package com.opencrm.app.api.input.common.filter;
+package com.opencrm.app.json;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -6,8 +6,8 @@ import java.util.Optional;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.opencrm.app.api.input.common.enums.OperatorEnum;
-import com.opencrm.app.api.input.common.filter.json.DateFilterItemDeserializer;
-import com.opencrm.app.api.input.common.filter.json.DateFilterItemSerializer;
+import com.opencrm.app.json.serialize.DateFilterItemDeserializer;
+import com.opencrm.app.json.serialize.DateFilterItemSerializer;
 import com.opencrm.app.model.BaseEntity;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
