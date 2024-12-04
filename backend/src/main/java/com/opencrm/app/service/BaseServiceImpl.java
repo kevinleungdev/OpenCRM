@@ -8,10 +8,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import com.opencrm.app.api.input.common.OffsetPaging;
+import com.opencrm.app.api.input.common.Sorting;
 import com.opencrm.app.utils.GenericsUtils;
 
 public class BaseServiceImpl<T, ID, R extends JpaRepository<T, ID>> implements BaseService<T, ID> {
@@ -150,5 +155,22 @@ public class BaseServiceImpl<T, ID, R extends JpaRepository<T, ID>> implements B
     @Override
     public <S extends T> S saveAndFlush(S entity) {
         return repository.saveAndFlush(entity);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Page<T> findBy(Specification<T> specification, List<Sorting> sortings,
+            OffsetPaging offsetPaging) {
+        if (JpaSpecificationExecutor.class.isAssignableFrom(repository.getClass())) {
+            JpaSpecificationExecutor<T> executor = (JpaSpecificationExecutor<T>) repository;
+
+            if (offsetPaging == null) {
+                return executor.findBy(specification, query -> query.page(PageRequest.of(0, Integer.MAX_VALUE)));
+            } else {
+                return executor.findBy(specification, query -> query.page(offsetPaging.toPageable(sortings)));
+            }
+
+        }
+        throw new UnsupportedOperationException("Unimplemented method 'findBy'");
     }
 }

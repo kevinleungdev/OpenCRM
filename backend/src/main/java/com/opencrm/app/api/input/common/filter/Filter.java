@@ -82,7 +82,7 @@ public class Filter<T extends BaseEntity> implements Specification<T> {
         }
 
         if (predicate == null) {
-            log.warn("Unsupported operator: {} for attribute name: {}", operator, fieldName);
+            log.warn("Unable to convert the attribute '{}' to a predicate", fieldName);
         }
 
         return predicate;
@@ -108,7 +108,7 @@ public class Filter<T extends BaseEntity> implements Specification<T> {
 
                     Map<String, ?> value = (Map<String, ?>) filteringField.get(this);
                     if (value == null || value.isEmpty()) {
-                        log.warn("Skip converting filter item '{}' to predicate as it's value is null",
+                        log.debug("Skip converting filter item '{}' to predicate as it's value is null",
                                 fieldName);
                         continue;
                     }
@@ -123,7 +123,8 @@ public class Filter<T extends BaseEntity> implements Specification<T> {
                         continue;
                     }
 
-                    Predicate result = toPredicateInternal(root, criteriaBuilder, fieldName, operator, value);
+                    Predicate result = toPredicateInternal(root, criteriaBuilder, fieldName, operator,
+                            entry.getValue());
                     if (result != null) {
                         predicates.add(result);
                     }

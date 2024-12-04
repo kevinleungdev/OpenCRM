@@ -7,6 +7,10 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+
+import com.opencrm.app.api.input.common.OffsetPaging;
+import com.opencrm.app.api.input.common.Sorting;
 
 public interface BaseService<T, ID> {
     Class<T> getDomainClass();
@@ -54,4 +58,6 @@ public interface BaseService<T, ID> {
     void flush();
 
     <S extends T> S saveAndFlush(S entity);
+
+    Page<T> findBy(Specification<T> specification, List<Sorting> sortings, OffsetPaging OffsetPaging);
 }
