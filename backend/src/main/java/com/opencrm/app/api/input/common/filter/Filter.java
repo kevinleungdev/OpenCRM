@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.CriteriaBuilder.In;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -68,9 +70,32 @@ public class Filter<T extends BaseEntity> implements Specification<T> {
             default:
                 return null;
         }
-
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private Predicate handleCollectionScalarType(Root<T> root, CriteriaBuilder cb, String fieldName,
+            OperatorEnum operator, Collection<?> values) {
+        Path fieldPath = root.get(fieldName);
+
+        switch (operator) {
+            case IN:
+            case NOT_IN:
+                In inClause = cb.in(fieldPath);
+                for (Object value : values) {
+                    inClause.value(value);
+                }
+
+                if (operator == OperatorEnum.IN) {
+                    return inClause;
+                } else {
+                    return cb.not(inClause);
+                }
+            default:
+                return null;
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
     protected Predicate toPredicateInternal(Root<T> root, CriteriaBuilder cb, String fieldName, OperatorEnum operator,
             Object value) {
         Predicate predicate = null;
@@ -79,6 +104,8 @@ public class Filter<T extends BaseEntity> implements Specification<T> {
             predicate = handleStringScalarType(root, cb, fieldName, operator, (String) value);
         } else if (value instanceof LocalDate || value instanceof LocalDateTime) {
             predicate = handleDateScalarType(root, cb, fieldName, operator, (Temporal) value);
+        } else if (Collection.class.isAssignableFrom(value.getClass())) {
+            predicate = handleCollectionScalarType(root, cb, fieldName, operator, (Collection) value);
         }
 
         if (predicate == null) {
