@@ -12,6 +12,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
@@ -29,12 +31,14 @@ public class BaseEntity implements Serializable {
     private LocalDateTime updatedAt;
 
     @CreatedBy
-    @Column(updatable = false)
-    private Integer createdBy;
+    @ManyToOne
+    @JoinColumn(name = "created_by", updatable = false)
+    private User createdBy;
 
     @LastModifiedBy
-    @Column(insertable = false)
-    private Integer updatedBy;
+    @ManyToOne
+    @JoinColumn(name = "updated_by", insertable = false)
+    private User updatedBy;
 
     public Long getId() {
         return id;
@@ -60,19 +64,19 @@ public class BaseEntity implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Integer createdBy) {
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
 
-    public Integer getUpdatedBy() {
+    public User getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(Integer updatedBy) {
+    public void setUpdatedBy(User updatedBy) {
         this.updatedBy = updatedBy;
     }
 
