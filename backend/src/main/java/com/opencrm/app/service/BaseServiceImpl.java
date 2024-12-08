@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.query.FluentQuery;
 
 import com.opencrm.app.api.input.common.OffsetPaging;
 import com.opencrm.app.api.input.common.Sorting;
@@ -159,18 +161,31 @@ public class BaseServiceImpl<T, ID, R extends JpaRepository<T, ID>> implements B
 
     @SuppressWarnings("unchecked")
     @Override
-    public Page<T> findBy(Specification<T> specification, List<Sorting> sortings,
+    public Page<T> findBy(Specification<T> spec, List<Sorting> sortings,
             OffsetPaging offsetPaging) {
         if (JpaSpecificationExecutor.class.isAssignableFrom(repository.getClass())) {
             JpaSpecificationExecutor<T> executor = (JpaSpecificationExecutor<T>) repository;
 
             if (offsetPaging == null) {
-                return executor.findBy(specification, query -> query.page(PageRequest.of(0, Integer.MAX_VALUE)));
+                return executor.findBy(spec, query -> query.page(PageRequest.of(0, Integer.MAX_VALUE)));
             } else {
-                return executor.findBy(specification, query -> query.page(offsetPaging.toPageable(sortings)));
+                return executor.findBy(spec, query -> query.page(offsetPaging.toPageable(sortings)));
             }
 
         }
-        throw new UnsupportedOperationException("Unimplemented method 'findBy'");
+        throw new UnsupportedOperationException(
+                "Unimplemented method 'findBy(Specification<T> spec, List<Sorting> sortings, OffsetPaging paging)'");
+    }
+
+    @SuppressWarnings({ "hiding", "unchecked" })
+    @Override
+    public <S extends T, R> R findBy(Specification<T> spec, Function<FluentQuery.FetchableFluentQuery<S>, R> query) {
+        if (JpaSpecificationExecutor.class.isAssignableFrom(repository.getClass())) {
+            JpaSpecificationExecutor<T> executor = (JpaSpecificationExecutor<T>) repository;
+
+            return executor.findBy(spec, query);
+        }
+        throw new UnsupportedOperationException(
+                "Unimplemented method 'findBy(Specification<T> spec, Function<FluentQuery.FetchableFluentQuery<S>, R> query)'");
     }
 }

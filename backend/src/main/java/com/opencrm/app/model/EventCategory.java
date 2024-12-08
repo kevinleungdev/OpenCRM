@@ -23,6 +23,6 @@ public class EventCategory extends BaseEntity {
     @Column
     private String title;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private Set<Event> events;
 }

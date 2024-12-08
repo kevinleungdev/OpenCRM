@@ -2,12 +2,14 @@ package com.opencrm.app.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.repository.query.FluentQuery;
 
 import com.opencrm.app.api.input.common.OffsetPaging;
 import com.opencrm.app.api.input.common.Sorting;
@@ -59,5 +61,7 @@ public interface BaseService<T, ID> {
 
     <S extends T> S saveAndFlush(S entity);
 
-    Page<T> findBy(Specification<T> specification, List<Sorting> sortings, OffsetPaging OffsetPaging);
+    Page<T> findBy(Specification<T> spec, List<Sorting> sortings, OffsetPaging OffsetPaging);
+
+    <S extends T, R> R findBy(Specification<T> spec, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction);
 }

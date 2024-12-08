@@ -22,4 +22,8 @@ public class ConnectionAdapter<T> {
 
         return new ConnectionAdapter<>(nodes, totalCount);
     }
+
+    public static <T> ConnectionAdapter<T> from(List<T> list) {
+        return new ConnectionAdapter<>(list, list.size());
+    }
 }
