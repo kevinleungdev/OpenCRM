@@ -23,7 +23,7 @@ public class DealStage extends BaseEntity {
     private String title;
 
     @Transient
-    private DealStageDealsAggregateResponse dealsAggregate;
+    private List<DealStageDealsAggregateResponse> dealsAggregate;
 
     @OneToMany(mappedBy = "stage", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     List<Deal> deals;

@@ -1,6 +1,9 @@
 package com.opencrm.app.service.deal;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -68,25 +71,36 @@ public class DealStageServiceImpl extends BaseServiceImpl<DealStage, Long, DealS
             query.setMaxResults(paging.getLimit());
         }
 
-        return query.getResultList()
-                .stream()
-                .map(record -> {
-                    DealStageDealsAggregateResponse response = DealStageDealsAggregateResponse
-                            .builder()
-                            .count(new DealStageDealsAggregateValue(record.get(2, Integer.class)))
-                            .sum(new DealStageDealsAggregateValue(record.get(3, Integer.class)))
-                            .avg(new DealStageDealsAggregateValue(record.get(4, Integer.class)))
-                            .min(new DealStageDealsAggregateValue(record.get(5, Integer.class)))
-                            .max(new DealStageDealsAggregateValue(record.get(6, Integer.class)))
-                            .build();
+        List<Tuple> results = query.getResultList();
 
-                    DealStage stage = DealStage
-                            .builder()
-                            .title(record.get(7, String.class))
-                            .dealsAggregate(response)
-                            .build();
+        Map<String, List<Tuple>> groupedResults = results.stream()
+                .collect(Collectors.groupingBy(record -> record.get(7, String.class)));
+        if (groupedResults.isEmpty()) {
+            return List.of();
+        } else {
+            List<DealStage> dealStages = new ArrayList<>();
 
-                    return stage;
-                }).toList();
+            groupedResults.forEach((title, records) -> {
+                List<DealStageDealsAggregateResponse> dealAggregate = records.stream()
+                        .map(record -> DealStageDealsAggregateResponse
+                                .builder()
+                                .count(new DealStageDealsAggregateValue(record.get(2, Integer.class)))
+                                .sum(new DealStageDealsAggregateValue(record.get(3, Integer.class)))
+                                .avg(new DealStageDealsAggregateValue(record.get(4, Integer.class)))
+                                .min(new DealStageDealsAggregateValue(record.get(5, Integer.class)))
+                                .max(new DealStageDealsAggregateValue(record.get(6, Integer.class)))
+                                .build())
+                        .toList();
+
+                DealStage stage = DealStage
+                        .builder()
+                        .title(title)
+                        .dealsAggregate(dealAggregate)
+                        .build();
+                dealStages.add(stage);
+            });
+
+            return dealStages;
+        }
     }
 }
