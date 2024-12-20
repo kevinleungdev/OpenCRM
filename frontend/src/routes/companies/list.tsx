@@ -17,7 +17,7 @@ import { CompaniesCardView, CompaniesTableView } from "./components";
 type View = "card" | "table";
 
 export const CompanyListPage: FC<PropsWithChildren> = ({ children }) => {
-  const [view, setView] = useState<View>("table");
+  const [view, setView] = useState<View>("card");
   const screens = Grid.useBreakpoint();
 
   const {
