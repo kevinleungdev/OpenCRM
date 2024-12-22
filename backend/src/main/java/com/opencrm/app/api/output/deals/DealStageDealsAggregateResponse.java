@@ -1,5 +1,7 @@
 package com.opencrm.app.api.output.deals;
 
+import java.math.BigDecimal;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,9 +13,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DealStageDealsAggregateResponse {
     private DealStageDealsAggregateGroupBy groupBy;
-    private DealStageDealsAggregateValue count;
-    private DealStageDealsAggregateValue sum;
-    private DealStageDealsAggregateValue avg;
-    private DealStageDealsAggregateValue min;
-    private DealStageDealsAggregateValue max;
+    private DealStageDealsAggregateValue<Long> count;
+    private DealStageDealsAggregateValue<BigDecimal> sum;
+    private DealStageDealsAggregateValue<Double> avg;
+    private DealStageDealsAggregateValue<BigDecimal> min;
+    private DealStageDealsAggregateValue<BigDecimal> max;
 }

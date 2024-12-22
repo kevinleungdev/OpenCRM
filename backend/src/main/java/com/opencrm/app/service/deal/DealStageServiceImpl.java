@@ -1,5 +1,6 @@
 package com.opencrm.app.service.deal;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.opencrm.app.api.input.common.OffsetPaging;
 import com.opencrm.app.api.input.common.Sorting;
 import com.opencrm.app.api.input.event.DealStageFilter;
+import com.opencrm.app.api.output.deals.DealStageDealsAggregateGroupBy;
 import com.opencrm.app.api.output.deals.DealStageDealsAggregateResponse;
 import com.opencrm.app.api.output.deals.DealStageDealsAggregateValue;
 import com.opencrm.app.model.Deal;
@@ -84,11 +86,14 @@ public class DealStageServiceImpl extends BaseServiceImpl<DealStage, Long, DealS
                 List<DealStageDealsAggregateResponse> dealAggregate = records.stream()
                         .map(record -> DealStageDealsAggregateResponse
                                 .builder()
-                                .count(new DealStageDealsAggregateValue(record.get(2, Integer.class)))
-                                .sum(new DealStageDealsAggregateValue(record.get(3, Integer.class)))
-                                .avg(new DealStageDealsAggregateValue(record.get(4, Integer.class)))
-                                .min(new DealStageDealsAggregateValue(record.get(5, Integer.class)))
-                                .max(new DealStageDealsAggregateValue(record.get(6, Integer.class)))
+                                .groupBy(DealStageDealsAggregateGroupBy.builder()
+                                        .closeDateYear(record.get(0, Integer.class))
+                                        .closeDateMonth(record.get(1, Integer.class)).build())
+                                .count(new DealStageDealsAggregateValue<Long>(record.get(2, Long.class)))
+                                .sum(new DealStageDealsAggregateValue<BigDecimal>(record.get(3, BigDecimal.class)))
+                                .avg(new DealStageDealsAggregateValue<Double>(record.get(4, Double.class)))
+                                .min(new DealStageDealsAggregateValue<BigDecimal>(record.get(5, BigDecimal.class)))
+                                .max(new DealStageDealsAggregateValue<BigDecimal>(record.get(6, BigDecimal.class)))
                                 .build())
                         .toList();
 
