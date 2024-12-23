@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.opencrm.app.api.input.common.OffsetPaging;
 import com.opencrm.app.api.input.common.Sorting;
-import com.opencrm.app.api.input.event.DealStageFilter;
+import com.opencrm.app.api.input.deal.DealStageFilter;
 import com.opencrm.app.api.output.deal.DealStageDealsAggregateGroupBy;
 import com.opencrm.app.api.output.deal.DealStageDealsAggregateResponse;
 import com.opencrm.app.api.output.deal.DealStageDealsAggregateValue;

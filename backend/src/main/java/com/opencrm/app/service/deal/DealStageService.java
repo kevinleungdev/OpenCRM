@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.opencrm.app.api.input.common.OffsetPaging;
 import com.opencrm.app.api.input.common.Sorting;
-import com.opencrm.app.api.input.event.DealStageFilter;
+import com.opencrm.app.api.input.deal.DealStageFilter;
 import com.opencrm.app.model.DealStage;
 import com.opencrm.app.service.BaseService;
 

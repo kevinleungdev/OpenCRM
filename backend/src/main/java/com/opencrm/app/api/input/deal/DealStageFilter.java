@@ -1,4 +1,4 @@
-package com.opencrm.app.api.input.event;
+package com.opencrm.app.api.input.deal;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;

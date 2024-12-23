@@ -8,7 +8,10 @@ import com.opencrm.app.model.enums.CompanySizeEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -26,9 +29,11 @@ public class Company extends NameEntity {
     private String industry;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private CompanySizeEnum companySize;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private BusinessTypeEnum businessType;
 
     @Column
@@ -37,6 +42,6 @@ public class Company extends NameEntity {
     @Column
     private String country;
 
-    @OneToOne(mappedBy = "company")
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
     private List<CompanyNote> notes;
 }

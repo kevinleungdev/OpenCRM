@@ -10,14 +10,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Transient;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "deal_stage")
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class DealStage extends BaseEntity {
     @Column
     private String title;
