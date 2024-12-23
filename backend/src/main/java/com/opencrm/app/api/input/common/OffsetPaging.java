@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class OffsetPaging {
     private Integer limit;
-    private Integer offset;
+    private Integer offset = 0;
 
     public Pageable toPageable() {
         return PageRequest.of(offset / limit, limit);
