@@ -43,4 +43,8 @@ public class Deal extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "deal_contact_id")
     private User contact;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
+    private Company company;
 }

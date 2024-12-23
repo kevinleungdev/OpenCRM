@@ -1,4 +1,4 @@
-package com.opencrm.app.api.output.deals;
+package com.opencrm.app.api.output.deal;
 
 import java.math.BigDecimal;
 

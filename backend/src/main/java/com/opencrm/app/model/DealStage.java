@@ -2,7 +2,7 @@ package com.opencrm.app.model;
 
 import java.util.List;
 
-import com.opencrm.app.api.output.deals.DealStageDealsAggregateResponse;
+import com.opencrm.app.api.output.deal.DealStageDealsAggregateResponse;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

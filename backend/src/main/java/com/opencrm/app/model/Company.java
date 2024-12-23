@@ -1,6 +1,7 @@
 package com.opencrm.app.model;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.opencrm.app.model.enums.BusinessTypeEnum;
 import com.opencrm.app.model.enums.CompanySizeEnum;
@@ -37,5 +38,5 @@ public class Company extends NameEntity {
     private String country;
 
     @OneToOne(mappedBy = "company")
-    private CompanyNote note;
+    private List<CompanyNote> notes;
 }
