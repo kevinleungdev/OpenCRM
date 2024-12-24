@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,9 +33,25 @@ public class Filter<T extends BaseEntity> implements Specification<T> {
     private List<Filter<T>> and;
     private List<Filter<T>> or;
 
-    private Predicate handleStringScalarType(Root<T> root, CriteriaBuilder cb, String fieldName, OperatorEnum operator,
+    private Path<?> getFieldPath(Root<T> root, Field field) {
+        if (field.isAnnotationPresent(FilterItemPath.class)) {
+            FilterItemPath paths = field.getAnnotation(FilterItemPath.class);
+
+            Path<?> targetPath = root;
+            for (String path : paths.value()) {
+                targetPath = targetPath.get(path);
+            }
+            return targetPath;
+        }
+
+        return root.get(field.getName());
+    }
+
+    private Predicate handleStringScalarType(Root<T> root, CriteriaBuilder cb, Field field, OperatorEnum operator,
             String value) {
-        Path<String> fieldPath = root.get(fieldName);
+        @SuppressWarnings("unchecked")
+        Path<String> fieldPath = (Path<String>) getFieldPath(root, field);
+
         switch (operator) {
             case EQUAL:
                 return cb.equal(fieldPath, value);
@@ -50,9 +67,9 @@ public class Filter<T extends BaseEntity> implements Specification<T> {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private Predicate handleNumberScalarType(Root<T> root, CriteriaBuilder cb, String fieldName, OperatorEnum operator,
+    private Predicate handleNumberScalarType(Root<T> root, CriteriaBuilder cb, Field field, OperatorEnum operator,
             Number value) {
-        Path fieldPath = root.get(fieldName);
+        Path<Comparable> fieldPath = (Path<Comparable>) getFieldPath(root, field);
 
         switch (operator) {
             case EQUAL:
@@ -60,22 +77,34 @@ public class Filter<T extends BaseEntity> implements Specification<T> {
             case NOT_EQUAL:
                 return cb.notEqual(fieldPath, value);
             case GREATER_THAN:
-                return cb.greaterThan(fieldPath, (Comparable) value);
+                if (Comparable.class.isAssignableFrom(value.getClass())) {
+                    return cb.greaterThan(fieldPath, (Comparable) value);
+                }
+                return null;
             case GREATER_THAN_OR_EQUAL:
-                return cb.greaterThanOrEqualTo(fieldPath, (Comparable) value);
+                if (Comparable.class.isAssignableFrom(value.getClass())) {
+                    return cb.greaterThanOrEqualTo(fieldPath, (Comparable) value);
+                }
+                return null;
             case LESS_THAN:
-                return cb.lessThan(fieldPath, (Comparable) value);
+                if (Comparable.class.isAssignableFrom(value.getClass())) {
+                    return cb.lessThan(fieldPath, (Comparable) value);
+                }
+                return null;
             case LESS_THAN_OR_EQUAL:
-                return cb.lessThanOrEqualTo(fieldPath, (Comparable) value);
+                if (Comparable.class.isAssignableFrom(value.getClass())) {
+                    return cb.lessThanOrEqualTo(fieldPath, (Comparable) value);
+                }
+                return null;
             default:
                 return null;
         }
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private Predicate handleDateScalarType(Root<T> root, CriteriaBuilder cb, String fieldName, OperatorEnum operator,
+    private Predicate handleDateScalarType(Root<T> root, CriteriaBuilder cb, Field field, OperatorEnum operator,
             Temporal value) {
-        Path fieldPath = root.get(fieldName);
+        Path<Comparable> fieldPath = (Path<Comparable>) getFieldPath(root, field);
 
         switch (operator) {
             case EQUAL:
@@ -96,9 +125,9 @@ public class Filter<T extends BaseEntity> implements Specification<T> {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private Predicate handleCollectionScalarType(Root<T> root, CriteriaBuilder cb, String fieldName,
+    private Predicate handleCollectionScalarType(Root<T> root, CriteriaBuilder cb, Field field,
             OperatorEnum operator, Collection<?> values) {
-        Path fieldPath = root.get(fieldName);
+        Path<Object> fieldPath = (Path<Object>) getFieldPath(root, field);
 
         switch (operator) {
             case IN:
@@ -119,25 +148,42 @@ public class Filter<T extends BaseEntity> implements Specification<T> {
     }
 
     @SuppressWarnings("rawtypes")
-    private Predicate toPredicateInternal(Root<T> root, CriteriaBuilder cb, String fieldName, OperatorEnum operator,
+    private Predicate toPredicateInternal(Root<T> root, CriteriaBuilder cb, Field field, OperatorEnum operator,
             Object value) {
         Predicate predicate = null;
 
         if (value instanceof String) {
-            predicate = handleStringScalarType(root, cb, fieldName, operator, (String) value);
+            predicate = handleStringScalarType(root, cb, field, operator, (String) value);
         } else if (Number.class.isAssignableFrom(value.getClass())) {
-            predicate = handleNumberScalarType(root, cb, fieldName, operator, (Number) value);
+            predicate = handleNumberScalarType(root, cb, field, operator, (Number) value);
         } else if (value instanceof LocalDate || value instanceof LocalDateTime) {
-            predicate = handleDateScalarType(root, cb, fieldName, operator, (Temporal) value);
+            predicate = handleDateScalarType(root, cb, field, operator, (Temporal) value);
         } else if (Collection.class.isAssignableFrom(value.getClass())) {
-            predicate = handleCollectionScalarType(root, cb, fieldName, operator, (Collection) value);
+            predicate = handleCollectionScalarType(root, cb, field, operator, (Collection) value);
         }
 
         if (predicate == null) {
-            log.warn("Unable to convert the attribute '{}' to a predicate", fieldName);
+            log.warn("Unable to convert the attribute '{}' to a predicate", field.getName());
         }
 
         return predicate;
+    }
+
+    private List<Field> getFilteringFields(Class<?> clazz) {
+        // Get all fields (private and public modifier) of this class
+        Field[] allFields = clazz.getDeclaredFields();
+
+        // Filter only fields that are Map.class
+        List<Field> filteringFields = new ArrayList<>(
+                Stream.of(allFields).filter(f -> Map.class.isAssignableFrom(f.getType()))
+                        .toList());
+
+        Class<?> superClazz = clazz.getSuperclass();
+        if (superClazz != null && !superClazz.equals(Object.class)) {
+            filteringFields.addAll(getFilteringFields(superClazz));
+        }
+
+        return filteringFields;
     }
 
     @SuppressWarnings({ "null", "unchecked" })
@@ -145,23 +191,16 @@ public class Filter<T extends BaseEntity> implements Specification<T> {
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = new LinkedList<>();
 
-        // Get all fields (private and public modifier) of this class
-        Field[] allFields = getClass().getDeclaredFields();
-        // Filter only fields that are Map.class
-        List<Field> filteringFields = Stream.of(allFields)
-                .filter(f -> Map.class.isAssignableFrom(f.getType())).toList();
-
+        List<Field> filteringFields = getFilteringFields(getClass());
         if (!filteringFields.isEmpty()) {
             for (Field filteringField : filteringFields) {
-                String fieldName = filteringField.getName();
-
                 try {
                     filteringField.setAccessible(true);
 
                     Map<String, ?> value = (Map<String, ?>) filteringField.get(this);
                     if (value == null || value.isEmpty()) {
                         log.debug("Skip converting filter item '{}' to predicate as it's value is null",
-                                fieldName);
+                                filteringField.getName());
                         continue;
                     }
 
@@ -171,17 +210,17 @@ public class Filter<T extends BaseEntity> implements Specification<T> {
                     OperatorEnum operator = OperatorEnum.fromValue(entry.getKey());
                     if (operator == null) {
                         log.warn("Unsupported operator: {} for attribute name: {}", entry.getKey(),
-                                fieldName);
+                                filteringField.getName());
                         continue;
                     }
 
-                    Predicate result = toPredicateInternal(root, criteriaBuilder, fieldName, operator,
+                    Predicate result = toPredicateInternal(root, criteriaBuilder, filteringField, operator,
                             entry.getValue());
                     if (result != null) {
                         predicates.add(result);
                     }
                 } catch (IllegalArgumentException | IllegalAccessException e) {
-                    log.error("Error while getting field value!", e);
+                    throw new IllegalStateException(e);
                 }
             }
         }

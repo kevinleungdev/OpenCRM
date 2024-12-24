@@ -40,8 +40,8 @@ public class DealController {
 
     @QueryMapping
     public ConnectionAdapter<DealStage> dealStages(@Argument DealStageFilter filter, @Argument List<Sorting> sortings,
-            @Argument OffsetPaging paging) {
-        List<DealStage> results = dealStageService.dealStages(filter, sortings, paging);
+            @Argument OffsetPaging paging, DataFetchingFieldSelectionSet selectionSet) {
+        List<DealStage> results = dealStageService.dealStages(filter, sortings, paging, selectionSet);
         return ConnectionAdapter.from(results);
     }
 

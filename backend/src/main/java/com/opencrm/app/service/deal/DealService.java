@@ -13,7 +13,6 @@ public interface DealService extends BaseService<Deal, Long> {
 
     String ATTR_DEAL_ID = "id";
     String ATTR_DEAL_VALUE = "value";
-    String GROUP_BY_PATTERN = "groupBy/*";
 
     List<DealAggregateResponse> dealAggregate(DealAggregateFilter filter, DataFetchingFieldSelectionSet selectionSet);
 }

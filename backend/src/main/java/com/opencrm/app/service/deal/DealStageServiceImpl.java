@@ -1,107 +1,70 @@
 package com.opencrm.app.service.deal;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.opencrm.app.api.input.common.OffsetPaging;
 import com.opencrm.app.api.input.common.Sorting;
+import com.opencrm.app.api.input.common.enums.OperatorEnum;
+import com.opencrm.app.api.input.deal.DealAggregateFilter;
 import com.opencrm.app.api.input.deal.DealStageFilter;
-import com.opencrm.app.api.output.deal.DealAggregateGroupBy;
 import com.opencrm.app.api.output.deal.DealAggregateResponse;
-import com.opencrm.app.api.output.deal.DealAggregateValue;
-import com.opencrm.app.model.Deal;
 import com.opencrm.app.model.DealStage;
 import com.opencrm.app.repository.DealStageRepository;
 import com.opencrm.app.service.BaseServiceImpl;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Tuple;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Root;
+import graphql.schema.DataFetchingFieldSelectionSet;
 
 @Service
 public class DealStageServiceImpl extends BaseServiceImpl<DealStage, Long, DealStageRepository>
         implements DealStageService {
 
-    private final EntityManager entityManager;
+    private final DealService dealService;
 
-    public DealStageServiceImpl(DealStageRepository repository, EntityManager entityManager) {
+    public DealStageServiceImpl(DealStageRepository repository, DealService dealService) {
         super(repository);
-        this.entityManager = entityManager;
+        this.dealService = dealService;
     }
 
     @Override
     public List<DealStage> dealStages(DealStageFilter filter, List<Sorting> sortings,
-            OffsetPaging paging) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Tuple> cq = cb.createQuery(Tuple.class);
+            OffsetPaging paging, DataFetchingFieldSelectionSet selectionSet) {
+        Page<DealStage> results = findBy(filter, sortings, paging);
 
-        Root<DealStage> root = cq.from(DealStage.class);
-        Join<DealStage, Deal> deal = root.join("deals", JoinType.INNER);
+        if (!results.isEmpty()) {
+            List<DealStage> dealStages = results.toList();
 
-        if (filter != null) {
-            cq.where(filter.toPredicate(root, cq, cb));
+            if (selectionSet.contains(DealAggregateFilter.PATTERN_DEAL_AGGREGATE)) {
+                Map<String, List<DealStage>> dealStageGroup = dealStages.stream()
+                        .collect(Collectors.groupingBy(DealStage::getTitle));
+
+                List<DealStage> dealStageWithDealAggregateList = new ArrayList<>();
+                dealStageGroup.forEach((title, dealStageList) -> {
+                    DealAggregateFilter dealAggregateFilter = new DealAggregateFilter();
+
+                    LinkedHashMap<String, Object> stageId = new LinkedHashMap<>();
+                    stageId.put(OperatorEnum.IN.getValue(), dealStageList.stream().map(DealStage::getId).toList());
+                    dealAggregateFilter.setStageId(stageId);
+
+                    List<DealAggregateResponse> dealAggregateResponses = dealService.dealAggregate(dealAggregateFilter,
+                            selectionSet);
+
+                    DealStage dealStatge = DealStage.builder().title(title).dealsAggregate(dealAggregateResponses)
+                            .build();
+                    dealStageWithDealAggregateList.add(dealStatge);
+                });
+
+                return dealStageWithDealAggregateList;
+            }
+            return dealStages;
+        } else {
+            return List.of();
         }
-
-        cq.multiselect(
-                deal.get("closeDateYear"),
-                deal.get("closeDateMonth"),
-                cb.count(deal.get("id")),
-                cb.sum(deal.get("value")),
-                cb.avg(deal.get("value")),
-                cb.min(deal.get("value")),
-                cb.max(deal.get("value")),
-                root.get("title"))
-                .groupBy(
-                        deal.get("closeDateYear"),
-                        deal.get("closeDateMonth"),
-                        root.get("title"));
-
-        TypedQuery<Tuple> query = entityManager.createQuery(cq);
-
-        if (paging != null) {
-            query.setFirstResult(paging.getOffset());
-            query.setMaxResults(paging.getLimit());
-        }
-
-        List<Tuple> results = query.getResultList();
-
-        Map<String, List<Tuple>> groupedResults = results.stream()
-                .collect(Collectors.groupingBy(record -> record.get(7, String.class)));
-
-        List<DealStage> dealStages = new ArrayList<>();
-
-        groupedResults.forEach((title, records) -> {
-            List<DealAggregateResponse> dealAggregate = records.stream()
-                    .map(record -> DealAggregateResponse
-                            .builder()
-                            .groupBy(DealAggregateGroupBy.builder()
-                                    .closeDateYear(record.get(0, Integer.class))
-                                    .closeDateMonth(record.get(1, Integer.class)).build())
-                            .count(new DealAggregateValue<>(record.get(2, Number.class)))
-                            .sum(new DealAggregateValue<>(record.get(3, Number.class)))
-                            .avg(new DealAggregateValue<>(record.get(4, Number.class)))
-                            .min(new DealAggregateValue<>(record.get(5, Number.class)))
-                            .max(new DealAggregateValue<>(record.get(6, Number.class)))
-                            .build())
-                    .toList();
-
-            DealStage stage = DealStage
-                    .builder()
-                    .title(title)
-                    .dealsAggregate(dealAggregate)
-                    .build();
-            dealStages.add(stage);
-        });
-
-        return dealStages;
     }
 }

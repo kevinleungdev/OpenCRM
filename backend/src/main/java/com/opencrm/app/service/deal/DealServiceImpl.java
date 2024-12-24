@@ -25,6 +25,8 @@ import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Selection;
 import lombok.extern.slf4j.Slf4j;
 
+import static com.opencrm.app.api.input.deal.DealAggregateFilter.*;
+
 @Slf4j
 @Service
 public class DealServiceImpl extends BaseServiceImpl<Deal, Long, DealRepository> implements DealService {
@@ -37,7 +39,7 @@ public class DealServiceImpl extends BaseServiceImpl<Deal, Long, DealRepository>
     }
 
     private List<String> getGroupByList(DataFetchingFieldSelectionSet selectionSet) {
-        return selectionSet.getFields(GROUP_BY_PATTERN)
+        return selectionSet.getFields(PATTERN_DEAL_AGGREGATE_GROUP_BY, PATTERN_GROUP_BY)
                 .stream()
                 .map(field -> field.getName())
                 .toList();
