@@ -5,6 +5,6 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class DealStageDealsAggregateValue<T> {
+public class DealAggregateValue<T> {
     private T value;
 }

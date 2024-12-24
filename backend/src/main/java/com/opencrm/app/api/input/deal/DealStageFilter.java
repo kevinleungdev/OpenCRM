@@ -1,6 +1,5 @@
 package com.opencrm.app.api.input.deal;
 
-import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import com.opencrm.app.api.input.common.filter.Filter;
@@ -16,5 +15,5 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class DealStageFilter extends Filter<DealStage> {
-    private LinkedHashMap<String, Collection<String>> title;
+    private LinkedHashMap<String, Object> title;
 }

@@ -1,6 +1,5 @@
 package com.opencrm.app.service.deal;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +10,9 @@ import org.springframework.stereotype.Service;
 import com.opencrm.app.api.input.common.OffsetPaging;
 import com.opencrm.app.api.input.common.Sorting;
 import com.opencrm.app.api.input.deal.DealStageFilter;
-import com.opencrm.app.api.output.deal.DealStageDealsAggregateGroupBy;
-import com.opencrm.app.api.output.deal.DealStageDealsAggregateResponse;
-import com.opencrm.app.api.output.deal.DealStageDealsAggregateValue;
+import com.opencrm.app.api.output.deal.DealAggregateGroupBy;
+import com.opencrm.app.api.output.deal.DealAggregateResponse;
+import com.opencrm.app.api.output.deal.DealAggregateValue;
 import com.opencrm.app.model.Deal;
 import com.opencrm.app.model.DealStage;
 import com.opencrm.app.repository.DealStageRepository;
@@ -77,35 +76,32 @@ public class DealStageServiceImpl extends BaseServiceImpl<DealStage, Long, DealS
 
         Map<String, List<Tuple>> groupedResults = results.stream()
                 .collect(Collectors.groupingBy(record -> record.get(7, String.class)));
-        if (groupedResults.isEmpty()) {
-            return List.of();
-        } else {
-            List<DealStage> dealStages = new ArrayList<>();
 
-            groupedResults.forEach((title, records) -> {
-                List<DealStageDealsAggregateResponse> dealAggregate = records.stream()
-                        .map(record -> DealStageDealsAggregateResponse
-                                .builder()
-                                .groupBy(DealStageDealsAggregateGroupBy.builder()
-                                        .closeDateYear(record.get(0, Integer.class))
-                                        .closeDateMonth(record.get(1, Integer.class)).build())
-                                .count(new DealStageDealsAggregateValue<Long>(record.get(2, Long.class)))
-                                .sum(new DealStageDealsAggregateValue<BigDecimal>(record.get(3, BigDecimal.class)))
-                                .avg(new DealStageDealsAggregateValue<Double>(record.get(4, Double.class)))
-                                .min(new DealStageDealsAggregateValue<BigDecimal>(record.get(5, BigDecimal.class)))
-                                .max(new DealStageDealsAggregateValue<BigDecimal>(record.get(6, BigDecimal.class)))
-                                .build())
-                        .toList();
+        List<DealStage> dealStages = new ArrayList<>();
 
-                DealStage stage = DealStage
-                        .builder()
-                        .title(title)
-                        .dealsAggregate(dealAggregate)
-                        .build();
-                dealStages.add(stage);
-            });
+        groupedResults.forEach((title, records) -> {
+            List<DealAggregateResponse> dealAggregate = records.stream()
+                    .map(record -> DealAggregateResponse
+                            .builder()
+                            .groupBy(DealAggregateGroupBy.builder()
+                                    .closeDateYear(record.get(0, Integer.class))
+                                    .closeDateMonth(record.get(1, Integer.class)).build())
+                            .count(new DealAggregateValue<>(record.get(2, Number.class)))
+                            .sum(new DealAggregateValue<>(record.get(3, Number.class)))
+                            .avg(new DealAggregateValue<>(record.get(4, Number.class)))
+                            .min(new DealAggregateValue<>(record.get(5, Number.class)))
+                            .max(new DealAggregateValue<>(record.get(6, Number.class)))
+                            .build())
+                    .toList();
 
-            return dealStages;
-        }
+            DealStage stage = DealStage
+                    .builder()
+                    .title(title)
+                    .dealsAggregate(dealAggregate)
+                    .build();
+            dealStages.add(stage);
+        });
+
+        return dealStages;
     }
 }

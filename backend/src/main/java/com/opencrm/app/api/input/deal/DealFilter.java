@@ -1,6 +1,5 @@
 package com.opencrm.app.api.input.deal;
 
-import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import com.opencrm.app.api.input.common.filter.Filter;
@@ -12,9 +11,13 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class DealFilter extends Filter<Deal> {
-    private LinkedHashMap<String, String> title;
-    private LinkedHashMap<String, BigDecimal> value;
-    private LinkedHashMap<String, Integer> closeDateYear;
-    private LinkedHashMap<String, Integer> closeDateMonth;
-    private LinkedHashMap<String, Integer> closeDateDay;
+    private LinkedHashMap<String, Object> id;
+    private LinkedHashMap<String, Object> title;
+    private LinkedHashMap<String, Object> value;
+    private LinkedHashMap<String, Object> closeDateYear;
+    private LinkedHashMap<String, Object> closeDateMonth;
+    private LinkedHashMap<String, Object> closeDateDay;
+    private LinkedHashMap<String, Object> dealOwnerId;
+    private LinkedHashMap<String, Object> dealContactId;
+    private LinkedHashMap<String, Object> stageId;
 }

@@ -2,7 +2,7 @@ package com.opencrm.app.model;
 
 import java.util.List;
 
-import com.opencrm.app.api.output.deal.DealStageDealsAggregateResponse;
+import com.opencrm.app.api.output.deal.DealAggregateResponse;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -27,7 +27,7 @@ public class DealStage extends BaseEntity {
     private String title;
 
     @Transient
-    private List<DealStageDealsAggregateResponse> dealsAggregate;
+    private List<DealAggregateResponse> dealsAggregate;
 
     @OneToMany(mappedBy = "stage", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     List<Deal> deals;

@@ -17,11 +17,11 @@ import com.opencrm.app.api.input.common.enums.OperatorEnum;
 import com.opencrm.app.model.BaseEntity;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaBuilder.In;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import jakarta.persistence.criteria.CriteriaBuilder.In;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,6 +44,29 @@ public class Filter<T extends BaseEntity> implements Specification<T> {
                 return cb.like(fieldPath, "%" + value + "%");
             case NOT_LIKE:
                 return cb.notLike(fieldPath, "%" + value + "%");
+            default:
+                return null;
+        }
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private Predicate handleNumberScalarType(Root<T> root, CriteriaBuilder cb, String fieldName, OperatorEnum operator,
+            Number value) {
+        Path fieldPath = root.get(fieldName);
+
+        switch (operator) {
+            case EQUAL:
+                return cb.equal(fieldPath, value);
+            case NOT_EQUAL:
+                return cb.notEqual(fieldPath, value);
+            case GREATER_THAN:
+                return cb.greaterThan(fieldPath, (Comparable) value);
+            case GREATER_THAN_OR_EQUAL:
+                return cb.greaterThanOrEqualTo(fieldPath, (Comparable) value);
+            case LESS_THAN:
+                return cb.lessThan(fieldPath, (Comparable) value);
+            case LESS_THAN_OR_EQUAL:
+                return cb.lessThanOrEqualTo(fieldPath, (Comparable) value);
             default:
                 return null;
         }
@@ -96,12 +119,14 @@ public class Filter<T extends BaseEntity> implements Specification<T> {
     }
 
     @SuppressWarnings("rawtypes")
-    protected Predicate toPredicateInternal(Root<T> root, CriteriaBuilder cb, String fieldName, OperatorEnum operator,
+    private Predicate toPredicateInternal(Root<T> root, CriteriaBuilder cb, String fieldName, OperatorEnum operator,
             Object value) {
         Predicate predicate = null;
 
         if (value instanceof String) {
             predicate = handleStringScalarType(root, cb, fieldName, operator, (String) value);
+        } else if (Number.class.isAssignableFrom(value.getClass())) {
+            predicate = handleNumberScalarType(root, cb, fieldName, operator, (Number) value);
         } else if (value instanceof LocalDate || value instanceof LocalDateTime) {
             predicate = handleDateScalarType(root, cb, fieldName, operator, (Temporal) value);
         } else if (Collection.class.isAssignableFrom(value.getClass())) {
