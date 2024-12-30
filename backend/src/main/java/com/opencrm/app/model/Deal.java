@@ -44,7 +44,7 @@ public class Deal extends BaseEntity {
     @JoinColumn(name = "deal_owner_id")
     private User owner;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "deal_contact_id")
     private User contact;
 
