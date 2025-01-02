@@ -171,10 +171,10 @@ public class BaseServiceImpl<T, ID, R extends JpaRepository<T, ID>> implements B
             } else {
                 return executor.findBy(spec, query -> query.page(offsetPaging.toPageable(sortings)));
             }
-
+        } else {
+            throw new UnsupportedOperationException(
+                    "Unimplemented method 'findBy(Specification<T> spec, List<Sorting> sortings, OffsetPaging paging)'");
         }
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'findBy(Specification<T> spec, List<Sorting> sortings, OffsetPaging paging)'");
     }
 
     @SuppressWarnings({ "hiding", "unchecked" })
@@ -182,10 +182,10 @@ public class BaseServiceImpl<T, ID, R extends JpaRepository<T, ID>> implements B
     public <S extends T, R> R findBy(Specification<T> spec, Function<FluentQuery.FetchableFluentQuery<S>, R> query) {
         if (JpaSpecificationExecutor.class.isAssignableFrom(repository.getClass())) {
             JpaSpecificationExecutor<T> executor = (JpaSpecificationExecutor<T>) repository;
-
             return executor.findBy(spec, query);
+        } else {
+            throw new UnsupportedOperationException(
+                    "Unimplemented method 'findBy(Specification<T> spec, Function<FluentQuery.FetchableFluentQuery<S>, R> query)'");
         }
-        throw new UnsupportedOperationException(
-                "Unimplemented method 'findBy(Specification<T> spec, Function<FluentQuery.FetchableFluentQuery<S>, R> query)'");
     }
 }

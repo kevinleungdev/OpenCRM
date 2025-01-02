@@ -1,5 +1,8 @@
 package com.opencrm.app.service.deal;
 
+import static com.opencrm.app.api.input.deal.DealAggregateFilter.PATTERN_DEAL_AGGREGATE_GROUP_BY;
+import static com.opencrm.app.api.input.deal.DealAggregateFilter.PATTERN_GROUP_BY;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +27,6 @@ import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Selection;
 import lombok.extern.slf4j.Slf4j;
-
-import static com.opencrm.app.api.input.deal.DealAggregateFilter.*;
 
 @Slf4j
 @Service
