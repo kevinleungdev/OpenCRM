@@ -3,6 +3,7 @@ package com.opencrm.app.model;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.opencrm.app.api.output.company.DealsAggregateResponse;
 import com.opencrm.app.model.enums.BusinessTypeEnum;
 import com.opencrm.app.model.enums.CompanySizeEnum;
 
@@ -10,8 +11,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -42,6 +42,12 @@ public class Company extends NameEntity {
     @Column
     private String country;
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
-    private List<CompanyNote> notes;
+    @Column
+    private Long salesOwnerId;
+
+    @Transient
+    private User salesOwner;
+
+    @Transient
+    private List<DealsAggregateResponse> dealsAggregate;
 }
