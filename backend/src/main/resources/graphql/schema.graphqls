@@ -3213,6 +3213,7 @@ type Mutation {
 
 input LoginInput {
   email: String!
+  password: String
 }
 
 input RegisterInput {

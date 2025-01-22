@@ -1,5 +1,11 @@
 package com.opencrm.app.model;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
@@ -14,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "users")
-public class User extends NameEntity {
+public class User extends NameEntity implements UserDetails {
     @Column(unique = true)
     private String email;
 
@@ -32,4 +38,19 @@ public class User extends NameEntity {
 
     @Column
     private String passwordHash;
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.passwordHash;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
 }
