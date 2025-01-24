@@ -78,6 +78,7 @@ export type UsersSelectQuery = {
 
 export type LoginMutationVariables = Types.Exact<{
   email: Types.Scalars["String"]["input"];
+  password?: Types.InputMaybe<Types.Scalars["String"]["input"]>;
 }>;
 
 export type LoginMutation = {

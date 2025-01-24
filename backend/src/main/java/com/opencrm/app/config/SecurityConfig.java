@@ -41,6 +41,7 @@ public class SecurityConfig {
             // authorize all graphql queries as we will filter the requests at the resolver
             // level
             "/graphql/**",
+            "/graphqlws/**",
             // authorize request from grahql related app that we will need
             "/graphiql/**"
     };

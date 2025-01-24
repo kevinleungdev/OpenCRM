@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 export const LOGIN_MUTATION = gql`
-  mutation login($email: String!) {
-    login(loginInput: { email: $email }) {
+  mutation login($email: String!, $password: String) {
+    login(loginInput: { email: $email, password: $password }) {
       accessToken
       refreshToken
     }

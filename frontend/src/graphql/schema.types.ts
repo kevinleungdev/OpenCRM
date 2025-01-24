@@ -1,51 +1,64 @@
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
+    };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  DateTime: { input: string; output: string; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  DateTime: { input: string; output: string };
 };
 
 export type Audit = {
-  action: Scalars['String']['output'];
+  action: Scalars["String"]["output"];
   changes: Array<AuditChange>;
-  createdAt: Scalars['DateTime']['output'];
-  id: Scalars['ID']['output'];
-  targetEntity: Scalars['String']['output'];
-  targetId: Scalars['Float']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  createdAt: Scalars["DateTime"]["output"];
+  id: Scalars["ID"]["output"];
+  targetEntity: Scalars["String"]["output"];
+  targetId: Scalars["Float"]["output"];
+  updatedAt: Scalars["DateTime"]["output"];
   user?: Maybe<User>;
 };
 
 export type AuditChange = {
-  field: Scalars['String']['output'];
-  from?: Maybe<Scalars['String']['output']>;
-  to?: Maybe<Scalars['String']['output']>;
+  field: Scalars["String"]["output"];
+  from?: Maybe<Scalars["String"]["output"]>;
+  to?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type AuditConnection = {
   nodes: Array<Audit>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type AuditDeleteResponse = {
-  action?: Maybe<Scalars['String']['output']>;
+  action?: Maybe<Scalars["String"]["output"]>;
   changes?: Maybe<Array<AuditChange>>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  targetEntity?: Maybe<Scalars['String']['output']>;
-  targetId?: Maybe<Scalars['Float']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  targetEntity?: Maybe<Scalars["String"]["output"]>;
+  targetId?: Maybe<Scalars["Float"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type AuditFilter = {
@@ -81,12 +94,12 @@ export type AuditSort = {
 };
 
 export type AuditSortFields =
-  | 'action'
-  | 'createdAt'
-  | 'id'
-  | 'targetEntity'
-  | 'targetId'
-  | 'updatedAt';
+  | "action"
+  | "createdAt"
+  | "id"
+  | "targetEntity"
+  | "targetId"
+  | "updatedAt";
 
 export type AuditSubscriptionFilter = {
   action?: InputMaybe<StringFieldComparison>;
@@ -100,54 +113,50 @@ export type AuditSubscriptionFilter = {
 };
 
 export type AuthResponse = {
-  accessToken: Scalars['String']['output'];
-  refreshToken: Scalars['String']['output'];
+  accessToken: Scalars["String"]["output"];
+  refreshToken: Scalars["String"]["output"];
   user: User;
 };
 
 export type BooleanFieldComparison = {
-  is?: InputMaybe<Scalars['Boolean']['input']>;
-  isNot?: InputMaybe<Scalars['Boolean']['input']>;
+  is?: InputMaybe<Scalars["Boolean"]["input"]>;
+  isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
-export type BusinessType =
-  | 'B2B'
-  | 'B2C'
-  | 'B2G';
+export type BusinessType = "B2B" | "B2C" | "B2G";
 
 export type CheckListItem = {
-  checked: Scalars['Boolean']['output'];
-  title: Scalars['String']['output'];
+  checked: Scalars["Boolean"]["output"];
+  title: Scalars["String"]["output"];
 };
 
 export type ChecklistItemInput = {
-  checked: Scalars['Boolean']['input'];
-  title: Scalars['String']['input'];
+  checked: Scalars["Boolean"]["input"];
+  title: Scalars["String"]["input"];
 };
 
 export type Company = {
-  avatarUrl?: Maybe<Scalars['String']['output']>;
+  avatarUrl?: Maybe<Scalars["String"]["output"]>;
   businessType?: Maybe<BusinessType>;
   companySize?: Maybe<CompanySize>;
   contacts: CompanyContactsConnection;
   contactsAggregate: Array<CompanyContactsAggregateResponse>;
-  country?: Maybe<Scalars['String']['output']>;
-  createdAt: Scalars['DateTime']['output'];
+  country?: Maybe<Scalars["String"]["output"]>;
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
   deals: CompanyDealsConnection;
   dealsAggregate: Array<CompanyDealsAggregateResponse>;
-  id: Scalars['ID']['output'];
+  id: Scalars["ID"]["output"];
   industry?: Maybe<Industry>;
-  name: Scalars['String']['output'];
+  name: Scalars["String"]["output"];
   notes: CompanyNotesConnection;
   notesAggregate: Array<CompanyNotesAggregateResponse>;
   salesOwner: User;
-  totalRevenue?: Maybe<Scalars['Int']['output']>;
-  updatedAt: Scalars['DateTime']['output'];
+  totalRevenue?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt: Scalars["DateTime"]["output"];
   updatedBy?: Maybe<User>;
-  website?: Maybe<Scalars['String']['output']>;
+  website?: Maybe<Scalars["String"]["output"]>;
 };
-
 
 export type CompanyContactsArgs = {
   filter?: ContactFilter;
@@ -155,11 +164,9 @@ export type CompanyContactsArgs = {
   sorting?: Array<ContactSort>;
 };
 
-
 export type CompanyContactsAggregateArgs = {
   filter?: InputMaybe<ContactAggregateFilter>;
 };
-
 
 export type CompanyDealsArgs = {
   filter?: DealFilter;
@@ -167,18 +174,15 @@ export type CompanyDealsArgs = {
   sorting?: Array<DealSort>;
 };
 
-
 export type CompanyDealsAggregateArgs = {
   filter?: InputMaybe<DealAggregateFilter>;
 };
-
 
 export type CompanyNotesArgs = {
   filter?: CompanyNoteFilter;
   paging?: OffsetPaging;
   sorting?: Array<CompanyNoteSort>;
 };
-
 
 export type CompanyNotesAggregateArgs = {
   filter?: InputMaybe<CompanyNoteAggregateFilter>;
@@ -202,21 +206,19 @@ export type CompanyAggregateFilter = {
 export type CompanyAggregateGroupBy = {
   businessType?: Maybe<BusinessType>;
   companySize?: Maybe<CompanySize>;
-  country?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
+  country?: Maybe<Scalars["String"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
   industry?: Maybe<Industry>;
-  name?: Maybe<Scalars['String']['output']>;
-  totalRevenue?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  website?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  totalRevenue?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  website?: Maybe<Scalars["String"]["output"]>;
 };
-
 
 export type CompanyAggregateGroupByCreatedAtArgs = {
   by?: GroupBy;
 };
-
 
 export type CompanyAggregateGroupByUpdatedAtArgs = {
   by?: GroupBy;
@@ -232,8 +234,8 @@ export type CompanyAggregateResponse = {
 };
 
 export type CompanyAvgAggregate = {
-  id?: Maybe<Scalars['Float']['output']>;
-  totalRevenue?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars["Float"]["output"]>;
+  totalRevenue?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type CompanyBusinessTypeFilterComparison = {
@@ -253,21 +255,21 @@ export type CompanyCompanySizeFilterComparison = {
 export type CompanyConnection = {
   nodes: Array<Company>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type CompanyContactsAggregateGroupBy = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  jobTitle?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  phone?: Maybe<Scalars['String']['output']>;
-  score?: Maybe<Scalars['Int']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  email?: Maybe<Scalars["String"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  jobTitle?: Maybe<Scalars["String"]["output"]>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  phone?: Maybe<Scalars["String"]["output"]>;
+  score?: Maybe<Scalars["Int"]["output"]>;
   stage?: Maybe<ContactStage>;
   status?: Maybe<ContactStatus>;
-  timezone?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  timezone?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type CompanyContactsAggregateResponse = {
@@ -280,99 +282,99 @@ export type CompanyContactsAggregateResponse = {
 };
 
 export type CompanyContactsAvgAggregate = {
-  id?: Maybe<Scalars['Float']['output']>;
-  score?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars["Float"]["output"]>;
+  score?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type CompanyContactsConnection = {
   nodes: Array<Contact>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type CompanyContactsCountAggregate = {
-  createdAt?: Maybe<Scalars['Int']['output']>;
-  email?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  jobTitle?: Maybe<Scalars['Int']['output']>;
-  name?: Maybe<Scalars['Int']['output']>;
-  phone?: Maybe<Scalars['Int']['output']>;
-  score?: Maybe<Scalars['Int']['output']>;
-  stage?: Maybe<Scalars['Int']['output']>;
-  status?: Maybe<Scalars['Int']['output']>;
-  timezone?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['Int']['output']>;
+  createdAt?: Maybe<Scalars["Int"]["output"]>;
+  email?: Maybe<Scalars["Int"]["output"]>;
+  id?: Maybe<Scalars["Int"]["output"]>;
+  jobTitle?: Maybe<Scalars["Int"]["output"]>;
+  name?: Maybe<Scalars["Int"]["output"]>;
+  phone?: Maybe<Scalars["Int"]["output"]>;
+  score?: Maybe<Scalars["Int"]["output"]>;
+  stage?: Maybe<Scalars["Int"]["output"]>;
+  status?: Maybe<Scalars["Int"]["output"]>;
+  timezone?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type CompanyContactsMaxAggregate = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  jobTitle?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  phone?: Maybe<Scalars['String']['output']>;
-  score?: Maybe<Scalars['Int']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  email?: Maybe<Scalars["String"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  jobTitle?: Maybe<Scalars["String"]["output"]>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  phone?: Maybe<Scalars["String"]["output"]>;
+  score?: Maybe<Scalars["Int"]["output"]>;
   stage?: Maybe<ContactStage>;
   status?: Maybe<ContactStatus>;
-  timezone?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  timezone?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type CompanyContactsMinAggregate = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  jobTitle?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  phone?: Maybe<Scalars['String']['output']>;
-  score?: Maybe<Scalars['Int']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  email?: Maybe<Scalars["String"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  jobTitle?: Maybe<Scalars["String"]["output"]>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  phone?: Maybe<Scalars["String"]["output"]>;
+  score?: Maybe<Scalars["Int"]["output"]>;
   stage?: Maybe<ContactStage>;
   status?: Maybe<ContactStatus>;
-  timezone?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  timezone?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type CompanyContactsSumAggregate = {
-  id?: Maybe<Scalars['Float']['output']>;
-  score?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars["Float"]["output"]>;
+  score?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type CompanyCountAggregate = {
-  businessType?: Maybe<Scalars['Int']['output']>;
-  companySize?: Maybe<Scalars['Int']['output']>;
-  country?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  industry?: Maybe<Scalars['Int']['output']>;
-  name?: Maybe<Scalars['Int']['output']>;
-  totalRevenue?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['Int']['output']>;
-  website?: Maybe<Scalars['Int']['output']>;
+  businessType?: Maybe<Scalars["Int"]["output"]>;
+  companySize?: Maybe<Scalars["Int"]["output"]>;
+  country?: Maybe<Scalars["Int"]["output"]>;
+  createdAt?: Maybe<Scalars["Int"]["output"]>;
+  id?: Maybe<Scalars["Int"]["output"]>;
+  industry?: Maybe<Scalars["Int"]["output"]>;
+  name?: Maybe<Scalars["Int"]["output"]>;
+  totalRevenue?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt?: Maybe<Scalars["Int"]["output"]>;
+  website?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type CompanyCreateInput = {
   businessType?: InputMaybe<BusinessType>;
   companySize?: InputMaybe<CompanySize>;
-  country?: InputMaybe<Scalars['String']['input']>;
+  country?: InputMaybe<Scalars["String"]["input"]>;
   industry?: InputMaybe<Industry>;
-  name: Scalars['String']['input'];
-  salesOwnerId: Scalars['ID']['input'];
-  totalRevenue?: InputMaybe<Scalars['Int']['input']>;
-  website?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars["String"]["input"];
+  salesOwnerId: Scalars["ID"]["input"];
+  totalRevenue?: InputMaybe<Scalars["Int"]["input"]>;
+  website?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type CompanyDealsAggregateGroupBy = {
-  closeDateDay?: Maybe<Scalars['Int']['output']>;
-  closeDateMonth?: Maybe<Scalars['Int']['output']>;
-  closeDateYear?: Maybe<Scalars['Int']['output']>;
-  companyId?: Maybe<Scalars['ID']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  dealOwnerId?: Maybe<Scalars['ID']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  value?: Maybe<Scalars['Float']['output']>;
+  closeDateDay?: Maybe<Scalars["Int"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Int"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Int"]["output"]>;
+  companyId?: Maybe<Scalars["ID"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["ID"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type CompanyDealsAggregateResponse = {
@@ -385,73 +387,73 @@ export type CompanyDealsAggregateResponse = {
 };
 
 export type CompanyDealsAvgAggregate = {
-  closeDateDay?: Maybe<Scalars['Float']['output']>;
-  closeDateMonth?: Maybe<Scalars['Float']['output']>;
-  closeDateYear?: Maybe<Scalars['Float']['output']>;
-  companyId?: Maybe<Scalars['Float']['output']>;
-  dealOwnerId?: Maybe<Scalars['Float']['output']>;
-  id?: Maybe<Scalars['Float']['output']>;
-  stageId?: Maybe<Scalars['Float']['output']>;
-  value?: Maybe<Scalars['Float']['output']>;
+  closeDateDay?: Maybe<Scalars["Float"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Float"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Float"]["output"]>;
+  companyId?: Maybe<Scalars["Float"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["Float"]["output"]>;
+  id?: Maybe<Scalars["Float"]["output"]>;
+  stageId?: Maybe<Scalars["Float"]["output"]>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type CompanyDealsConnection = {
   nodes: Array<Deal>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type CompanyDealsCountAggregate = {
-  closeDateDay?: Maybe<Scalars['Int']['output']>;
-  closeDateMonth?: Maybe<Scalars['Int']['output']>;
-  closeDateYear?: Maybe<Scalars['Int']['output']>;
-  companyId?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['Int']['output']>;
-  dealOwnerId?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  stageId?: Maybe<Scalars['Int']['output']>;
-  title?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['Int']['output']>;
-  value?: Maybe<Scalars['Int']['output']>;
+  closeDateDay?: Maybe<Scalars["Int"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Int"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Int"]["output"]>;
+  companyId?: Maybe<Scalars["Int"]["output"]>;
+  createdAt?: Maybe<Scalars["Int"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["Int"]["output"]>;
+  id?: Maybe<Scalars["Int"]["output"]>;
+  stageId?: Maybe<Scalars["Int"]["output"]>;
+  title?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt?: Maybe<Scalars["Int"]["output"]>;
+  value?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type CompanyDealsMaxAggregate = {
-  closeDateDay?: Maybe<Scalars['Int']['output']>;
-  closeDateMonth?: Maybe<Scalars['Int']['output']>;
-  closeDateYear?: Maybe<Scalars['Int']['output']>;
-  companyId?: Maybe<Scalars['ID']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  dealOwnerId?: Maybe<Scalars['ID']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  value?: Maybe<Scalars['Float']['output']>;
+  closeDateDay?: Maybe<Scalars["Int"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Int"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Int"]["output"]>;
+  companyId?: Maybe<Scalars["ID"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["ID"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type CompanyDealsMinAggregate = {
-  closeDateDay?: Maybe<Scalars['Int']['output']>;
-  closeDateMonth?: Maybe<Scalars['Int']['output']>;
-  closeDateYear?: Maybe<Scalars['Int']['output']>;
-  companyId?: Maybe<Scalars['ID']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  dealOwnerId?: Maybe<Scalars['ID']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  value?: Maybe<Scalars['Float']['output']>;
+  closeDateDay?: Maybe<Scalars["Int"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Int"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Int"]["output"]>;
+  companyId?: Maybe<Scalars["ID"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["ID"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type CompanyDealsSumAggregate = {
-  closeDateDay?: Maybe<Scalars['Float']['output']>;
-  closeDateMonth?: Maybe<Scalars['Float']['output']>;
-  closeDateYear?: Maybe<Scalars['Float']['output']>;
-  companyId?: Maybe<Scalars['Float']['output']>;
-  dealOwnerId?: Maybe<Scalars['Float']['output']>;
-  id?: Maybe<Scalars['Float']['output']>;
-  stageId?: Maybe<Scalars['Float']['output']>;
-  value?: Maybe<Scalars['Float']['output']>;
+  closeDateDay?: Maybe<Scalars["Float"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Float"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Float"]["output"]>;
+  companyId?: Maybe<Scalars["Float"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["Float"]["output"]>;
+  id?: Maybe<Scalars["Float"]["output"]>;
+  stageId?: Maybe<Scalars["Float"]["output"]>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type CompanyDeleteFilter = {
@@ -470,17 +472,17 @@ export type CompanyDeleteFilter = {
 };
 
 export type CompanyDeleteResponse = {
-  avatarUrl?: Maybe<Scalars['String']['output']>;
+  avatarUrl?: Maybe<Scalars["String"]["output"]>;
   businessType?: Maybe<BusinessType>;
   companySize?: Maybe<CompanySize>;
-  country?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
+  country?: Maybe<Scalars["String"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
   industry?: Maybe<Industry>;
-  name?: Maybe<Scalars['String']['output']>;
-  totalRevenue?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  website?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  totalRevenue?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  website?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type CompanyFilter = {
@@ -568,36 +570,36 @@ export type CompanyIndustryFilterComparison = {
 export type CompanyMaxAggregate = {
   businessType?: Maybe<BusinessType>;
   companySize?: Maybe<CompanySize>;
-  country?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
+  country?: Maybe<Scalars["String"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
   industry?: Maybe<Industry>;
-  name?: Maybe<Scalars['String']['output']>;
-  totalRevenue?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  website?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  totalRevenue?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  website?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type CompanyMinAggregate = {
   businessType?: Maybe<BusinessType>;
   companySize?: Maybe<CompanySize>;
-  country?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
+  country?: Maybe<Scalars["String"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
   industry?: Maybe<Industry>;
-  name?: Maybe<Scalars['String']['output']>;
-  totalRevenue?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  website?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  totalRevenue?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  website?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type CompanyNote = {
   company: Company;
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
-  id: Scalars['ID']['output'];
-  note: Scalars['String']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  id: Scalars["ID"]["output"];
+  note: Scalars["String"]["output"];
+  updatedAt: Scalars["DateTime"]["output"];
   updatedBy?: Maybe<User>;
 };
 
@@ -612,12 +614,12 @@ export type CompanyNoteAggregateFilter = {
 export type CompanyNoteConnection = {
   nodes: Array<CompanyNote>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type CompanyNoteCreateInput = {
-  companyId: Scalars['ID']['input'];
-  note: Scalars['String']['input'];
+  companyId: Scalars["ID"]["input"];
+  note: Scalars["String"]["input"];
 };
 
 export type CompanyNoteDeleteFilter = {
@@ -629,10 +631,10 @@ export type CompanyNoteDeleteFilter = {
 };
 
 export type CompanyNoteDeleteResponse = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  note?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  note?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type CompanyNoteFilter = {
@@ -681,10 +683,7 @@ export type CompanyNoteSort = {
   nulls?: InputMaybe<SortNulls>;
 };
 
-export type CompanyNoteSortFields =
-  | 'createdAt'
-  | 'id'
-  | 'updatedAt';
+export type CompanyNoteSortFields = "createdAt" | "id" | "updatedAt";
 
 export type CompanyNoteSubscriptionFilter = {
   and?: InputMaybe<Array<CompanyNoteSubscriptionFilter>>;
@@ -703,13 +702,13 @@ export type CompanyNoteUpdateFilter = {
 };
 
 export type CompanyNoteUpdateInput = {
-  note: Scalars['String']['input'];
+  note: Scalars["String"]["input"];
 };
 
 export type CompanyNotesAggregateGroupBy = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type CompanyNotesAggregateResponse = {
@@ -722,42 +721,38 @@ export type CompanyNotesAggregateResponse = {
 };
 
 export type CompanyNotesAvgAggregate = {
-  id?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type CompanyNotesConnection = {
   nodes: Array<CompanyNote>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type CompanyNotesCountAggregate = {
-  createdAt?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['Int']['output']>;
+  createdAt?: Maybe<Scalars["Int"]["output"]>;
+  id?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type CompanyNotesMaxAggregate = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type CompanyNotesMinAggregate = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type CompanyNotesSumAggregate = {
-  id?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars["Float"]["output"]>;
 };
 
-export type CompanySize =
-  | 'ENTERPRISE'
-  | 'LARGE'
-  | 'MEDIUM'
-  | 'SMALL';
+export type CompanySize = "ENTERPRISE" | "LARGE" | "MEDIUM" | "SMALL";
 
 export type CompanySort = {
   direction: SortDirection;
@@ -766,16 +761,16 @@ export type CompanySort = {
 };
 
 export type CompanySortFields =
-  | 'businessType'
-  | 'companySize'
-  | 'country'
-  | 'createdAt'
-  | 'id'
-  | 'industry'
-  | 'name'
-  | 'totalRevenue'
-  | 'updatedAt'
-  | 'website';
+  | "businessType"
+  | "companySize"
+  | "country"
+  | "createdAt"
+  | "id"
+  | "industry"
+  | "name"
+  | "totalRevenue"
+  | "updatedAt"
+  | "website";
 
 export type CompanySubscriptionFilter = {
   and?: InputMaybe<Array<CompanySubscriptionFilter>>;
@@ -793,8 +788,8 @@ export type CompanySubscriptionFilter = {
 };
 
 export type CompanySumAggregate = {
-  id?: Maybe<Scalars['Float']['output']>;
-  totalRevenue?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars["Float"]["output"]>;
+  totalRevenue?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type CompanyUpdateFilter = {
@@ -815,42 +810,40 @@ export type CompanyUpdateFilter = {
 export type CompanyUpdateInput = {
   businessType?: InputMaybe<BusinessType>;
   companySize?: InputMaybe<CompanySize>;
-  country?: InputMaybe<Scalars['String']['input']>;
+  country?: InputMaybe<Scalars["String"]["input"]>;
   industry?: InputMaybe<Industry>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  salesOwnerId?: InputMaybe<Scalars['ID']['input']>;
-  totalRevenue?: InputMaybe<Scalars['Int']['input']>;
-  website?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
+  salesOwnerId?: InputMaybe<Scalars["ID"]["input"]>;
+  totalRevenue?: InputMaybe<Scalars["Int"]["input"]>;
+  website?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type Contact = {
-  avatarUrl?: Maybe<Scalars['String']['output']>;
+  avatarUrl?: Maybe<Scalars["String"]["output"]>;
   company: Company;
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
   deals: ContactDealsConnection;
-  email: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
-  jobTitle?: Maybe<Scalars['String']['output']>;
-  name: Scalars['String']['output'];
+  email: Scalars["String"]["output"];
+  id: Scalars["ID"]["output"];
+  jobTitle?: Maybe<Scalars["String"]["output"]>;
+  name: Scalars["String"]["output"];
   notes: ContactNotesConnection;
-  phone?: Maybe<Scalars['String']['output']>;
+  phone?: Maybe<Scalars["String"]["output"]>;
   salesOwner: User;
-  score?: Maybe<Scalars['Int']['output']>;
+  score?: Maybe<Scalars["Int"]["output"]>;
   stage: ContactStage;
   status: ContactStatus;
-  timezone?: Maybe<Scalars['String']['output']>;
-  updatedAt: Scalars['DateTime']['output'];
+  timezone?: Maybe<Scalars["String"]["output"]>;
+  updatedAt: Scalars["DateTime"]["output"];
   updatedBy?: Maybe<User>;
 };
-
 
 export type ContactDealsArgs = {
   filter?: DealFilter;
   paging?: OffsetPaging;
   sorting?: Array<DealSort>;
 };
-
 
 export type ContactNotesArgs = {
   filter?: ContactNoteFilter;
@@ -877,26 +870,26 @@ export type ContactAggregateFilter = {
 export type ContactConnection = {
   nodes: Array<Contact>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type ContactCreateInput = {
-  companyId: Scalars['ID']['input'];
-  email: Scalars['String']['input'];
-  jobTitle?: InputMaybe<Scalars['String']['input']>;
-  name: Scalars['String']['input'];
-  phone?: InputMaybe<Scalars['String']['input']>;
-  salesOwnerId: Scalars['ID']['input'];
-  score?: InputMaybe<Scalars['Int']['input']>;
+  companyId: Scalars["ID"]["input"];
+  email: Scalars["String"]["input"];
+  jobTitle?: InputMaybe<Scalars["String"]["input"]>;
+  name: Scalars["String"]["input"];
+  phone?: InputMaybe<Scalars["String"]["input"]>;
+  salesOwnerId: Scalars["ID"]["input"];
+  score?: InputMaybe<Scalars["Int"]["input"]>;
   stage?: InputMaybe<ContactStage>;
   status?: InputMaybe<ContactStatus>;
-  timezone?: InputMaybe<Scalars['String']['input']>;
+  timezone?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type ContactDealsConnection = {
   nodes: Array<Deal>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type ContactDeleteFilter = {
@@ -916,18 +909,18 @@ export type ContactDeleteFilter = {
 };
 
 export type ContactDeleteResponse = {
-  avatarUrl?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  jobTitle?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  phone?: Maybe<Scalars['String']['output']>;
-  score?: Maybe<Scalars['Int']['output']>;
+  avatarUrl?: Maybe<Scalars["String"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  email?: Maybe<Scalars["String"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  jobTitle?: Maybe<Scalars["String"]["output"]>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  phone?: Maybe<Scalars["String"]["output"]>;
+  score?: Maybe<Scalars["Int"]["output"]>;
   stage?: Maybe<ContactStage>;
   status?: Maybe<ContactStatus>;
-  timezone?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  timezone?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type ContactFilter = {
@@ -1007,23 +1000,23 @@ export type ContactFilterUserFilter = {
 
 export type ContactNote = {
   contact: Contact;
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
-  id: Scalars['ID']['output'];
-  note: Scalars['String']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  id: Scalars["ID"]["output"];
+  note: Scalars["String"]["output"];
+  updatedAt: Scalars["DateTime"]["output"];
   updatedBy?: Maybe<User>;
 };
 
 export type ContactNoteConnection = {
   nodes: Array<ContactNote>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type ContactNoteCreateInput = {
-  contactId: Scalars['ID']['input'];
-  note: Scalars['String']['input'];
+  contactId: Scalars["ID"]["input"];
+  note: Scalars["String"]["input"];
 };
 
 export type ContactNoteDeleteFilter = {
@@ -1035,10 +1028,10 @@ export type ContactNoteDeleteFilter = {
 };
 
 export type ContactNoteDeleteResponse = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  note?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  note?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type ContactNoteFilter = {
@@ -1088,10 +1081,7 @@ export type ContactNoteSort = {
   nulls?: InputMaybe<SortNulls>;
 };
 
-export type ContactNoteSortFields =
-  | 'createdAt'
-  | 'id'
-  | 'updatedAt';
+export type ContactNoteSortFields = "createdAt" | "id" | "updatedAt";
 
 export type ContactNoteSubscriptionFilter = {
   and?: InputMaybe<Array<ContactNoteSubscriptionFilter>>;
@@ -1110,13 +1100,13 @@ export type ContactNoteUpdateFilter = {
 };
 
 export type ContactNoteUpdateInput = {
-  note: Scalars['String']['input'];
+  note: Scalars["String"]["input"];
 };
 
 export type ContactNotesConnection = {
   nodes: Array<ContactNote>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type ContactSort = {
@@ -1126,22 +1116,19 @@ export type ContactSort = {
 };
 
 export type ContactSortFields =
-  | 'createdAt'
-  | 'email'
-  | 'id'
-  | 'jobTitle'
-  | 'name'
-  | 'phone'
-  | 'score'
-  | 'stage'
-  | 'status'
-  | 'timezone'
-  | 'updatedAt';
+  | "createdAt"
+  | "email"
+  | "id"
+  | "jobTitle"
+  | "name"
+  | "phone"
+  | "score"
+  | "stage"
+  | "status"
+  | "timezone"
+  | "updatedAt";
 
-export type ContactStage =
-  | 'CUSTOMER'
-  | 'LEAD'
-  | 'SALES_QUALIFIED_LEAD';
+export type ContactStage = "CUSTOMER" | "LEAD" | "SALES_QUALIFIED_LEAD";
 
 export type ContactStageFilterComparison = {
   eq?: InputMaybe<ContactStage>;
@@ -1149,8 +1136,8 @@ export type ContactStageFilterComparison = {
   gte?: InputMaybe<ContactStage>;
   iLike?: InputMaybe<ContactStage>;
   in?: InputMaybe<Array<ContactStage>>;
-  is?: InputMaybe<Scalars['Boolean']['input']>;
-  isNot?: InputMaybe<Scalars['Boolean']['input']>;
+  is?: InputMaybe<Scalars["Boolean"]["input"]>;
+  isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
   like?: InputMaybe<ContactStage>;
   lt?: InputMaybe<ContactStage>;
   lte?: InputMaybe<ContactStage>;
@@ -1161,15 +1148,15 @@ export type ContactStageFilterComparison = {
 };
 
 export type ContactStatus =
-  | 'CHURNED'
-  | 'CONTACTED'
-  | 'INTERESTED'
-  | 'LOST'
-  | 'NEGOTIATION'
-  | 'NEW'
-  | 'QUALIFIED'
-  | 'UNQUALIFIED'
-  | 'WON';
+  | "CHURNED"
+  | "CONTACTED"
+  | "INTERESTED"
+  | "LOST"
+  | "NEGOTIATION"
+  | "NEW"
+  | "QUALIFIED"
+  | "UNQUALIFIED"
+  | "WON";
 
 export type ContactStatusFilterComparison = {
   eq?: InputMaybe<ContactStatus>;
@@ -1177,8 +1164,8 @@ export type ContactStatusFilterComparison = {
   gte?: InputMaybe<ContactStatus>;
   iLike?: InputMaybe<ContactStatus>;
   in?: InputMaybe<Array<ContactStatus>>;
-  is?: InputMaybe<Scalars['Boolean']['input']>;
-  isNot?: InputMaybe<Scalars['Boolean']['input']>;
+  is?: InputMaybe<Scalars["Boolean"]["input"]>;
+  isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
   like?: InputMaybe<ContactStatus>;
   lt?: InputMaybe<ContactStatus>;
   lte?: InputMaybe<ContactStatus>;
@@ -1221,16 +1208,16 @@ export type ContactUpdateFilter = {
 };
 
 export type ContactUpdateInput = {
-  companyId?: InputMaybe<Scalars['String']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  jobTitle?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  phone?: InputMaybe<Scalars['String']['input']>;
-  salesOwnerId?: InputMaybe<Scalars['ID']['input']>;
-  score?: InputMaybe<Scalars['Int']['input']>;
+  companyId?: InputMaybe<Scalars["String"]["input"]>;
+  email?: InputMaybe<Scalars["String"]["input"]>;
+  jobTitle?: InputMaybe<Scalars["String"]["input"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
+  phone?: InputMaybe<Scalars["String"]["input"]>;
+  salesOwnerId?: InputMaybe<Scalars["ID"]["input"]>;
+  score?: InputMaybe<Scalars["Int"]["input"]>;
   stage?: InputMaybe<ContactStage>;
   status?: InputMaybe<ContactStatus>;
-  timezone?: InputMaybe<Scalars['String']['input']>;
+  timezone?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type CreateAuditSubscriptionFilterInput = {
@@ -1395,43 +1382,43 @@ export type CreateUserSubscriptionFilterInput = {
 
 export type DateFieldComparison = {
   between?: InputMaybe<DateFieldComparisonBetween>;
-  eq?: InputMaybe<Scalars['DateTime']['input']>;
-  gt?: InputMaybe<Scalars['DateTime']['input']>;
-  gte?: InputMaybe<Scalars['DateTime']['input']>;
-  in?: InputMaybe<Array<Scalars['DateTime']['input']>>;
-  is?: InputMaybe<Scalars['Boolean']['input']>;
-  isNot?: InputMaybe<Scalars['Boolean']['input']>;
-  lt?: InputMaybe<Scalars['DateTime']['input']>;
-  lte?: InputMaybe<Scalars['DateTime']['input']>;
-  neq?: InputMaybe<Scalars['DateTime']['input']>;
+  eq?: InputMaybe<Scalars["DateTime"]["input"]>;
+  gt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  gte?: InputMaybe<Scalars["DateTime"]["input"]>;
+  in?: InputMaybe<Array<Scalars["DateTime"]["input"]>>;
+  is?: InputMaybe<Scalars["Boolean"]["input"]>;
+  isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
+  lt?: InputMaybe<Scalars["DateTime"]["input"]>;
+  lte?: InputMaybe<Scalars["DateTime"]["input"]>;
+  neq?: InputMaybe<Scalars["DateTime"]["input"]>;
   notBetween?: InputMaybe<DateFieldComparisonBetween>;
-  notIn?: InputMaybe<Array<Scalars['DateTime']['input']>>;
+  notIn?: InputMaybe<Array<Scalars["DateTime"]["input"]>>;
 };
 
 export type DateFieldComparisonBetween = {
-  lower: Scalars['DateTime']['input'];
-  upper: Scalars['DateTime']['input'];
+  lower: Scalars["DateTime"]["input"];
+  upper: Scalars["DateTime"]["input"];
 };
 
 export type Deal = {
-  closeDateDay?: Maybe<Scalars['Int']['output']>;
-  closeDateMonth?: Maybe<Scalars['Int']['output']>;
-  closeDateYear?: Maybe<Scalars['Int']['output']>;
+  closeDateDay?: Maybe<Scalars["Int"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Int"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Int"]["output"]>;
   company: Company;
-  companyId: Scalars['ID']['output'];
-  createdAt: Scalars['DateTime']['output'];
+  companyId: Scalars["ID"]["output"];
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
   dealContact: Contact;
   dealOwner: User;
-  dealOwnerId: Scalars['ID']['output'];
-  id: Scalars['ID']['output'];
-  notes: Scalars['String']['output'];
+  dealOwnerId: Scalars["ID"]["output"];
+  id: Scalars["ID"]["output"];
+  notes: Scalars["String"]["output"];
   stage?: Maybe<DealStage>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title: Scalars['String']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title: Scalars["String"]["output"];
+  updatedAt: Scalars["DateTime"]["output"];
   updatedBy?: Maybe<User>;
-  value?: Maybe<Scalars['Float']['output']>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type DealAggregateFilter = {
@@ -1451,24 +1438,22 @@ export type DealAggregateFilter = {
 };
 
 export type DealAggregateGroupBy = {
-  closeDateDay?: Maybe<Scalars['Int']['output']>;
-  closeDateMonth?: Maybe<Scalars['Int']['output']>;
-  closeDateYear?: Maybe<Scalars['Int']['output']>;
-  companyId?: Maybe<Scalars['ID']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  dealOwnerId?: Maybe<Scalars['ID']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  value?: Maybe<Scalars['Float']['output']>;
+  closeDateDay?: Maybe<Scalars["Int"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Int"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Int"]["output"]>;
+  companyId?: Maybe<Scalars["ID"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["ID"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
-
 
 export type DealAggregateGroupByCreatedAtArgs = {
   by?: GroupBy;
 };
-
 
 export type DealAggregateGroupByUpdatedAtArgs = {
   by?: GroupBy;
@@ -1484,43 +1469,43 @@ export type DealAggregateResponse = {
 };
 
 export type DealAvgAggregate = {
-  closeDateDay?: Maybe<Scalars['Float']['output']>;
-  closeDateMonth?: Maybe<Scalars['Float']['output']>;
-  closeDateYear?: Maybe<Scalars['Float']['output']>;
-  companyId?: Maybe<Scalars['Float']['output']>;
-  dealOwnerId?: Maybe<Scalars['Float']['output']>;
-  id?: Maybe<Scalars['Float']['output']>;
-  stageId?: Maybe<Scalars['Float']['output']>;
-  value?: Maybe<Scalars['Float']['output']>;
+  closeDateDay?: Maybe<Scalars["Float"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Float"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Float"]["output"]>;
+  companyId?: Maybe<Scalars["Float"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["Float"]["output"]>;
+  id?: Maybe<Scalars["Float"]["output"]>;
+  stageId?: Maybe<Scalars["Float"]["output"]>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type DealConnection = {
   nodes: Array<Deal>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type DealCountAggregate = {
-  closeDateDay?: Maybe<Scalars['Int']['output']>;
-  closeDateMonth?: Maybe<Scalars['Int']['output']>;
-  closeDateYear?: Maybe<Scalars['Int']['output']>;
-  companyId?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['Int']['output']>;
-  dealOwnerId?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  stageId?: Maybe<Scalars['Int']['output']>;
-  title?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['Int']['output']>;
-  value?: Maybe<Scalars['Int']['output']>;
+  closeDateDay?: Maybe<Scalars["Int"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Int"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Int"]["output"]>;
+  companyId?: Maybe<Scalars["Int"]["output"]>;
+  createdAt?: Maybe<Scalars["Int"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["Int"]["output"]>;
+  id?: Maybe<Scalars["Int"]["output"]>;
+  stageId?: Maybe<Scalars["Int"]["output"]>;
+  title?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt?: Maybe<Scalars["Int"]["output"]>;
+  value?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type DealCreateInput = {
-  companyId: Scalars['ID']['input'];
-  dealContactId?: InputMaybe<Scalars['ID']['input']>;
-  dealOwnerId: Scalars['ID']['input'];
-  stageId?: InputMaybe<Scalars['ID']['input']>;
-  title: Scalars['String']['input'];
-  value?: InputMaybe<Scalars['Float']['input']>;
+  companyId: Scalars["ID"]["input"];
+  dealContactId?: InputMaybe<Scalars["ID"]["input"]>;
+  dealOwnerId: Scalars["ID"]["input"];
+  stageId?: InputMaybe<Scalars["ID"]["input"]>;
+  title: Scalars["String"]["input"];
+  value?: InputMaybe<Scalars["Float"]["input"]>;
 };
 
 export type DealDeleteFilter = {
@@ -1540,18 +1525,18 @@ export type DealDeleteFilter = {
 };
 
 export type DealDeleteResponse = {
-  closeDateDay?: Maybe<Scalars['Int']['output']>;
-  closeDateMonth?: Maybe<Scalars['Int']['output']>;
-  closeDateYear?: Maybe<Scalars['Int']['output']>;
-  companyId?: Maybe<Scalars['ID']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  dealOwnerId?: Maybe<Scalars['ID']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  notes?: Maybe<Scalars['String']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  value?: Maybe<Scalars['Float']['output']>;
+  closeDateDay?: Maybe<Scalars["Int"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Int"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Int"]["output"]>;
+  companyId?: Maybe<Scalars["ID"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["ID"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  notes?: Maybe<Scalars["String"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type DealFilter = {
@@ -1631,31 +1616,31 @@ export type DealFilterUserFilter = {
 };
 
 export type DealMaxAggregate = {
-  closeDateDay?: Maybe<Scalars['Int']['output']>;
-  closeDateMonth?: Maybe<Scalars['Int']['output']>;
-  closeDateYear?: Maybe<Scalars['Int']['output']>;
-  companyId?: Maybe<Scalars['ID']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  dealOwnerId?: Maybe<Scalars['ID']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  value?: Maybe<Scalars['Float']['output']>;
+  closeDateDay?: Maybe<Scalars["Int"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Int"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Int"]["output"]>;
+  companyId?: Maybe<Scalars["ID"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["ID"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type DealMinAggregate = {
-  closeDateDay?: Maybe<Scalars['Int']['output']>;
-  closeDateMonth?: Maybe<Scalars['Int']['output']>;
-  closeDateYear?: Maybe<Scalars['Int']['output']>;
-  companyId?: Maybe<Scalars['ID']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  dealOwnerId?: Maybe<Scalars['ID']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  value?: Maybe<Scalars['Float']['output']>;
+  closeDateDay?: Maybe<Scalars["Int"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Int"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Int"]["output"]>;
+  companyId?: Maybe<Scalars["ID"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["ID"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type DealSort = {
@@ -1665,35 +1650,33 @@ export type DealSort = {
 };
 
 export type DealSortFields =
-  | 'closeDateDay'
-  | 'closeDateMonth'
-  | 'closeDateYear'
-  | 'companyId'
-  | 'createdAt'
-  | 'dealOwnerId'
-  | 'id'
-  | 'stageId'
-  | 'title'
-  | 'updatedAt'
-  | 'value';
+  | "closeDateDay"
+  | "closeDateMonth"
+  | "closeDateYear"
+  | "companyId"
+  | "createdAt"
+  | "dealOwnerId"
+  | "id"
+  | "stageId"
+  | "title"
+  | "updatedAt"
+  | "value";
 
 export type DealStage = {
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
   deals: Array<Deal>;
   dealsAggregate: Array<DealStageDealsAggregateResponse>;
-  id: Scalars['ID']['output'];
-  title: Scalars['String']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  id: Scalars["ID"]["output"];
+  title: Scalars["String"]["output"];
+  updatedAt: Scalars["DateTime"]["output"];
   updatedBy?: Maybe<User>;
 };
-
 
 export type DealStageDealsArgs = {
   filter?: DealFilter;
   sorting?: Array<DealSort>;
 };
-
 
 export type DealStageDealsAggregateArgs = {
   filter?: InputMaybe<DealAggregateFilter>;
@@ -1702,25 +1685,25 @@ export type DealStageDealsAggregateArgs = {
 export type DealStageConnection = {
   nodes: Array<DealStage>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type DealStageCreateInput = {
-  title: Scalars['String']['input'];
+  title: Scalars["String"]["input"];
 };
 
 export type DealStageDealsAggregateGroupBy = {
-  closeDateDay?: Maybe<Scalars['Int']['output']>;
-  closeDateMonth?: Maybe<Scalars['Int']['output']>;
-  closeDateYear?: Maybe<Scalars['Int']['output']>;
-  companyId?: Maybe<Scalars['ID']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  dealOwnerId?: Maybe<Scalars['ID']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  value?: Maybe<Scalars['Float']['output']>;
+  closeDateDay?: Maybe<Scalars["Int"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Int"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Int"]["output"]>;
+  companyId?: Maybe<Scalars["ID"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["ID"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type DealStageDealsAggregateResponse = {
@@ -1733,67 +1716,67 @@ export type DealStageDealsAggregateResponse = {
 };
 
 export type DealStageDealsAvgAggregate = {
-  closeDateDay?: Maybe<Scalars['Float']['output']>;
-  closeDateMonth?: Maybe<Scalars['Float']['output']>;
-  closeDateYear?: Maybe<Scalars['Float']['output']>;
-  companyId?: Maybe<Scalars['Float']['output']>;
-  dealOwnerId?: Maybe<Scalars['Float']['output']>;
-  id?: Maybe<Scalars['Float']['output']>;
-  stageId?: Maybe<Scalars['Float']['output']>;
-  value?: Maybe<Scalars['Float']['output']>;
+  closeDateDay?: Maybe<Scalars["Float"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Float"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Float"]["output"]>;
+  companyId?: Maybe<Scalars["Float"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["Float"]["output"]>;
+  id?: Maybe<Scalars["Float"]["output"]>;
+  stageId?: Maybe<Scalars["Float"]["output"]>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type DealStageDealsCountAggregate = {
-  closeDateDay?: Maybe<Scalars['Int']['output']>;
-  closeDateMonth?: Maybe<Scalars['Int']['output']>;
-  closeDateYear?: Maybe<Scalars['Int']['output']>;
-  companyId?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['Int']['output']>;
-  dealOwnerId?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  stageId?: Maybe<Scalars['Int']['output']>;
-  title?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['Int']['output']>;
-  value?: Maybe<Scalars['Int']['output']>;
+  closeDateDay?: Maybe<Scalars["Int"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Int"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Int"]["output"]>;
+  companyId?: Maybe<Scalars["Int"]["output"]>;
+  createdAt?: Maybe<Scalars["Int"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["Int"]["output"]>;
+  id?: Maybe<Scalars["Int"]["output"]>;
+  stageId?: Maybe<Scalars["Int"]["output"]>;
+  title?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt?: Maybe<Scalars["Int"]["output"]>;
+  value?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type DealStageDealsMaxAggregate = {
-  closeDateDay?: Maybe<Scalars['Int']['output']>;
-  closeDateMonth?: Maybe<Scalars['Int']['output']>;
-  closeDateYear?: Maybe<Scalars['Int']['output']>;
-  companyId?: Maybe<Scalars['ID']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  dealOwnerId?: Maybe<Scalars['ID']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  value?: Maybe<Scalars['Float']['output']>;
+  closeDateDay?: Maybe<Scalars["Int"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Int"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Int"]["output"]>;
+  companyId?: Maybe<Scalars["ID"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["ID"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type DealStageDealsMinAggregate = {
-  closeDateDay?: Maybe<Scalars['Int']['output']>;
-  closeDateMonth?: Maybe<Scalars['Int']['output']>;
-  closeDateYear?: Maybe<Scalars['Int']['output']>;
-  companyId?: Maybe<Scalars['ID']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  dealOwnerId?: Maybe<Scalars['ID']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  value?: Maybe<Scalars['Float']['output']>;
+  closeDateDay?: Maybe<Scalars["Int"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Int"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Int"]["output"]>;
+  companyId?: Maybe<Scalars["ID"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["ID"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type DealStageDealsSumAggregate = {
-  closeDateDay?: Maybe<Scalars['Float']['output']>;
-  closeDateMonth?: Maybe<Scalars['Float']['output']>;
-  closeDateYear?: Maybe<Scalars['Float']['output']>;
-  companyId?: Maybe<Scalars['Float']['output']>;
-  dealOwnerId?: Maybe<Scalars['Float']['output']>;
-  id?: Maybe<Scalars['Float']['output']>;
-  stageId?: Maybe<Scalars['Float']['output']>;
-  value?: Maybe<Scalars['Float']['output']>;
+  closeDateDay?: Maybe<Scalars["Float"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Float"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Float"]["output"]>;
+  companyId?: Maybe<Scalars["Float"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["Float"]["output"]>;
+  id?: Maybe<Scalars["Float"]["output"]>;
+  stageId?: Maybe<Scalars["Float"]["output"]>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type DealStageDeleteFilter = {
@@ -1806,10 +1789,10 @@ export type DealStageDeleteFilter = {
 };
 
 export type DealStageDeleteResponse = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type DealStageFilter = {
@@ -1860,11 +1843,7 @@ export type DealStageSort = {
   nulls?: InputMaybe<SortNulls>;
 };
 
-export type DealStageSortFields =
-  | 'createdAt'
-  | 'id'
-  | 'title'
-  | 'updatedAt';
+export type DealStageSortFields = "createdAt" | "id" | "title" | "updatedAt";
 
 export type DealStageSubscriptionFilter = {
   and?: InputMaybe<Array<DealStageSubscriptionFilter>>;
@@ -1885,8 +1864,8 @@ export type DealStageUpdateFilter = {
 };
 
 export type DealStageUpdateInput = {
-  stageId?: InputMaybe<Scalars['ID']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
+  stageId?: InputMaybe<Scalars["ID"]["input"]>;
+  title?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type DealSubscriptionFilter = {
@@ -1906,14 +1885,14 @@ export type DealSubscriptionFilter = {
 };
 
 export type DealSumAggregate = {
-  closeDateDay?: Maybe<Scalars['Float']['output']>;
-  closeDateMonth?: Maybe<Scalars['Float']['output']>;
-  closeDateYear?: Maybe<Scalars['Float']['output']>;
-  companyId?: Maybe<Scalars['Float']['output']>;
-  dealOwnerId?: Maybe<Scalars['Float']['output']>;
-  id?: Maybe<Scalars['Float']['output']>;
-  stageId?: Maybe<Scalars['Float']['output']>;
-  value?: Maybe<Scalars['Float']['output']>;
+  closeDateDay?: Maybe<Scalars["Float"]["output"]>;
+  closeDateMonth?: Maybe<Scalars["Float"]["output"]>;
+  closeDateYear?: Maybe<Scalars["Float"]["output"]>;
+  companyId?: Maybe<Scalars["Float"]["output"]>;
+  dealOwnerId?: Maybe<Scalars["Float"]["output"]>;
+  id?: Maybe<Scalars["Float"]["output"]>;
+  stageId?: Maybe<Scalars["Float"]["output"]>;
+  value?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type DealUpdateFilter = {
@@ -1933,16 +1912,16 @@ export type DealUpdateFilter = {
 };
 
 export type DealUpdateInput = {
-  closeDateDay?: InputMaybe<Scalars['Int']['input']>;
-  closeDateMonth?: InputMaybe<Scalars['Int']['input']>;
-  closeDateYear?: InputMaybe<Scalars['Int']['input']>;
-  companyId?: InputMaybe<Scalars['ID']['input']>;
-  dealContactId?: InputMaybe<Scalars['ID']['input']>;
-  dealOwnerId?: InputMaybe<Scalars['ID']['input']>;
-  notes?: InputMaybe<Scalars['String']['input']>;
-  stageId?: InputMaybe<Scalars['ID']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
-  value?: InputMaybe<Scalars['Float']['input']>;
+  closeDateDay?: InputMaybe<Scalars["Int"]["input"]>;
+  closeDateMonth?: InputMaybe<Scalars["Int"]["input"]>;
+  closeDateYear?: InputMaybe<Scalars["Int"]["input"]>;
+  companyId?: InputMaybe<Scalars["ID"]["input"]>;
+  dealContactId?: InputMaybe<Scalars["ID"]["input"]>;
+  dealOwnerId?: InputMaybe<Scalars["ID"]["input"]>;
+  notes?: InputMaybe<Scalars["String"]["input"]>;
+  stageId?: InputMaybe<Scalars["ID"]["input"]>;
+  title?: InputMaybe<Scalars["String"]["input"]>;
+  value?: InputMaybe<Scalars["Float"]["input"]>;
 };
 
 export type DeleteManyCompaniesInput = {
@@ -1982,7 +1961,7 @@ export type DeleteManyQuotesInput = {
 };
 
 export type DeleteManyResponse = {
-  deletedCount: Scalars['Int']['output'];
+  deletedCount: Scalars["Int"]["output"];
 };
 
 export type DeleteManyTaskCommentsInput = {
@@ -2006,11 +1985,11 @@ export type DeleteOneAuditSubscriptionFilterInput = {
 };
 
 export type DeleteOneCompanyInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
 
 export type DeleteOneCompanyNoteInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
 
 export type DeleteOneCompanyNoteSubscriptionFilterInput = {
@@ -2022,11 +2001,11 @@ export type DeleteOneCompanySubscriptionFilterInput = {
 };
 
 export type DeleteOneContactInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
 
 export type DeleteOneContactNoteInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
 
 export type DeleteOneContactNoteSubscriptionFilterInput = {
@@ -2038,11 +2017,11 @@ export type DeleteOneContactSubscriptionFilterInput = {
 };
 
 export type DeleteOneDealInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
 
 export type DeleteOneDealStageInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
 
 export type DeleteOneDealStageSubscriptionFilterInput = {
@@ -2054,7 +2033,7 @@ export type DeleteOneDealSubscriptionFilterInput = {
 };
 
 export type DeleteOneEventCategoryInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
 
 export type DeleteOneEventCategorySubscriptionFilterInput = {
@@ -2062,7 +2041,7 @@ export type DeleteOneEventCategorySubscriptionFilterInput = {
 };
 
 export type DeleteOneEventInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
 
 export type DeleteOneEventSubscriptionFilterInput = {
@@ -2070,7 +2049,7 @@ export type DeleteOneEventSubscriptionFilterInput = {
 };
 
 export type DeleteOneQuoteInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
 
 export type DeleteOneQuoteSubscriptionFilterInput = {
@@ -2078,7 +2057,7 @@ export type DeleteOneQuoteSubscriptionFilterInput = {
 };
 
 export type DeleteOneTaskCommentInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
 
 export type DeleteOneTaskCommentSubscriptionFilterInput = {
@@ -2086,11 +2065,11 @@ export type DeleteOneTaskCommentSubscriptionFilterInput = {
 };
 
 export type DeleteOneTaskInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
 
 export type DeleteOneTaskStageInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
 
 export type DeleteOneTaskStageSubscriptionFilterInput = {
@@ -2102,7 +2081,7 @@ export type DeleteOneTaskSubscriptionFilterInput = {
 };
 
 export type DeleteOneUserInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
 
 export type DeleteOneUserSubscriptionFilterInput = {
@@ -2111,19 +2090,18 @@ export type DeleteOneUserSubscriptionFilterInput = {
 
 export type Event = {
   category: EventCategory;
-  color: Scalars['String']['output'];
-  createdAt: Scalars['DateTime']['output'];
+  color: Scalars["String"]["output"];
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
-  description: Scalars['String']['output'];
-  endDate: Scalars['DateTime']['output'];
-  id: Scalars['ID']['output'];
+  description: Scalars["String"]["output"];
+  endDate: Scalars["DateTime"]["output"];
+  id: Scalars["ID"]["output"];
   participants: Array<User>;
-  startDate: Scalars['DateTime']['output'];
-  title: Scalars['String']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  startDate: Scalars["DateTime"]["output"];
+  title: Scalars["String"]["output"];
+  updatedAt: Scalars["DateTime"]["output"];
   updatedBy?: Maybe<User>;
 };
-
 
 export type EventParticipantsArgs = {
   filter?: UserFilter;
@@ -2131,15 +2109,14 @@ export type EventParticipantsArgs = {
 };
 
 export type EventCategory = {
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
   events: Array<EventCategory>;
-  id: Scalars['ID']['output'];
-  title: Scalars['String']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  id: Scalars["ID"]["output"];
+  title: Scalars["String"]["output"];
+  updatedAt: Scalars["DateTime"]["output"];
   updatedBy?: Maybe<User>;
 };
-
 
 export type EventCategoryEventsArgs = {
   filter?: EventCategoryFilter;
@@ -2149,11 +2126,11 @@ export type EventCategoryEventsArgs = {
 export type EventCategoryConnection = {
   nodes: Array<EventCategory>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type EventCategoryCreateInput = {
-  title: Scalars['String']['input'];
+  title: Scalars["String"]["input"];
 };
 
 export type EventCategoryDeleteFilter = {
@@ -2166,10 +2143,10 @@ export type EventCategoryDeleteFilter = {
 };
 
 export type EventCategoryDeleteResponse = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type EventCategoryFilter = {
@@ -2204,10 +2181,10 @@ export type EventCategorySort = {
 };
 
 export type EventCategorySortFields =
-  | 'createdAt'
-  | 'id'
-  | 'title'
-  | 'updatedAt';
+  | "createdAt"
+  | "id"
+  | "title"
+  | "updatedAt";
 
 export type EventCategorySubscriptionFilter = {
   and?: InputMaybe<Array<EventCategorySubscriptionFilter>>;
@@ -2228,23 +2205,23 @@ export type EventCategoryUpdateFilter = {
 };
 
 export type EventCategoryUpdateInput = {
-  title: Scalars['String']['input'];
+  title: Scalars["String"]["input"];
 };
 
 export type EventConnection = {
   nodes: Array<Event>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type EventCreateInput = {
-  categoryId: Scalars['ID']['input'];
-  color: Scalars['String']['input'];
-  description: Scalars['String']['input'];
-  endDate: Scalars['DateTime']['input'];
-  participantIds: Array<Scalars['ID']['input']>;
-  startDate: Scalars['DateTime']['input'];
-  title: Scalars['String']['input'];
+  categoryId: Scalars["ID"]["input"];
+  color: Scalars["String"]["input"];
+  description: Scalars["String"]["input"];
+  endDate: Scalars["DateTime"]["input"];
+  participantIds: Array<Scalars["ID"]["input"]>;
+  startDate: Scalars["DateTime"]["input"];
+  title: Scalars["String"]["input"];
 };
 
 export type EventDeleteFilter = {
@@ -2260,14 +2237,14 @@ export type EventDeleteFilter = {
 };
 
 export type EventDeleteResponse = {
-  color?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  endDate?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  startDate?: Maybe<Scalars['DateTime']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  color?: Maybe<Scalars["String"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  endDate?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  startDate?: Maybe<Scalars["DateTime"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type EventFilter = {
@@ -2315,13 +2292,13 @@ export type EventSort = {
 };
 
 export type EventSortFields =
-  | 'createdAt'
-  | 'description'
-  | 'endDate'
-  | 'id'
-  | 'startDate'
-  | 'title'
-  | 'updatedAt';
+  | "createdAt"
+  | "description"
+  | "endDate"
+  | "id"
+  | "startDate"
+  | "title"
+  | "updatedAt";
 
 export type EventSubscriptionFilter = {
   and?: InputMaybe<Array<EventSubscriptionFilter>>;
@@ -2348,111 +2325,108 @@ export type EventUpdateFilter = {
 };
 
 export type EventUpdateInput = {
-  categoryId?: InputMaybe<Scalars['ID']['input']>;
-  color?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  endDate?: InputMaybe<Scalars['DateTime']['input']>;
-  participantIds?: InputMaybe<Array<Scalars['ID']['input']>>;
-  startDate?: InputMaybe<Scalars['DateTime']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
+  categoryId?: InputMaybe<Scalars["ID"]["input"]>;
+  color?: InputMaybe<Scalars["String"]["input"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  endDate?: InputMaybe<Scalars["DateTime"]["input"]>;
+  participantIds?: InputMaybe<Array<Scalars["ID"]["input"]>>;
+  startDate?: InputMaybe<Scalars["DateTime"]["input"]>;
+  title?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type FloatFieldComparison = {
   between?: InputMaybe<FloatFieldComparisonBetween>;
-  eq?: InputMaybe<Scalars['Float']['input']>;
-  gt?: InputMaybe<Scalars['Float']['input']>;
-  gte?: InputMaybe<Scalars['Float']['input']>;
-  in?: InputMaybe<Array<Scalars['Float']['input']>>;
-  is?: InputMaybe<Scalars['Boolean']['input']>;
-  isNot?: InputMaybe<Scalars['Boolean']['input']>;
-  lt?: InputMaybe<Scalars['Float']['input']>;
-  lte?: InputMaybe<Scalars['Float']['input']>;
-  neq?: InputMaybe<Scalars['Float']['input']>;
+  eq?: InputMaybe<Scalars["Float"]["input"]>;
+  gt?: InputMaybe<Scalars["Float"]["input"]>;
+  gte?: InputMaybe<Scalars["Float"]["input"]>;
+  in?: InputMaybe<Array<Scalars["Float"]["input"]>>;
+  is?: InputMaybe<Scalars["Boolean"]["input"]>;
+  isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
+  lt?: InputMaybe<Scalars["Float"]["input"]>;
+  lte?: InputMaybe<Scalars["Float"]["input"]>;
+  neq?: InputMaybe<Scalars["Float"]["input"]>;
   notBetween?: InputMaybe<FloatFieldComparisonBetween>;
-  notIn?: InputMaybe<Array<Scalars['Float']['input']>>;
+  notIn?: InputMaybe<Array<Scalars["Float"]["input"]>>;
 };
 
 export type FloatFieldComparisonBetween = {
-  lower: Scalars['Float']['input'];
-  upper: Scalars['Float']['input'];
+  lower: Scalars["Float"]["input"];
+  upper: Scalars["Float"]["input"];
 };
 
-export type GroupBy =
-  | 'DAY'
-  | 'MONTH'
-  | 'WEEK'
-  | 'YEAR';
+export type GroupBy = "DAY" | "MONTH" | "WEEK" | "YEAR";
 
 export type IdFilterComparison = {
-  eq?: InputMaybe<Scalars['ID']['input']>;
-  gt?: InputMaybe<Scalars['ID']['input']>;
-  gte?: InputMaybe<Scalars['ID']['input']>;
-  iLike?: InputMaybe<Scalars['ID']['input']>;
-  in?: InputMaybe<Array<Scalars['ID']['input']>>;
-  is?: InputMaybe<Scalars['Boolean']['input']>;
-  isNot?: InputMaybe<Scalars['Boolean']['input']>;
-  like?: InputMaybe<Scalars['ID']['input']>;
-  lt?: InputMaybe<Scalars['ID']['input']>;
-  lte?: InputMaybe<Scalars['ID']['input']>;
-  neq?: InputMaybe<Scalars['ID']['input']>;
-  notILike?: InputMaybe<Scalars['ID']['input']>;
-  notIn?: InputMaybe<Array<Scalars['ID']['input']>>;
-  notLike?: InputMaybe<Scalars['ID']['input']>;
+  eq?: InputMaybe<Scalars["ID"]["input"]>;
+  gt?: InputMaybe<Scalars["ID"]["input"]>;
+  gte?: InputMaybe<Scalars["ID"]["input"]>;
+  iLike?: InputMaybe<Scalars["ID"]["input"]>;
+  in?: InputMaybe<Array<Scalars["ID"]["input"]>>;
+  is?: InputMaybe<Scalars["Boolean"]["input"]>;
+  isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
+  like?: InputMaybe<Scalars["ID"]["input"]>;
+  lt?: InputMaybe<Scalars["ID"]["input"]>;
+  lte?: InputMaybe<Scalars["ID"]["input"]>;
+  neq?: InputMaybe<Scalars["ID"]["input"]>;
+  notILike?: InputMaybe<Scalars["ID"]["input"]>;
+  notIn?: InputMaybe<Array<Scalars["ID"]["input"]>>;
+  notLike?: InputMaybe<Scalars["ID"]["input"]>;
 };
 
 export type Industry =
-  | 'AEROSPACE'
-  | 'AGRICULTURE'
-  | 'AUTOMOTIVE'
-  | 'CHEMICALS'
-  | 'CONSTRUCTION'
-  | 'DEFENSE'
-  | 'EDUCATION'
-  | 'ENERGY'
-  | 'FINANCIAL_SERVICES'
-  | 'FOOD_AND_BEVERAGE'
-  | 'GOVERNMENT'
-  | 'HEALTHCARE'
-  | 'HOSPITALITY'
-  | 'INDUSTRIAL_MANUFACTURING'
-  | 'INSURANCE'
-  | 'LIFE_SCIENCES'
-  | 'LOGISTICS'
-  | 'MEDIA'
-  | 'MINING'
-  | 'NONPROFIT'
-  | 'OTHER'
-  | 'PHARMACEUTICALS'
-  | 'PROFESSIONAL_SERVICES'
-  | 'REAL_ESTATE'
-  | 'RETAIL'
-  | 'TECHNOLOGY'
-  | 'TELECOMMUNICATIONS'
-  | 'TRANSPORTATION'
-  | 'UTILITIES';
+  | "AEROSPACE"
+  | "AGRICULTURE"
+  | "AUTOMOTIVE"
+  | "CHEMICALS"
+  | "CONSTRUCTION"
+  | "DEFENSE"
+  | "EDUCATION"
+  | "ENERGY"
+  | "FINANCIAL_SERVICES"
+  | "FOOD_AND_BEVERAGE"
+  | "GOVERNMENT"
+  | "HEALTHCARE"
+  | "HOSPITALITY"
+  | "INDUSTRIAL_MANUFACTURING"
+  | "INSURANCE"
+  | "LIFE_SCIENCES"
+  | "LOGISTICS"
+  | "MEDIA"
+  | "MINING"
+  | "NONPROFIT"
+  | "OTHER"
+  | "PHARMACEUTICALS"
+  | "PROFESSIONAL_SERVICES"
+  | "REAL_ESTATE"
+  | "RETAIL"
+  | "TECHNOLOGY"
+  | "TELECOMMUNICATIONS"
+  | "TRANSPORTATION"
+  | "UTILITIES";
 
 export type IntFieldComparison = {
   between?: InputMaybe<IntFieldComparisonBetween>;
-  eq?: InputMaybe<Scalars['Int']['input']>;
-  gt?: InputMaybe<Scalars['Int']['input']>;
-  gte?: InputMaybe<Scalars['Int']['input']>;
-  in?: InputMaybe<Array<Scalars['Int']['input']>>;
-  is?: InputMaybe<Scalars['Boolean']['input']>;
-  isNot?: InputMaybe<Scalars['Boolean']['input']>;
-  lt?: InputMaybe<Scalars['Int']['input']>;
-  lte?: InputMaybe<Scalars['Int']['input']>;
-  neq?: InputMaybe<Scalars['Int']['input']>;
+  eq?: InputMaybe<Scalars["Int"]["input"]>;
+  gt?: InputMaybe<Scalars["Int"]["input"]>;
+  gte?: InputMaybe<Scalars["Int"]["input"]>;
+  in?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  is?: InputMaybe<Scalars["Boolean"]["input"]>;
+  isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
+  lt?: InputMaybe<Scalars["Int"]["input"]>;
+  lte?: InputMaybe<Scalars["Int"]["input"]>;
+  neq?: InputMaybe<Scalars["Int"]["input"]>;
   notBetween?: InputMaybe<IntFieldComparisonBetween>;
-  notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
+  notIn?: InputMaybe<Array<Scalars["Int"]["input"]>>;
 };
 
 export type IntFieldComparisonBetween = {
-  lower: Scalars['Int']['input'];
-  upper: Scalars['Int']['input'];
+  lower: Scalars["Int"]["input"];
+  upper: Scalars["Int"]["input"];
 };
 
 export type LoginInput = {
-  email: Scalars['String']['input'];
+  email: Scalars["String"]["input"];
+  password?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type Mutation = {
@@ -2539,406 +2513,325 @@ export type Mutation = {
   updateOneUser: User;
 };
 
-
 export type MutationCreateManyCompaniesArgs = {
   input: CreateManyCompaniesInput;
 };
-
 
 export type MutationCreateManyCompanyNotesArgs = {
   input: CreateManyCompanyNotesInput;
 };
 
-
 export type MutationCreateManyContactNotesArgs = {
   input: CreateManyContactNotesInput;
 };
-
 
 export type MutationCreateManyContactsArgs = {
   input: CreateManyContactsInput;
 };
 
-
 export type MutationCreateManyDealStagesArgs = {
   input: CreateManyDealStagesInput;
 };
-
 
 export type MutationCreateManyDealsArgs = {
   input: CreateManyDealsInput;
 };
 
-
 export type MutationCreateManyEventCategoriesArgs = {
   input: CreateManyEventCategoriesInput;
 };
-
 
 export type MutationCreateManyEventsArgs = {
   input: CreateManyEventsInput;
 };
 
-
 export type MutationCreateManyQuotesArgs = {
   input: CreateManyQuotesInput;
 };
-
 
 export type MutationCreateManyTaskCommentsArgs = {
   input: CreateManyTaskCommentsInput;
 };
 
-
 export type MutationCreateManyTaskStagesArgs = {
   input: CreateManyTaskStagesInput;
 };
-
 
 export type MutationCreateManyTasksArgs = {
   input: CreateManyTasksInput;
 };
 
-
 export type MutationCreateManyUsersArgs = {
   input: CreateManyUsersInput;
 };
-
 
 export type MutationCreateOneCompanyArgs = {
   input: CreateOneCompanyInput;
 };
 
-
 export type MutationCreateOneCompanyNoteArgs = {
   input: CreateOneCompanyNoteInput;
 };
-
 
 export type MutationCreateOneContactArgs = {
   input: CreateOneContactInput;
 };
 
-
 export type MutationCreateOneContactNoteArgs = {
   input: CreateOneContactNoteInput;
 };
-
 
 export type MutationCreateOneDealArgs = {
   input: CreateOneDealInput;
 };
 
-
 export type MutationCreateOneDealStageArgs = {
   input: CreateOneDealStageInput;
 };
-
 
 export type MutationCreateOneEventArgs = {
   input: CreateOneEventInput;
 };
 
-
 export type MutationCreateOneEventCategoryArgs = {
   input: CreateOneEventCategoryInput;
 };
-
 
 export type MutationCreateOneQuoteArgs = {
   input: CreateOneQuoteInput;
 };
 
-
 export type MutationCreateOneTaskArgs = {
   input: CreateOneTaskInput;
 };
-
 
 export type MutationCreateOneTaskCommentArgs = {
   input: CreateOneTaskCommentInput;
 };
 
-
 export type MutationCreateOneTaskStageArgs = {
   input: CreateOneTaskStageInput;
 };
-
 
 export type MutationCreateOneUserArgs = {
   input: CreateOneUserInput;
 };
 
-
 export type MutationDeleteManyCompaniesArgs = {
   input: DeleteManyCompaniesInput;
 };
-
 
 export type MutationDeleteManyCompanyNotesArgs = {
   input: DeleteManyCompanyNotesInput;
 };
 
-
 export type MutationDeleteManyContactNotesArgs = {
   input: DeleteManyContactNotesInput;
 };
-
 
 export type MutationDeleteManyContactsArgs = {
   input: DeleteManyContactsInput;
 };
 
-
 export type MutationDeleteManyDealStagesArgs = {
   input: DeleteManyDealStagesInput;
 };
-
 
 export type MutationDeleteManyDealsArgs = {
   input: DeleteManyDealsInput;
 };
 
-
 export type MutationDeleteManyEventCategoriesArgs = {
   input: DeleteManyEventCategoriesInput;
 };
-
 
 export type MutationDeleteManyEventsArgs = {
   input: DeleteManyEventsInput;
 };
 
-
 export type MutationDeleteManyQuotesArgs = {
   input: DeleteManyQuotesInput;
 };
-
 
 export type MutationDeleteManyTaskCommentsArgs = {
   input: DeleteManyTaskCommentsInput;
 };
 
-
 export type MutationDeleteManyTaskStagesArgs = {
   input: DeleteManyTaskStagesInput;
 };
-
 
 export type MutationDeleteManyTasksArgs = {
   input: DeleteManyTasksInput;
 };
 
-
 export type MutationDeleteManyUsersArgs = {
   input: DeleteManyUsersInput;
 };
-
 
 export type MutationDeleteOneCompanyArgs = {
   input: DeleteOneCompanyInput;
 };
 
-
 export type MutationDeleteOneCompanyNoteArgs = {
   input: DeleteOneCompanyNoteInput;
 };
-
 
 export type MutationDeleteOneContactArgs = {
   input: DeleteOneContactInput;
 };
 
-
 export type MutationDeleteOneContactNoteArgs = {
   input: DeleteOneContactNoteInput;
 };
-
 
 export type MutationDeleteOneDealArgs = {
   input: DeleteOneDealInput;
 };
 
-
 export type MutationDeleteOneDealStageArgs = {
   input: DeleteOneDealStageInput;
 };
-
 
 export type MutationDeleteOneEventArgs = {
   input: DeleteOneEventInput;
 };
 
-
 export type MutationDeleteOneEventCategoryArgs = {
   input: DeleteOneEventCategoryInput;
 };
-
 
 export type MutationDeleteOneQuoteArgs = {
   input: DeleteOneQuoteInput;
 };
 
-
 export type MutationDeleteOneTaskArgs = {
   input: DeleteOneTaskInput;
 };
-
 
 export type MutationDeleteOneTaskCommentArgs = {
   input: DeleteOneTaskCommentInput;
 };
 
-
 export type MutationDeleteOneTaskStageArgs = {
   input: DeleteOneTaskStageInput;
 };
-
 
 export type MutationDeleteOneUserArgs = {
   input: DeleteOneUserInput;
 };
 
-
 export type MutationLoginArgs = {
   loginInput: LoginInput;
 };
 
-
 export type MutationRefreshTokenArgs = {
-  refreshToken: Scalars['String']['input'];
+  refreshToken: Scalars["String"]["input"];
 };
-
 
 export type MutationRegisterArgs = {
   registerInput: RegisterInput;
 };
 
-
 export type MutationUpdateManyCompaniesArgs = {
   input: UpdateManyCompaniesInput;
 };
-
 
 export type MutationUpdateManyCompanyNotesArgs = {
   input: UpdateManyCompanyNotesInput;
 };
 
-
 export type MutationUpdateManyContactNotesArgs = {
   input: UpdateManyContactNotesInput;
 };
-
 
 export type MutationUpdateManyContactsArgs = {
   input: UpdateManyContactsInput;
 };
 
-
 export type MutationUpdateManyDealStagesArgs = {
   input: UpdateManyDealStagesInput;
 };
-
 
 export type MutationUpdateManyDealsArgs = {
   input: UpdateManyDealsInput;
 };
 
-
 export type MutationUpdateManyEventCategoriesArgs = {
   input: UpdateManyEventCategoriesInput;
 };
-
 
 export type MutationUpdateManyEventsArgs = {
   input: UpdateManyEventsInput;
 };
 
-
 export type MutationUpdateManyQuotesArgs = {
   input: UpdateManyQuotesInput;
 };
-
 
 export type MutationUpdateManyTaskCommentsArgs = {
   input: UpdateManyTaskCommentsInput;
 };
 
-
 export type MutationUpdateManyTaskStagesArgs = {
   input: UpdateManyTaskStagesInput;
 };
-
 
 export type MutationUpdateManyTasksArgs = {
   input: UpdateManyTasksInput;
 };
 
-
 export type MutationUpdateManyUsersArgs = {
   input: UpdateManyUsersInput;
 };
-
 
 export type MutationUpdateOneCompanyArgs = {
   input: UpdateOneCompanyInput;
 };
 
-
 export type MutationUpdateOneCompanyNoteArgs = {
   input: UpdateOneCompanyNoteInput;
 };
-
 
 export type MutationUpdateOneContactArgs = {
   input: UpdateOneContactInput;
 };
 
-
 export type MutationUpdateOneContactNoteArgs = {
   input: UpdateOneContactNoteInput;
 };
-
 
 export type MutationUpdateOneDealArgs = {
   input: UpdateOneDealInput;
 };
 
-
 export type MutationUpdateOneDealStageArgs = {
   input: UpdateOneDealStageInput;
 };
-
 
 export type MutationUpdateOneEventArgs = {
   input: UpdateOneEventInput;
 };
 
-
 export type MutationUpdateOneEventCategoryArgs = {
   input: UpdateOneEventCategoryInput;
 };
-
 
 export type MutationUpdateOneQuoteArgs = {
   input: UpdateOneQuoteInput;
 };
 
-
 export type MutationUpdateOneTaskArgs = {
   input: UpdateOneTaskInput;
 };
-
 
 export type MutationUpdateOneTaskCommentArgs = {
   input: UpdateOneTaskCommentInput;
 };
 
-
 export type MutationUpdateOneTaskStageArgs = {
   input: UpdateOneTaskStageInput;
 };
-
 
 export type MutationUpdateOneUserArgs = {
   input: UpdateOneUserInput;
@@ -2946,32 +2839,32 @@ export type MutationUpdateOneUserArgs = {
 
 export type NumberFieldComparison = {
   between?: InputMaybe<NumberFieldComparisonBetween>;
-  eq?: InputMaybe<Scalars['Float']['input']>;
-  gt?: InputMaybe<Scalars['Float']['input']>;
-  gte?: InputMaybe<Scalars['Float']['input']>;
-  in?: InputMaybe<Array<Scalars['Float']['input']>>;
-  is?: InputMaybe<Scalars['Boolean']['input']>;
-  isNot?: InputMaybe<Scalars['Boolean']['input']>;
-  lt?: InputMaybe<Scalars['Float']['input']>;
-  lte?: InputMaybe<Scalars['Float']['input']>;
-  neq?: InputMaybe<Scalars['Float']['input']>;
+  eq?: InputMaybe<Scalars["Float"]["input"]>;
+  gt?: InputMaybe<Scalars["Float"]["input"]>;
+  gte?: InputMaybe<Scalars["Float"]["input"]>;
+  in?: InputMaybe<Array<Scalars["Float"]["input"]>>;
+  is?: InputMaybe<Scalars["Boolean"]["input"]>;
+  isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
+  lt?: InputMaybe<Scalars["Float"]["input"]>;
+  lte?: InputMaybe<Scalars["Float"]["input"]>;
+  neq?: InputMaybe<Scalars["Float"]["input"]>;
   notBetween?: InputMaybe<NumberFieldComparisonBetween>;
-  notIn?: InputMaybe<Array<Scalars['Float']['input']>>;
+  notIn?: InputMaybe<Array<Scalars["Float"]["input"]>>;
 };
 
 export type NumberFieldComparisonBetween = {
-  lower: Scalars['Float']['input'];
-  upper: Scalars['Float']['input'];
+  lower: Scalars["Float"]["input"];
+  upper: Scalars["Float"]["input"];
 };
 
 export type OffsetPageInfo = {
-  hasNextPage?: Maybe<Scalars['Boolean']['output']>;
-  hasPreviousPage?: Maybe<Scalars['Boolean']['output']>;
+  hasNextPage?: Maybe<Scalars["Boolean"]["output"]>;
+  hasPreviousPage?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type OffsetPaging = {
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type Query = {
@@ -3010,11 +2903,9 @@ export type Query = {
   users: UserConnection;
 };
 
-
 export type QueryAuditArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
-
 
 export type QueryAuditsArgs = {
   filter?: AuditFilter;
@@ -3022,28 +2913,23 @@ export type QueryAuditsArgs = {
   sorting?: Array<AuditSort>;
 };
 
-
 export type QueryCompaniesArgs = {
   filter?: CompanyFilter;
   paging?: OffsetPaging;
   sorting?: Array<CompanySort>;
 };
 
-
 export type QueryCompanyArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
-
 
 export type QueryCompanyAggregateArgs = {
   filter?: InputMaybe<CompanyAggregateFilter>;
 };
 
-
 export type QueryCompanyNoteArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
-
 
 export type QueryCompanyNotesArgs = {
   filter?: CompanyNoteFilter;
@@ -3051,16 +2937,13 @@ export type QueryCompanyNotesArgs = {
   sorting?: Array<CompanyNoteSort>;
 };
 
-
 export type QueryContactArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
-
 
 export type QueryContactNoteArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
-
 
 export type QueryContactNotesArgs = {
   filter?: ContactNoteFilter;
@@ -3068,28 +2951,23 @@ export type QueryContactNotesArgs = {
   sorting?: Array<ContactNoteSort>;
 };
 
-
 export type QueryContactsArgs = {
   filter?: ContactFilter;
   paging?: OffsetPaging;
   sorting?: Array<ContactSort>;
 };
 
-
 export type QueryDealArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
-
 
 export type QueryDealAggregateArgs = {
   filter?: InputMaybe<DealAggregateFilter>;
 };
 
-
 export type QueryDealStageArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
-
 
 export type QueryDealStagesArgs = {
   filter?: DealStageFilter;
@@ -3097,18 +2975,15 @@ export type QueryDealStagesArgs = {
   sorting?: Array<DealStageSort>;
 };
 
-
 export type QueryDealsArgs = {
   filter?: DealFilter;
   paging?: OffsetPaging;
   sorting?: Array<DealSort>;
 };
 
-
 export type QueryEventArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
-
 
 export type QueryEventCategoriesArgs = {
   filter?: EventCategoryFilter;
@@ -3116,11 +2991,9 @@ export type QueryEventCategoriesArgs = {
   sorting?: Array<EventCategorySort>;
 };
 
-
 export type QueryEventCategoryArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
-
 
 export type QueryEventsArgs = {
   filter?: EventFilter;
@@ -3128,11 +3001,9 @@ export type QueryEventsArgs = {
   sorting?: Array<EventSort>;
 };
 
-
 export type QueryQuoteArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
-
 
 export type QueryQuotesArgs = {
   filter?: QuoteFilter;
@@ -3140,21 +3011,17 @@ export type QueryQuotesArgs = {
   sorting?: Array<QuoteSort>;
 };
 
-
 export type QueryTaskArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
-
 
 export type QueryTaskAggregateArgs = {
   filter?: InputMaybe<TaskAggregateFilter>;
 };
 
-
 export type QueryTaskCommentArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
-
 
 export type QueryTaskCommentsArgs = {
   filter?: TaskCommentFilter;
@@ -3162,16 +3029,13 @@ export type QueryTaskCommentsArgs = {
   sorting?: Array<TaskCommentSort>;
 };
 
-
 export type QueryTaskStageArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
-
 
 export type QueryTaskStageAggregateArgs = {
   filter?: InputMaybe<TaskStageAggregateFilter>;
 };
-
 
 export type QueryTaskStagesArgs = {
   filter?: TaskStageFilter;
@@ -3179,18 +3043,15 @@ export type QueryTaskStagesArgs = {
   sorting?: Array<TaskStageSort>;
 };
 
-
 export type QueryTasksArgs = {
   filter?: TaskFilter;
   paging?: OffsetPaging;
   sorting?: Array<TaskSort>;
 };
 
-
 export type QueryUserArgs = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
 };
-
 
 export type QueryUsersArgs = {
   filter?: UserFilter;
@@ -3201,32 +3062,32 @@ export type QueryUsersArgs = {
 export type Quote = {
   company: Company;
   contact: Contact;
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
-  description?: Maybe<Scalars['String']['output']>;
-  id: Scalars['ID']['output'];
+  description?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["ID"]["output"];
   items: Array<QuoteItem>;
   salesOwner: User;
   status: QuoteStatus;
-  subTotal: Scalars['Float']['output'];
-  tax: Scalars['Int']['output'];
-  title: Scalars['String']['output'];
-  total: Scalars['Float']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  subTotal: Scalars["Float"]["output"];
+  tax: Scalars["Int"]["output"];
+  title: Scalars["String"]["output"];
+  total: Scalars["Float"]["output"];
+  updatedAt: Scalars["DateTime"]["output"];
   updatedBy?: Maybe<User>;
 };
 
 export type QuoteConnection = {
   nodes: Array<Quote>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type QuoteCreateInput = {
-  companyId: Scalars['ID']['input'];
-  contactId: Scalars['ID']['input'];
-  salesOwnerId: Scalars['ID']['input'];
-  title: Scalars['String']['input'];
+  companyId: Scalars["ID"]["input"];
+  contactId: Scalars["ID"]["input"];
+  salesOwnerId: Scalars["ID"]["input"];
+  title: Scalars["String"]["input"];
 };
 
 export type QuoteDeleteFilter = {
@@ -3241,16 +3102,16 @@ export type QuoteDeleteFilter = {
 };
 
 export type QuoteDeleteResponse = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
   items?: Maybe<Array<QuoteItem>>;
   status?: Maybe<QuoteStatus>;
-  subTotal?: Maybe<Scalars['Float']['output']>;
-  tax?: Maybe<Scalars['Int']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  total?: Maybe<Scalars['Float']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  subTotal?: Maybe<Scalars["Float"]["output"]>;
+  tax?: Maybe<Scalars["Int"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  total?: Maybe<Scalars["Float"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type QuoteFilter = {
@@ -3315,18 +3176,18 @@ export type QuoteFilterUserFilter = {
 };
 
 export type QuoteItem = {
-  discount: Scalars['Int']['output'];
-  quantity: Scalars['Int']['output'];
-  title: Scalars['String']['output'];
-  totalPrice: Scalars['Float']['output'];
-  unitPrice: Scalars['Float']['output'];
+  discount: Scalars["Int"]["output"];
+  quantity: Scalars["Int"]["output"];
+  title: Scalars["String"]["output"];
+  totalPrice: Scalars["Float"]["output"];
+  unitPrice: Scalars["Float"]["output"];
 };
 
 export type QuoteItemInput = {
-  discount: Scalars['Int']['input'];
-  quantity: Scalars['Int']['input'];
-  title: Scalars['String']['input'];
-  unitPrice: Scalars['Float']['input'];
+  discount: Scalars["Int"]["input"];
+  quantity: Scalars["Int"]["input"];
+  title: Scalars["String"]["input"];
+  unitPrice: Scalars["Float"]["input"];
 };
 
 export type QuoteSort = {
@@ -3336,17 +3197,14 @@ export type QuoteSort = {
 };
 
 export type QuoteSortFields =
-  | 'createdAt'
-  | 'id'
-  | 'status'
-  | 'title'
-  | 'total'
-  | 'updatedAt';
+  | "createdAt"
+  | "id"
+  | "status"
+  | "title"
+  | "total"
+  | "updatedAt";
 
-export type QuoteStatus =
-  | 'ACCEPTED'
-  | 'DRAFT'
-  | 'SENT';
+export type QuoteStatus = "ACCEPTED" | "DRAFT" | "SENT";
 
 export type QuoteStatusFilterComparison = {
   eq?: InputMaybe<QuoteStatus>;
@@ -3354,8 +3212,8 @@ export type QuoteStatusFilterComparison = {
   gte?: InputMaybe<QuoteStatus>;
   iLike?: InputMaybe<QuoteStatus>;
   in?: InputMaybe<Array<QuoteStatus>>;
-  is?: InputMaybe<Scalars['Boolean']['input']>;
-  isNot?: InputMaybe<Scalars['Boolean']['input']>;
+  is?: InputMaybe<Scalars["Boolean"]["input"]>;
+  isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
   like?: InputMaybe<QuoteStatus>;
   lt?: InputMaybe<QuoteStatus>;
   lte?: InputMaybe<QuoteStatus>;
@@ -3388,50 +3246,42 @@ export type QuoteUpdateFilter = {
 };
 
 export type QuoteUpdateInput = {
-  companyId?: InputMaybe<Scalars['ID']['input']>;
-  contactId?: InputMaybe<Scalars['ID']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
+  companyId?: InputMaybe<Scalars["ID"]["input"]>;
+  contactId?: InputMaybe<Scalars["ID"]["input"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
   items?: InputMaybe<Array<QuoteItemInput>>;
-  salesOwnerId?: InputMaybe<Scalars['ID']['input']>;
+  salesOwnerId?: InputMaybe<Scalars["ID"]["input"]>;
   status?: InputMaybe<QuoteStatus>;
-  tax?: InputMaybe<Scalars['Int']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
+  tax?: InputMaybe<Scalars["Int"]["input"]>;
+  title?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type RegisterInput = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
+  email: Scalars["String"]["input"];
+  password: Scalars["String"]["input"];
 };
 
-export type Role =
-  | 'ADMIN'
-  | 'SALES_INTERN'
-  | 'SALES_MANAGER'
-  | 'SALES_PERSON';
+export type Role = "ADMIN" | "SALES_INTERN" | "SALES_MANAGER" | "SALES_PERSON";
 
-export type SortDirection =
-  | 'ASC'
-  | 'DESC';
+export type SortDirection = "ASC" | "DESC";
 
-export type SortNulls =
-  | 'NULLS_FIRST'
-  | 'NULLS_LAST';
+export type SortNulls = "NULLS_FIRST" | "NULLS_LAST";
 
 export type StringFieldComparison = {
-  eq?: InputMaybe<Scalars['String']['input']>;
-  gt?: InputMaybe<Scalars['String']['input']>;
-  gte?: InputMaybe<Scalars['String']['input']>;
-  iLike?: InputMaybe<Scalars['String']['input']>;
-  in?: InputMaybe<Array<Scalars['String']['input']>>;
-  is?: InputMaybe<Scalars['Boolean']['input']>;
-  isNot?: InputMaybe<Scalars['Boolean']['input']>;
-  like?: InputMaybe<Scalars['String']['input']>;
-  lt?: InputMaybe<Scalars['String']['input']>;
-  lte?: InputMaybe<Scalars['String']['input']>;
-  neq?: InputMaybe<Scalars['String']['input']>;
-  notILike?: InputMaybe<Scalars['String']['input']>;
-  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
-  notLike?: InputMaybe<Scalars['String']['input']>;
+  eq?: InputMaybe<Scalars["String"]["input"]>;
+  gt?: InputMaybe<Scalars["String"]["input"]>;
+  gte?: InputMaybe<Scalars["String"]["input"]>;
+  iLike?: InputMaybe<Scalars["String"]["input"]>;
+  in?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  is?: InputMaybe<Scalars["Boolean"]["input"]>;
+  isNot?: InputMaybe<Scalars["Boolean"]["input"]>;
+  like?: InputMaybe<Scalars["String"]["input"]>;
+  lt?: InputMaybe<Scalars["String"]["input"]>;
+  lte?: InputMaybe<Scalars["String"]["input"]>;
+  neq?: InputMaybe<Scalars["String"]["input"]>;
+  notILike?: InputMaybe<Scalars["String"]["input"]>;
+  notIn?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  notLike?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type Subscription = {
@@ -3507,211 +3357,169 @@ export type Subscription = {
   updatedOneUser: User;
 };
 
-
 export type SubscriptionCreatedAuditArgs = {
   input?: InputMaybe<CreateAuditSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionCreatedCompanyArgs = {
   input?: InputMaybe<CreateCompanySubscriptionFilterInput>;
 };
 
-
 export type SubscriptionCreatedCompanyNoteArgs = {
   input?: InputMaybe<CreateCompanyNoteSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionCreatedContactArgs = {
   input?: InputMaybe<CreateContactSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionCreatedContactNoteArgs = {
   input?: InputMaybe<CreateContactNoteSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionCreatedDealArgs = {
   input?: InputMaybe<CreateDealSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionCreatedDealStageArgs = {
   input?: InputMaybe<CreateDealStageSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionCreatedEventArgs = {
   input?: InputMaybe<CreateEventSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionCreatedEventCategoryArgs = {
   input?: InputMaybe<CreateEventCategorySubscriptionFilterInput>;
 };
-
 
 export type SubscriptionCreatedQuoteArgs = {
   input?: InputMaybe<CreateQuoteSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionCreatedTaskArgs = {
   input?: InputMaybe<CreateTaskSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionCreatedTaskCommentArgs = {
   input?: InputMaybe<CreateTaskCommentSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionCreatedTaskStageArgs = {
   input?: InputMaybe<CreateTaskStageSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionCreatedUserArgs = {
   input?: InputMaybe<CreateUserSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionDeletedOneAuditArgs = {
   input?: InputMaybe<DeleteOneAuditSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionDeletedOneCompanyArgs = {
   input?: InputMaybe<DeleteOneCompanySubscriptionFilterInput>;
 };
 
-
 export type SubscriptionDeletedOneCompanyNoteArgs = {
   input?: InputMaybe<DeleteOneCompanyNoteSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionDeletedOneContactArgs = {
   input?: InputMaybe<DeleteOneContactSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionDeletedOneContactNoteArgs = {
   input?: InputMaybe<DeleteOneContactNoteSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionDeletedOneDealArgs = {
   input?: InputMaybe<DeleteOneDealSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionDeletedOneDealStageArgs = {
   input?: InputMaybe<DeleteOneDealStageSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionDeletedOneEventArgs = {
   input?: InputMaybe<DeleteOneEventSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionDeletedOneEventCategoryArgs = {
   input?: InputMaybe<DeleteOneEventCategorySubscriptionFilterInput>;
 };
-
 
 export type SubscriptionDeletedOneQuoteArgs = {
   input?: InputMaybe<DeleteOneQuoteSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionDeletedOneTaskArgs = {
   input?: InputMaybe<DeleteOneTaskSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionDeletedOneTaskCommentArgs = {
   input?: InputMaybe<DeleteOneTaskCommentSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionDeletedOneTaskStageArgs = {
   input?: InputMaybe<DeleteOneTaskStageSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionDeletedOneUserArgs = {
   input?: InputMaybe<DeleteOneUserSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionUpdatedOneAuditArgs = {
   input?: InputMaybe<UpdateOneAuditSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionUpdatedOneCompanyArgs = {
   input?: InputMaybe<UpdateOneCompanySubscriptionFilterInput>;
 };
 
-
 export type SubscriptionUpdatedOneCompanyNoteArgs = {
   input?: InputMaybe<UpdateOneCompanyNoteSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionUpdatedOneContactArgs = {
   input?: InputMaybe<UpdateOneContactSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionUpdatedOneContactNoteArgs = {
   input?: InputMaybe<UpdateOneContactNoteSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionUpdatedOneDealArgs = {
   input?: InputMaybe<UpdateOneDealSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionUpdatedOneDealStageArgs = {
   input?: InputMaybe<UpdateOneDealStageSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionUpdatedOneEventArgs = {
   input?: InputMaybe<UpdateOneEventSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionUpdatedOneEventCategoryArgs = {
   input?: InputMaybe<UpdateOneEventCategorySubscriptionFilterInput>;
 };
-
 
 export type SubscriptionUpdatedOneQuoteArgs = {
   input?: InputMaybe<UpdateOneQuoteSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionUpdatedOneTaskArgs = {
   input?: InputMaybe<UpdateOneTaskSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionUpdatedOneTaskCommentArgs = {
   input?: InputMaybe<UpdateOneTaskCommentSubscriptionFilterInput>;
 };
 
-
 export type SubscriptionUpdatedOneTaskStageArgs = {
   input?: InputMaybe<UpdateOneTaskStageSubscriptionFilterInput>;
 };
-
 
 export type SubscriptionUpdatedOneUserArgs = {
   input?: InputMaybe<UpdateOneUserSubscriptionFilterInput>;
@@ -3721,21 +3529,20 @@ export type Task = {
   checklist: Array<CheckListItem>;
   comments: TaskCommentsConnection;
   commentsAggregate: Array<TaskCommentsAggregateResponse>;
-  completed: Scalars['Boolean']['output'];
-  createdAt: Scalars['DateTime']['output'];
+  completed: Scalars["Boolean"]["output"];
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
-  description?: Maybe<Scalars['String']['output']>;
-  dueDate?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['ID']['output'];
+  description?: Maybe<Scalars["String"]["output"]>;
+  dueDate?: Maybe<Scalars["DateTime"]["output"]>;
+  id: Scalars["ID"]["output"];
   stage?: Maybe<TaskStage>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title: Scalars['String']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title: Scalars["String"]["output"];
+  updatedAt: Scalars["DateTime"]["output"];
   updatedBy?: Maybe<User>;
   users: Array<User>;
   usersAggregate: Array<TaskUsersAggregateResponse>;
 };
-
 
 export type TaskCommentsArgs = {
   filter?: TaskCommentFilter;
@@ -3743,17 +3550,14 @@ export type TaskCommentsArgs = {
   sorting?: Array<TaskCommentSort>;
 };
 
-
 export type TaskCommentsAggregateArgs = {
   filter?: InputMaybe<TaskCommentAggregateFilter>;
 };
-
 
 export type TaskUsersArgs = {
   filter?: UserFilter;
   sorting?: Array<UserSort>;
 };
-
 
 export type TaskUsersAggregateArgs = {
   filter?: InputMaybe<UserAggregateFilter>;
@@ -3773,26 +3577,23 @@ export type TaskAggregateFilter = {
 };
 
 export type TaskAggregateGroupBy = {
-  completed?: Maybe<Scalars['Boolean']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  dueDate?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  completed?: Maybe<Scalars["Boolean"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  dueDate?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
-
 
 export type TaskAggregateGroupByCreatedAtArgs = {
   by?: GroupBy;
 };
 
-
 export type TaskAggregateGroupByDueDateArgs = {
   by?: GroupBy;
 };
-
 
 export type TaskAggregateGroupByUpdatedAtArgs = {
   by?: GroupBy;
@@ -3808,17 +3609,17 @@ export type TaskAggregateResponse = {
 };
 
 export type TaskAvgAggregate = {
-  id?: Maybe<Scalars['Float']['output']>;
-  stageId?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars["Float"]["output"]>;
+  stageId?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type TaskComment = {
-  comment: Scalars['String']['output'];
-  createdAt: Scalars['DateTime']['output'];
+  comment: Scalars["String"]["output"];
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
-  id: Scalars['ID']['output'];
+  id: Scalars["ID"]["output"];
   task: Task;
-  updatedAt: Scalars['DateTime']['output'];
+  updatedAt: Scalars["DateTime"]["output"];
   updatedBy?: Maybe<User>;
 };
 
@@ -3833,12 +3634,12 @@ export type TaskCommentAggregateFilter = {
 export type TaskCommentConnection = {
   nodes: Array<TaskComment>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type TaskCommentCreateInput = {
-  comment: Scalars['String']['input'];
-  taskId: Scalars['ID']['input'];
+  comment: Scalars["String"]["input"];
+  taskId: Scalars["ID"]["input"];
 };
 
 export type TaskCommentDeleteFilter = {
@@ -3850,10 +3651,10 @@ export type TaskCommentDeleteFilter = {
 };
 
 export type TaskCommentDeleteResponse = {
-  comment?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  comment?: Maybe<Scalars["String"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type TaskCommentFilter = {
@@ -3900,10 +3701,7 @@ export type TaskCommentSort = {
   nulls?: InputMaybe<SortNulls>;
 };
 
-export type TaskCommentSortFields =
-  | 'createdAt'
-  | 'id'
-  | 'updatedAt';
+export type TaskCommentSortFields = "createdAt" | "id" | "updatedAt";
 
 export type TaskCommentSubscriptionFilter = {
   and?: InputMaybe<Array<TaskCommentSubscriptionFilter>>;
@@ -3922,13 +3720,13 @@ export type TaskCommentUpdateFilter = {
 };
 
 export type TaskCommentUpdateInput = {
-  comment: Scalars['String']['input'];
+  comment: Scalars["String"]["input"];
 };
 
 export type TaskCommentsAggregateGroupBy = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type TaskCommentsAggregateResponse = {
@@ -3941,61 +3739,61 @@ export type TaskCommentsAggregateResponse = {
 };
 
 export type TaskCommentsAvgAggregate = {
-  id?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type TaskCommentsConnection = {
   nodes: Array<TaskComment>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type TaskCommentsCountAggregate = {
-  createdAt?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['Int']['output']>;
+  createdAt?: Maybe<Scalars["Int"]["output"]>;
+  id?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type TaskCommentsMaxAggregate = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type TaskCommentsMinAggregate = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type TaskCommentsSumAggregate = {
-  id?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type TaskConnection = {
   nodes: Array<Task>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type TaskCountAggregate = {
-  completed?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['Int']['output']>;
-  description?: Maybe<Scalars['Int']['output']>;
-  dueDate?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  stageId?: Maybe<Scalars['Int']['output']>;
-  title?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['Int']['output']>;
+  completed?: Maybe<Scalars["Int"]["output"]>;
+  createdAt?: Maybe<Scalars["Int"]["output"]>;
+  description?: Maybe<Scalars["Int"]["output"]>;
+  dueDate?: Maybe<Scalars["Int"]["output"]>;
+  id?: Maybe<Scalars["Int"]["output"]>;
+  stageId?: Maybe<Scalars["Int"]["output"]>;
+  title?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type TaskCreateInput = {
   checklist?: InputMaybe<Array<ChecklistItemInput>>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  dueDate?: InputMaybe<Scalars['DateTime']['input']>;
-  stageId?: InputMaybe<Scalars['Float']['input']>;
-  title: Scalars['String']['input'];
-  userIds?: InputMaybe<Array<Scalars['ID']['input']>>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  dueDate?: InputMaybe<Scalars["DateTime"]["input"]>;
+  stageId?: InputMaybe<Scalars["Float"]["input"]>;
+  title: Scalars["String"]["input"];
+  userIds?: InputMaybe<Array<Scalars["ID"]["input"]>>;
 };
 
 export type TaskDeleteFilter = {
@@ -4013,14 +3811,14 @@ export type TaskDeleteFilter = {
 
 export type TaskDeleteResponse = {
   checklist?: Maybe<Array<CheckListItem>>;
-  completed?: Maybe<Scalars['Boolean']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  dueDate?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  completed?: Maybe<Scalars["Boolean"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  dueDate?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type TaskFilter = {
@@ -4072,23 +3870,23 @@ export type TaskFilterUserFilter = {
 };
 
 export type TaskMaxAggregate = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  dueDate?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  dueDate?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type TaskMinAggregate = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  dueDate?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  dueDate?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type TaskSort = {
@@ -4098,32 +3896,30 @@ export type TaskSort = {
 };
 
 export type TaskSortFields =
-  | 'completed'
-  | 'createdAt'
-  | 'description'
-  | 'dueDate'
-  | 'id'
-  | 'stageId'
-  | 'title'
-  | 'updatedAt';
+  | "completed"
+  | "createdAt"
+  | "description"
+  | "dueDate"
+  | "id"
+  | "stageId"
+  | "title"
+  | "updatedAt";
 
 export type TaskStage = {
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars["DateTime"]["output"];
   createdBy: User;
-  id: Scalars['ID']['output'];
+  id: Scalars["ID"]["output"];
   tasks: Array<Task>;
   tasksAggregate: Array<TaskStageTasksAggregateResponse>;
-  title: Scalars['String']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  title: Scalars["String"]["output"];
+  updatedAt: Scalars["DateTime"]["output"];
   updatedBy?: Maybe<User>;
 };
-
 
 export type TaskStageTasksArgs = {
   filter?: TaskFilter;
   sorting?: Array<TaskSort>;
 };
-
 
 export type TaskStageTasksAggregateArgs = {
   filter?: InputMaybe<TaskAggregateFilter>;
@@ -4139,17 +3935,15 @@ export type TaskStageAggregateFilter = {
 };
 
 export type TaskStageAggregateGroupBy = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
-
 
 export type TaskStageAggregateGroupByCreatedAtArgs = {
   by?: GroupBy;
 };
-
 
 export type TaskStageAggregateGroupByUpdatedAtArgs = {
   by?: GroupBy;
@@ -4165,24 +3959,24 @@ export type TaskStageAggregateResponse = {
 };
 
 export type TaskStageAvgAggregate = {
-  id?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type TaskStageConnection = {
   nodes: Array<TaskStage>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type TaskStageCountAggregate = {
-  createdAt?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  title?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['Int']['output']>;
+  createdAt?: Maybe<Scalars["Int"]["output"]>;
+  id?: Maybe<Scalars["Int"]["output"]>;
+  title?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type TaskStageCreateInput = {
-  title: Scalars['String']['input'];
+  title: Scalars["String"]["input"];
 };
 
 export type TaskStageDeleteFilter = {
@@ -4195,10 +3989,10 @@ export type TaskStageDeleteFilter = {
 };
 
 export type TaskStageDeleteResponse = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type TaskStageFilter = {
@@ -4227,17 +4021,17 @@ export type TaskStageFilterUserFilter = {
 };
 
 export type TaskStageMaxAggregate = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type TaskStageMinAggregate = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type TaskStageSort = {
@@ -4246,11 +4040,7 @@ export type TaskStageSort = {
   nulls?: InputMaybe<SortNulls>;
 };
 
-export type TaskStageSortFields =
-  | 'createdAt'
-  | 'id'
-  | 'title'
-  | 'updatedAt';
+export type TaskStageSortFields = "createdAt" | "id" | "title" | "updatedAt";
 
 export type TaskStageSubscriptionFilter = {
   and?: InputMaybe<Array<TaskStageSubscriptionFilter>>;
@@ -4262,18 +4052,18 @@ export type TaskStageSubscriptionFilter = {
 };
 
 export type TaskStageSumAggregate = {
-  id?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type TaskStageTasksAggregateGroupBy = {
-  completed?: Maybe<Scalars['Boolean']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  dueDate?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  completed?: Maybe<Scalars["Boolean"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  dueDate?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type TaskStageTasksAggregateResponse = {
@@ -4286,44 +4076,44 @@ export type TaskStageTasksAggregateResponse = {
 };
 
 export type TaskStageTasksAvgAggregate = {
-  id?: Maybe<Scalars['Float']['output']>;
-  stageId?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars["Float"]["output"]>;
+  stageId?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type TaskStageTasksCountAggregate = {
-  completed?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['Int']['output']>;
-  description?: Maybe<Scalars['Int']['output']>;
-  dueDate?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  stageId?: Maybe<Scalars['Int']['output']>;
-  title?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['Int']['output']>;
+  completed?: Maybe<Scalars["Int"]["output"]>;
+  createdAt?: Maybe<Scalars["Int"]["output"]>;
+  description?: Maybe<Scalars["Int"]["output"]>;
+  dueDate?: Maybe<Scalars["Int"]["output"]>;
+  id?: Maybe<Scalars["Int"]["output"]>;
+  stageId?: Maybe<Scalars["Int"]["output"]>;
+  title?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type TaskStageTasksMaxAggregate = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  dueDate?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  dueDate?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type TaskStageTasksMinAggregate = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<Scalars['String']['output']>;
-  dueDate?: Maybe<Scalars['DateTime']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  stageId?: Maybe<Scalars['ID']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  dueDate?: Maybe<Scalars["DateTime"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  stageId?: Maybe<Scalars["ID"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type TaskStageTasksSumAggregate = {
-  id?: Maybe<Scalars['Float']['output']>;
-  stageId?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars["Float"]["output"]>;
+  stageId?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type TaskStageUpdateFilter = {
@@ -4336,7 +4126,7 @@ export type TaskStageUpdateFilter = {
 };
 
 export type TaskStageUpdateInput = {
-  title: Scalars['String']['input'];
+  title: Scalars["String"]["input"];
 };
 
 export type TaskSubscriptionFilter = {
@@ -4353,8 +4143,8 @@ export type TaskSubscriptionFilter = {
 };
 
 export type TaskSumAggregate = {
-  id?: Maybe<Scalars['Float']['output']>;
-  stageId?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars["Float"]["output"]>;
+  stageId?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type TaskUpdateFilter = {
@@ -4372,24 +4162,24 @@ export type TaskUpdateFilter = {
 
 export type TaskUpdateInput = {
   checklist?: InputMaybe<Array<ChecklistItemInput>>;
-  completed?: InputMaybe<Scalars['Boolean']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  dueDate?: InputMaybe<Scalars['DateTime']['input']>;
-  stageId?: InputMaybe<Scalars['ID']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
-  userIds?: InputMaybe<Array<Scalars['ID']['input']>>;
+  completed?: InputMaybe<Scalars["Boolean"]["input"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  dueDate?: InputMaybe<Scalars["DateTime"]["input"]>;
+  stageId?: InputMaybe<Scalars["ID"]["input"]>;
+  title?: InputMaybe<Scalars["String"]["input"]>;
+  userIds?: InputMaybe<Array<Scalars["ID"]["input"]>>;
 };
 
 export type TaskUsersAggregateGroupBy = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  jobTitle?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  phone?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  email?: Maybe<Scalars["String"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  jobTitle?: Maybe<Scalars["String"]["output"]>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  phone?: Maybe<Scalars["String"]["output"]>;
   role?: Maybe<Role>;
-  timezone?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  timezone?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type TaskUsersAggregateResponse = {
@@ -4402,47 +4192,47 @@ export type TaskUsersAggregateResponse = {
 };
 
 export type TaskUsersAvgAggregate = {
-  id?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type TaskUsersCountAggregate = {
-  createdAt?: Maybe<Scalars['Int']['output']>;
-  email?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  jobTitle?: Maybe<Scalars['Int']['output']>;
-  name?: Maybe<Scalars['Int']['output']>;
-  phone?: Maybe<Scalars['Int']['output']>;
-  role?: Maybe<Scalars['Int']['output']>;
-  timezone?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['Int']['output']>;
+  createdAt?: Maybe<Scalars["Int"]["output"]>;
+  email?: Maybe<Scalars["Int"]["output"]>;
+  id?: Maybe<Scalars["Int"]["output"]>;
+  jobTitle?: Maybe<Scalars["Int"]["output"]>;
+  name?: Maybe<Scalars["Int"]["output"]>;
+  phone?: Maybe<Scalars["Int"]["output"]>;
+  role?: Maybe<Scalars["Int"]["output"]>;
+  timezone?: Maybe<Scalars["Int"]["output"]>;
+  updatedAt?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type TaskUsersMaxAggregate = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  jobTitle?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  phone?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  email?: Maybe<Scalars["String"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  jobTitle?: Maybe<Scalars["String"]["output"]>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  phone?: Maybe<Scalars["String"]["output"]>;
   role?: Maybe<Role>;
-  timezone?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  timezone?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type TaskUsersMinAggregate = {
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  jobTitle?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  phone?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  email?: Maybe<Scalars["String"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  jobTitle?: Maybe<Scalars["String"]["output"]>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  phone?: Maybe<Scalars["String"]["output"]>;
   role?: Maybe<Role>;
-  timezone?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  timezone?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type TaskUsersSumAggregate = {
-  id?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars["Float"]["output"]>;
 };
 
 export type UpdateManyCompaniesInput = {
@@ -4491,7 +4281,7 @@ export type UpdateManyQuotesInput = {
 };
 
 export type UpdateManyResponse = {
-  updatedCount: Scalars['Int']['output'];
+  updatedCount: Scalars["Int"]["output"];
 };
 
 export type UpdateManyTaskCommentsInput = {
@@ -4519,12 +4309,12 @@ export type UpdateOneAuditSubscriptionFilterInput = {
 };
 
 export type UpdateOneCompanyInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
   update: CompanyUpdateInput;
 };
 
 export type UpdateOneCompanyNoteInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
   update: CompanyNoteUpdateInput;
 };
 
@@ -4537,12 +4327,12 @@ export type UpdateOneCompanySubscriptionFilterInput = {
 };
 
 export type UpdateOneContactInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
   update: ContactUpdateInput;
 };
 
 export type UpdateOneContactNoteInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
   update: ContactNoteUpdateInput;
 };
 
@@ -4555,12 +4345,12 @@ export type UpdateOneContactSubscriptionFilterInput = {
 };
 
 export type UpdateOneDealInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
   update: DealUpdateInput;
 };
 
 export type UpdateOneDealStageInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
   update: DealStageUpdateInput;
 };
 
@@ -4573,7 +4363,7 @@ export type UpdateOneDealSubscriptionFilterInput = {
 };
 
 export type UpdateOneEventCategoryInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
   update: EventCategoryUpdateInput;
 };
 
@@ -4582,7 +4372,7 @@ export type UpdateOneEventCategorySubscriptionFilterInput = {
 };
 
 export type UpdateOneEventInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
   update: EventUpdateInput;
 };
 
@@ -4591,7 +4381,7 @@ export type UpdateOneEventSubscriptionFilterInput = {
 };
 
 export type UpdateOneQuoteInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
   update: QuoteUpdateInput;
 };
 
@@ -4600,7 +4390,7 @@ export type UpdateOneQuoteSubscriptionFilterInput = {
 };
 
 export type UpdateOneTaskCommentInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
   update: TaskCommentUpdateInput;
 };
 
@@ -4609,12 +4399,12 @@ export type UpdateOneTaskCommentSubscriptionFilterInput = {
 };
 
 export type UpdateOneTaskInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
   update: TaskUpdateInput;
 };
 
 export type UpdateOneTaskStageInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
   update: TaskStageUpdateInput;
 };
 
@@ -4627,7 +4417,7 @@ export type UpdateOneTaskSubscriptionFilterInput = {
 };
 
 export type UpdateOneUserInput = {
-  id: Scalars['ID']['input'];
+  id: Scalars["ID"]["input"];
   update: UserUpdateInput;
 };
 
@@ -4636,25 +4426,24 @@ export type UpdateOneUserSubscriptionFilterInput = {
 };
 
 export type User = {
-  avatarUrl?: Maybe<Scalars['String']['output']>;
+  avatarUrl?: Maybe<Scalars["String"]["output"]>;
   companies: UserCompaniesConnection;
   contacts: UserContactsConnection;
-  createdAt: Scalars['DateTime']['output'];
+  createdAt: Scalars["DateTime"]["output"];
   createdBy?: Maybe<User>;
   deals: UserDealsConnection;
-  email: Scalars['String']['output'];
+  email: Scalars["String"]["output"];
   events: UserEventsConnection;
-  id: Scalars['ID']['output'];
-  jobTitle?: Maybe<Scalars['String']['output']>;
-  name: Scalars['String']['output'];
-  phone?: Maybe<Scalars['String']['output']>;
+  id: Scalars["ID"]["output"];
+  jobTitle?: Maybe<Scalars["String"]["output"]>;
+  name: Scalars["String"]["output"];
+  phone?: Maybe<Scalars["String"]["output"]>;
   role: Role;
   tasks: UserTasksConnection;
-  timezone?: Maybe<Scalars['String']['output']>;
-  updatedAt: Scalars['DateTime']['output'];
+  timezone?: Maybe<Scalars["String"]["output"]>;
+  updatedAt: Scalars["DateTime"]["output"];
   updatedBy?: Maybe<User>;
 };
-
 
 export type UserCompaniesArgs = {
   filter?: CompanyFilter;
@@ -4662,13 +4451,11 @@ export type UserCompaniesArgs = {
   sorting?: Array<CompanySort>;
 };
 
-
 export type UserContactsArgs = {
   filter?: ContactFilter;
   paging?: OffsetPaging;
   sorting?: Array<ContactSort>;
 };
-
 
 export type UserDealsArgs = {
   filter?: DealFilter;
@@ -4676,13 +4463,11 @@ export type UserDealsArgs = {
   sorting?: Array<DealSort>;
 };
 
-
 export type UserEventsArgs = {
   filter?: EventFilter;
   paging?: OffsetPaging;
   sorting?: Array<EventSort>;
 };
-
 
 export type UserTasksArgs = {
   filter?: TaskFilter;
@@ -4707,34 +4492,34 @@ export type UserAggregateFilter = {
 export type UserCompaniesConnection = {
   nodes: Array<Company>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type UserConnection = {
   nodes: Array<User>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type UserContactsConnection = {
   nodes: Array<Contact>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type UserCreateInput = {
-  email: Scalars['String']['input'];
-  jobTitle: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-  phone: Scalars['String']['input'];
+  email: Scalars["String"]["input"];
+  jobTitle: Scalars["String"]["input"];
+  name: Scalars["String"]["input"];
+  phone: Scalars["String"]["input"];
   role: Role;
-  timezone: Scalars['String']['input'];
+  timezone: Scalars["String"]["input"];
 };
 
 export type UserDealsConnection = {
   nodes: Array<Deal>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type UserDeleteFilter = {
@@ -4752,22 +4537,22 @@ export type UserDeleteFilter = {
 };
 
 export type UserDeleteResponse = {
-  avatarUrl?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  jobTitle?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  phone?: Maybe<Scalars['String']['output']>;
+  avatarUrl?: Maybe<Scalars["String"]["output"]>;
+  createdAt?: Maybe<Scalars["DateTime"]["output"]>;
+  email?: Maybe<Scalars["String"]["output"]>;
+  id?: Maybe<Scalars["ID"]["output"]>;
+  jobTitle?: Maybe<Scalars["String"]["output"]>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  phone?: Maybe<Scalars["String"]["output"]>;
   role?: Maybe<Role>;
-  timezone?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  timezone?: Maybe<Scalars["String"]["output"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]["output"]>;
 };
 
 export type UserEventsConnection = {
   nodes: Array<Event>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type UserFilter = {
@@ -4891,15 +4676,15 @@ export type UserSort = {
 };
 
 export type UserSortFields =
-  | 'createdAt'
-  | 'email'
-  | 'id'
-  | 'jobTitle'
-  | 'name'
-  | 'phone'
-  | 'role'
-  | 'timezone'
-  | 'updatedAt';
+  | "createdAt"
+  | "email"
+  | "id"
+  | "jobTitle"
+  | "name"
+  | "phone"
+  | "role"
+  | "timezone"
+  | "updatedAt";
 
 export type UserSubscriptionFilter = {
   and?: InputMaybe<Array<UserSubscriptionFilter>>;
@@ -4918,7 +4703,7 @@ export type UserSubscriptionFilter = {
 export type UserTasksConnection = {
   nodes: Array<Task>;
   pageInfo: OffsetPageInfo;
-  totalCount: Scalars['Int']['output'];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type UserUpdateFilter = {
@@ -4936,10 +4721,10 @@ export type UserUpdateFilter = {
 };
 
 export type UserUpdateInput = {
-  email?: InputMaybe<Scalars['String']['input']>;
-  jobTitle?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  phone?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars["String"]["input"]>;
+  jobTitle?: InputMaybe<Scalars["String"]["input"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
+  phone?: InputMaybe<Scalars["String"]["input"]>;
   role?: InputMaybe<Role>;
-  timezone?: InputMaybe<Scalars['String']['input']>;
+  timezone?: InputMaybe<Scalars["String"]["input"]>;
 };
