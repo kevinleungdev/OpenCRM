@@ -49,6 +49,29 @@ public class AuthController {
                 .user(user).build();
     }
 
+    @PreAuthorize("isAnonymous()")
+    @MutationMapping
+    public AuthResponse refreshToken(String refreshToken) {
+        Jwt jwt = jwtTokenService.parseToken(refreshToken);
+
+        String username = jwt.getSubject();
+        log.info("username: {}", username);
+
+        User user = userService.getUserByEmail(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(String.format("User %s not found!", username));
+        }
+
+        String newAccessToken = jwtTokenService.generateAccessToken(username, user.getAuthorities());
+        String newRefreshToken = jwtTokenService.generateRefreshToken(username);
+
+        return AuthResponse.builder()
+                .accessToken(newAccessToken)
+                .refreshToken(newRefreshToken)
+                .user(user)
+                .build();
+    }
+
     @PreAuthorize("isAuthenticated()")
     @QueryMapping
     public User me(@AuthenticationPrincipal(errorOnInvalidType = true) Jwt jwt) {
