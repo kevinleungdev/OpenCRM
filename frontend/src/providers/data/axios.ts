@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { refreshTokens, shouldRefreshToken } from "./refresh-token";
 
 export const axiosInstance = axios.create({
@@ -19,33 +19,47 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-axiosInstance.interceptors.response.use(async (response) => {
-  convertAxiosToFetchResponse(response);
+axiosInstance.interceptors.response.use(
+  async (response) => {
+    convertAxiosToFetchResponse(response);
 
-  const data = response?.data;
-  const errors = data?.errors;
-  const originalRequest = response.config as AxiosRequestConfig & {
-    _retry: boolean;
-  };
+    const data = response?.data;
+    const errors = data?.errors;
+    const originalRequest = response.config as AxiosRequestConfig & {
+      _retry: boolean;
+    };
 
-  // TODO: send the request to refresh token if the token was expired
-  if (errors) {
-    if (!shouldRefreshToken(response) && !originalRequest?._retry) {
-      const tokens = refreshTokens();
-      if (!tokens) throw errors;
+    // Refresh token if the current access token was expired
+    if (errors) {
+      if (shouldRefreshToken(response) && !originalRequest?._retry) {
+        const tokens = refreshTokens();
+        if (!tokens) throw errors;
 
-      // If the token refresh is successful, it sets `_retry = true` to indicate that the request is being retried
-      originalRequest._retry = true;
-      // re-sends the oringial request using
-      return axiosInstance(originalRequest);
+        // If the token refresh is successful, it sets `_retry = true` to indicate that the request is being retried
+        originalRequest._retry = true;
+        // re-sends the oringial request using
+        return axiosInstance(originalRequest);
+      }
+
+      setResponseOk(response, false);
+      throw errors;
     }
 
-    setResponseOk(response, false);
-    throw errors;
-  }
+    return response;
+  },
+  async (error: AxiosError) => {
+    if (error.status === 401) {
+      const refreshToken = localStorage.getItem("refresh_token");
+      if (!refreshToken) {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+      }
 
-  return response;
-});
+      const tokens = refreshTokens();
+      if (!tokens) console.log("error", error);
+    }
+  },
+);
 
 const convertAxiosToFetchResponse = (response: AxiosResponse) => {
   response.headers["forEach"] = function (callback: any) {

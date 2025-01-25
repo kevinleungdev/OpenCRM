@@ -18,7 +18,6 @@ import { ForgotPasswordPage } from "./routes/forgot-password";
 import { LoginPage } from "./routes/login";
 import { RegisterPage } from "./routes/register";
 import UpdatePasswordPage from "./routes/update-password";
-import { useAutoLoginForDemo } from "./hooks";
 import { FullscreenLoading } from "./components/fullscreen-loading";
 
 import "@/utilities/init-dayjs";
@@ -35,11 +34,10 @@ import {
 function App() {
   // This hook is used to automatically login the user.
   // We use this hook to skip the login page and demonstrate the application more quickly.
-  const { loading } = useAutoLoginForDemo();
-
-  if (loading) {
-    return <FullscreenLoading />;
-  }
+  // const { loading } = useAutoLoginForDemo();
+  // if (loading) {
+  //   return <FullscreenLoading />;
+  // }
 
   return (
     <BrowserRouter>

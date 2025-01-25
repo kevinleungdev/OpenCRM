@@ -1,6 +1,5 @@
 import { User } from "@/graphql/schema.types";
 import { LoginMutation, RegisterMutation } from "@/graphql/types";
-import { enableAutoLogin } from "@/hooks";
 import { client, dataProvider } from "@/providers/data";
 import { API_BASE_URL, API_URL } from "@/providers/urls";
 import { AuthProvider } from "@refinedev/core";
@@ -60,8 +59,6 @@ export const authProvider: AuthProvider = {
         Authorization: `Bearer ${response.login.accessToken}`,
       });
 
-      enableAutoLogin(email);
-
       localStorage.setItem("access_token", response.login.accessToken);
       localStorage.setItem("refresh_token", response.login.refreshToken);
 
@@ -85,8 +82,6 @@ export const authProvider: AuthProvider = {
         email,
         password,
       });
-
-      enableAutoLogin(email);
 
       return {
         success: true,
