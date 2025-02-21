@@ -1,7 +1,10 @@
 package com.opencrm.app.api;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Map.Entry;
 
 import org.springframework.data.domain.Page;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -17,6 +20,7 @@ import com.opencrm.app.api.output.company.ContactsAggregateResponse;
 import com.opencrm.app.api.output.company.DealsAggregateResponse;
 import com.opencrm.app.api.output.company.NotesAggregateResponse;
 import com.opencrm.app.model.Company;
+import com.opencrm.app.model.Contact;
 import com.opencrm.app.model.User;
 import com.opencrm.app.service.company.CompanyService;
 
@@ -44,7 +48,26 @@ public class CompanyController {
 
     @BatchMapping(typeName = "Company")
     public Map<Company, User> salesOwner(List<Company> companies) {
-        return companyService.batchFetchSalesOwners(companies);
+        Map<Company, User> results = companyService.batchFetchSalesOwners(companies);
+        return results;
+    }
+
+    @BatchMapping(typeName = "Company")
+    public Map<Company, ConnectionAdapter<Contact>> contacts(List<Company> companies) {
+        Map<Company, List<Contact>> contactsMap = companyService.batchFetchContacts(companies);
+
+        Map<Company, ConnectionAdapter<Contact>> results = new LinkedHashMap<>();
+        companies.forEach(company -> {
+            Optional<Entry<Company, List<Contact>>> contactsInCompany = contactsMap.entrySet().stream()
+                    .filter(entry -> entry.getKey().getId() == company.getId()).findFirst();
+            if (contactsInCompany.isPresent()) {
+                results.put(company, ConnectionAdapter.from(contactsInCompany.get().getValue()));
+            } else {
+                results.put(company, ConnectionAdapter.from(List.of()));
+            }
+        });
+
+        return results;
     }
 
     @BatchMapping(typeName = "Company")

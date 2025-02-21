@@ -30,4 +30,7 @@ public class Contact extends NameEntity {
 
     @Column
     private Integer score;
+
+    @Column
+    private Long companyId;
 }
