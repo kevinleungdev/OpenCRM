@@ -2,8 +2,16 @@
 
 <br />
 
-![SignIn](document/signin.png)
-![Dashboard](document/dashboard.png)
+<table>
+  <tr>
+    <td style="width: 50%;"><img src="document/signin.png" alt="SignIn" style="width: 100%; height: 200px;" /></td>
+    <td style="width: 50%;"><img src="document/dashboard.png" alt="Dashboard" style="width: 100%; height: 200px;" /></td>
+    </tr>
+    <tr>
+    <td style="width: 50%;"><img src="document/company01.png" alt="Company 01" style="width: 100%; height: 200px;" /></td>
+    <td style="width: 50%;"><img src="document/company02.png" alt="Company 02" style="width: 100%; height: 200px;" /></td>
+  </tr>
+</table>
 
 <br />
 
@@ -40,6 +48,48 @@ You can run the application with two ways:
 
 ### Run it in Gitpod
 
-Coming soon...
+TBC
 
 ### Running locally
+
+The server is implemented in the `backend` folder and can be started either from your IDE (`com.opencrm.app.Application`) or using gradle from the `backend` folder of the repository:
+
+```bash
+# Navigate to backend folder
+cd backend
+
+# Build the project
+./gradlew build
+
+# Run the application
+./gradlew bootRun
+
+# The server will start on http://localhost:8080
+```
+
+For Windows users, use `gradlew.bat` instead of `./gradlew`.
+
+Note: the server runs on port **8080**, so make sure, this port is available
+
+- You need to have docker installed. `docker-compose` needs to be in your path.
+- On startup the server use [Spring Boot docker compose support](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.docker-compose) to support the required postgres database.
+
+### Running the frontend
+
+You can install and start the frontend by using [pnpm](https://pnpm.io):
+
+```bash
+# Navigate to frontend folder
+cd ./frontend
+
+# Install all the dependencies
+pnpm install
+
+# Generate the graphql code, including types, queries and mutations
+pnpm codegen
+
+# Start the server in development mode
+pnpm dev
+
+# The running frontend can be accessed on [http://localhost:4000](http://localhost:4000)
+```
