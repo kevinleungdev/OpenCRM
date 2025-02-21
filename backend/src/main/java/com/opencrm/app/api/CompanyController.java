@@ -13,7 +13,9 @@ import com.opencrm.app.api.input.common.OffsetPaging;
 import com.opencrm.app.api.input.common.Sorting;
 import com.opencrm.app.api.input.company.CompanyFilter;
 import com.opencrm.app.api.output.ConnectionAdapter;
+import com.opencrm.app.api.output.company.ContactsAggregateResponse;
 import com.opencrm.app.api.output.company.DealsAggregateResponse;
+import com.opencrm.app.api.output.company.NotesAggregateResponse;
 import com.opencrm.app.model.Company;
 import com.opencrm.app.model.User;
 import com.opencrm.app.service.company.CompanyService;
@@ -43,6 +45,16 @@ public class CompanyController {
     @BatchMapping(typeName = "Company")
     public Map<Company, User> salesOwner(List<Company> companies) {
         return companyService.batchFetchSalesOwners(companies);
+    }
+
+    @BatchMapping(typeName = "Company")
+    public Map<Company, List<ContactsAggregateResponse>> contactsAggregate(List<Company> companies) {
+        return companyService.contactsAggregate(companies);
+    }
+
+    @BatchMapping(typeName = "Company")
+    public Map<Company, List<NotesAggregateResponse>> notesAggregate(List<Company> companies) {
+        return companyService.notesAggregate(companies);
     }
 
     @BatchMapping(typeName = "Company")

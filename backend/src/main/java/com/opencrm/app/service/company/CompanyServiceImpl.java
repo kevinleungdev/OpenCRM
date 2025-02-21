@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.opencrm.app.api.output.company.ContactsAggregateResponse;
 import com.opencrm.app.api.output.company.DealsAggregateResponse;
+import com.opencrm.app.api.output.company.NotesAggregateResponse;
 import com.opencrm.app.model.Company;
 import com.opencrm.app.model.User;
 import com.opencrm.app.repository.CompanyRepository;
@@ -66,5 +68,23 @@ public class CompanyServiceImpl extends BaseServiceImpl<Company, Long, CompanyRe
             }
         });
         return dealsAggregate;
+    }
+
+    @Override
+    public Map<Company, List<ContactsAggregateResponse>> contactsAggregate(List<Company> companies) {
+        // Only return an empty map for now
+        Map<Company, List<ContactsAggregateResponse>> contactsAggregate = new LinkedHashMap<>();
+        companies.forEach(company -> contactsAggregate.put(company, List.of()));
+
+        return contactsAggregate;
+    }
+
+    @Override
+    public Map<Company, List<NotesAggregateResponse>> notesAggregate(List<Company> companies) {
+        // Only return an empty map for now
+        Map<Company, List<NotesAggregateResponse>> notesAggregate = new LinkedHashMap<>();
+        companies.forEach(company -> notesAggregate.put(company, List.of()));
+
+        return notesAggregate;
     }
 }

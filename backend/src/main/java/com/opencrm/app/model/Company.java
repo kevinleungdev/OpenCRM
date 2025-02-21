@@ -3,7 +3,9 @@ package com.opencrm.app.model;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.opencrm.app.api.output.company.ContactsAggregateResponse;
 import com.opencrm.app.api.output.company.DealsAggregateResponse;
+import com.opencrm.app.api.output.company.NotesAggregateResponse;
 import com.opencrm.app.model.enums.BusinessTypeEnum;
 import com.opencrm.app.model.enums.CompanySizeEnum;
 
@@ -53,6 +55,12 @@ public class Company extends NameEntity {
 
     @Transient
     private User salesOwner;
+
+    @Transient
+    private List<ContactsAggregateResponse> contactsAggregate;
+
+    @Transient
+    private List<NotesAggregateResponse> notesAggregate;
 
     @Transient
     private List<DealsAggregateResponse> dealsAggregate;
