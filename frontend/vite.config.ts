@@ -56,9 +56,13 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
     server: {
       port: 4000,
       proxy: {
-        "/api": {
-          target: "http://localhost:9000",
+        "/graphql": {
+          target: "http://localhost:8080",
           changeOrigin: true,
+        },
+        "/graphqlws": {
+          target: "ws://localhost:8080",
+          ws: true,
         },
       },
       host: "0.0.0.0",

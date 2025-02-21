@@ -16,7 +16,7 @@ import { DASHBOARD_TOTAL_COUNTS_QUERY } from "./queries";
 export const DashboardPage: React.FC = () => {
   const { data, isLoading } = useCustom<DashboardTotalCountsQuery>({
     url: "",
-    method: "get",
+    method: "post",
     meta: { gqlQuery: DASHBOARD_TOTAL_COUNTS_QUERY },
   });
 

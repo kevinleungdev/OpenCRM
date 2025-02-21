@@ -1,0 +1,4685 @@
+type ContactNote {
+  id: ID!
+  note: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  createdBy: User!
+  updatedBy: User
+  contact: Contact!
+}
+
+# A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+scalar DateTime
+
+type DealStage {
+  id: ID!
+  title: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  dealsAggregate(
+    # Filter to find records to aggregate on
+    filter: DealAggregateFilter
+  ): [DealStageDealsAggregateResponse!]!
+  createdBy: User!
+  updatedBy: User
+  deals(
+    # Specify to filter the records returned.
+    filter: DealFilter! = { createdAt: { gt: "2024-05-28T08:09:53.199Z" } }
+
+    # Specify to sort results.
+    sorting: [DealSort!]! = []
+  ): [Deal!]!
+}
+
+input DealAggregateFilter {
+  and: [DealAggregateFilter!]
+  or: [DealAggregateFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  value: FloatFieldComparison
+  closeDateYear: IntFieldComparison
+  closeDateMonth: IntFieldComparison
+  closeDateDay: IntFieldComparison
+  stageId: IDFilterComparison
+  dealOwnerId: IDFilterComparison
+  companyId: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input IDFilterComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: ID
+  neq: ID
+  gt: ID
+  gte: ID
+  lt: ID
+  lte: ID
+  like: ID
+  notLike: ID
+  iLike: ID
+  notILike: ID
+  in: [ID!]
+  notIn: [ID!]
+}
+
+input StringFieldComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: String
+  neq: String
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  like: String
+  notLike: String
+  iLike: String
+  notILike: String
+  in: [String!]
+  notIn: [String!]
+}
+
+input FloatFieldComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: Float
+  neq: Float
+  gt: Float
+  gte: Float
+  lt: Float
+  lte: Float
+  in: [Float!]
+  notIn: [Float!]
+  between: FloatFieldComparisonBetween
+  notBetween: FloatFieldComparisonBetween
+}
+
+input FloatFieldComparisonBetween {
+  lower: Float!
+  upper: Float!
+}
+
+input IntFieldComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: Int
+  neq: Int
+  gt: Int
+  gte: Int
+  lt: Int
+  lte: Int
+  in: [Int!]
+  notIn: [Int!]
+  between: IntFieldComparisonBetween
+  notBetween: IntFieldComparisonBetween
+}
+
+input IntFieldComparisonBetween {
+  lower: Int!
+  upper: Int!
+}
+
+input DateFieldComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: DateTime
+  neq: DateTime
+  gt: DateTime
+  gte: DateTime
+  lt: DateTime
+  lte: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  between: DateFieldComparisonBetween
+  notBetween: DateFieldComparisonBetween
+}
+
+input DateFieldComparisonBetween {
+  lower: DateTime!
+  upper: DateTime!
+}
+
+input DealFilter {
+  and: [DealFilter!]
+  or: [DealFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  value: FloatFieldComparison
+  closeDateYear: IntFieldComparison
+  closeDateMonth: IntFieldComparison
+  closeDateDay: IntFieldComparison
+  stageId: IDFilterComparison
+  dealOwnerId: IDFilterComparison
+  companyId: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+  dealContact: DealFilterContactFilter
+  dealOwner: DealFilterUserFilter
+  stage: DealFilterDealStageFilter
+  company: DealFilterCompanyFilter
+  updatedBy: DealFilterUserFilter
+  createdBy: DealFilterUserFilter
+}
+
+input DealFilterContactFilter {
+  and: [DealFilterContactFilter!]
+  or: [DealFilterContactFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  stage: ContactStageFilterComparison
+  status: ContactStatusFilterComparison
+  score: IntFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input ContactStageFilterComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: ContactStage
+  neq: ContactStage
+  gt: ContactStage
+  gte: ContactStage
+  lt: ContactStage
+  lte: ContactStage
+  like: ContactStage
+  notLike: ContactStage
+  iLike: ContactStage
+  notILike: ContactStage
+  in: [ContactStage!]
+  notIn: [ContactStage!]
+}
+
+# Contact stage
+enum ContactStage {
+  LEAD
+  SALES_QUALIFIED_LEAD
+  CUSTOMER
+}
+
+input ContactStatusFilterComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: ContactStatus
+  neq: ContactStatus
+  gt: ContactStatus
+  gte: ContactStatus
+  lt: ContactStatus
+  lte: ContactStatus
+  like: ContactStatus
+  notLike: ContactStatus
+  iLike: ContactStatus
+  notILike: ContactStatus
+  in: [ContactStatus!]
+  notIn: [ContactStatus!]
+}
+
+# Contact status
+enum ContactStatus {
+  NEW
+  CONTACTED
+  INTERESTED
+  UNQUALIFIED
+  QUALIFIED
+  NEGOTIATION
+  LOST
+  WON
+  CHURNED
+}
+
+input DealFilterUserFilter {
+  and: [DealFilterUserFilter!]
+  or: [DealFilterUserFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UserRoleFilterComparison {
+  eq: Role
+  neq: Role
+  in: [Role!]
+  notIn: [Role!]
+}
+
+# Role
+enum Role {
+  ADMIN
+  SALES_MANAGER
+  SALES_PERSON
+  SALES_INTERN
+}
+
+input DealFilterDealStageFilter {
+  and: [DealFilterDealStageFilter!]
+  or: [DealFilterDealStageFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input DealFilterCompanyFilter {
+  and: [DealFilterCompanyFilter!]
+  or: [DealFilterCompanyFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  totalRevenue: IntFieldComparison
+  companySize: CompanyCompanySizeFilterComparison
+  industry: CompanyIndustryFilterComparison
+  businessType: CompanyBusinessTypeFilterComparison
+  country: StringFieldComparison
+  website: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CompanyCompanySizeFilterComparison {
+  eq: CompanySize
+  neq: CompanySize
+  in: [CompanySize!]
+  notIn: [CompanySize!]
+}
+
+# Company size
+enum CompanySize {
+  SMALL
+  MEDIUM
+  LARGE
+  ENTERPRISE
+}
+
+input CompanyIndustryFilterComparison {
+  eq: Industry
+  neq: Industry
+  in: [Industry!]
+  notIn: [Industry!]
+}
+
+# Industry
+enum Industry {
+  AEROSPACE
+  AGRICULTURE
+  AUTOMOTIVE
+  CHEMICALS
+  CONSTRUCTION
+  DEFENSE
+  EDUCATION
+  ENERGY
+  FINANCIAL_SERVICES
+  FOOD_AND_BEVERAGE
+  GOVERNMENT
+  HEALTHCARE
+  HOSPITALITY
+  INDUSTRIAL_MANUFACTURING
+  INSURANCE
+  LIFE_SCIENCES
+  LOGISTICS
+  MEDIA
+  MINING
+  NONPROFIT
+  PHARMACEUTICALS
+  PROFESSIONAL_SERVICES
+  REAL_ESTATE
+  RETAIL
+  TECHNOLOGY
+  TELECOMMUNICATIONS
+  TRANSPORTATION
+  UTILITIES
+  OTHER
+}
+
+input CompanyBusinessTypeFilterComparison {
+  eq: BusinessType
+  neq: BusinessType
+  in: [BusinessType!]
+  notIn: [BusinessType!]
+}
+
+# Business type
+enum BusinessType {
+  B2B
+  B2C
+  B2G
+}
+
+input DealSort {
+  field: DealSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum DealSortFields {
+  id
+  title
+  value
+  closeDateYear
+  closeDateMonth
+  closeDateDay
+  stageId
+  dealOwnerId
+  companyId
+  createdAt
+  updatedAt
+}
+
+# Sort Directions
+enum SortDirection {
+  ASC
+  DESC
+}
+
+# Sort Nulls Options
+enum SortNulls {
+  NULLS_FIRST
+  NULLS_LAST
+}
+
+type Deal {
+  id: ID!
+  title: String!
+  value: Float
+  notes: String!
+  closeDateYear: Int
+  closeDateMonth: Int
+  closeDateDay: Int
+  stageId: ID
+  dealOwnerId: ID!
+  companyId: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  createdBy: User!
+  updatedBy: User
+  company: Company!
+  stage: DealStage
+  dealOwner: User!
+  dealContact: Contact!
+}
+
+type Contact {
+  id: ID!
+  name: String!
+  email: String!
+  phone: String
+  jobTitle: String
+  timezone: String
+  avatarUrl: String
+  stage: ContactStage!
+  status: ContactStatus!
+  score: Int
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  createdBy: User!
+  updatedBy: User
+  salesOwner: User!
+  company: Company!
+  deals(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: DealFilter! = {}
+
+    # Specify to sort results.
+    sorting: [DealSort!]! = []
+  ): ContactDealsConnection!
+  notes(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: ContactNoteFilter! = {}
+
+    # Specify to sort results.
+    sorting: [ContactNoteSort!]! = []
+  ): ContactNotesConnection!
+}
+
+input OffsetPaging {
+  # Limit the number of records returned
+  limit: Int
+
+  # Offset to start returning records from
+  offset: Int
+}
+
+input ContactNoteFilter {
+  and: [ContactNoteFilter!]
+  or: [ContactNoteFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+  contact: ContactNoteFilterContactFilter
+  updatedBy: ContactNoteFilterUserFilter
+  createdBy: ContactNoteFilterUserFilter
+}
+
+input ContactNoteFilterContactFilter {
+  and: [ContactNoteFilterContactFilter!]
+  or: [ContactNoteFilterContactFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  stage: ContactStageFilterComparison
+  status: ContactStatusFilterComparison
+  score: IntFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input ContactNoteFilterUserFilter {
+  and: [ContactNoteFilterUserFilter!]
+  or: [ContactNoteFilterUserFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input ContactNoteSort {
+  field: ContactNoteSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum ContactNoteSortFields {
+  id
+  createdAt
+  updatedAt
+}
+
+type CompanyNote {
+  id: ID!
+  note: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  createdBy: User!
+  updatedBy: User
+  company: Company!
+}
+
+type Company {
+  id: ID!
+  name: String!
+  avatarUrl: String
+  totalRevenue: Int
+  companySize: CompanySize
+  industry: Industry
+  businessType: BusinessType
+  country: String
+  website: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  contactsAggregate(
+    # Filter to find records to aggregate on
+    filter: ContactAggregateFilter
+  ): [CompanyContactsAggregateResponse!]!
+  notesAggregate(
+    # Filter to find records to aggregate on
+    filter: CompanyNoteAggregateFilter
+  ): [CompanyNotesAggregateResponse!]!
+  dealsAggregate(
+    # Filter to find records to aggregate on
+    filter: DealAggregateFilter
+  ): [CompanyDealsAggregateResponse!]!
+  createdBy: User!
+  updatedBy: User
+  salesOwner: User!
+  contacts(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 50 }
+
+    # Specify to filter the records returned.
+    filter: ContactFilter! = {}
+
+    # Specify to sort results.
+    sorting: [ContactSort!]! = []
+  ): CompanyContactsConnection!
+  notes(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: CompanyNoteFilter! = {}
+
+    # Specify to sort results.
+    sorting: [CompanyNoteSort!]! = []
+  ): CompanyNotesConnection!
+  deals(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: DealFilter! = {}
+
+    # Specify to sort results.
+    sorting: [DealSort!]! = []
+  ): CompanyDealsConnection!
+}
+
+input ContactAggregateFilter {
+  and: [ContactAggregateFilter!]
+  or: [ContactAggregateFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  stage: ContactStageFilterComparison
+  status: ContactStatusFilterComparison
+  score: IntFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CompanyNoteAggregateFilter {
+  and: [CompanyNoteAggregateFilter!]
+  or: [CompanyNoteAggregateFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input ContactFilter {
+  and: [ContactFilter!]
+  or: [ContactFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  stage: ContactStageFilterComparison
+  status: ContactStatusFilterComparison
+  score: IntFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+  company: ContactFilterCompanyFilter
+  salesOwner: ContactFilterUserFilter
+  updatedBy: ContactFilterUserFilter
+  createdBy: ContactFilterUserFilter
+  notes: ContactFilterContactNoteFilter
+  deals: ContactFilterDealFilter
+}
+
+input ContactFilterCompanyFilter {
+  and: [ContactFilterCompanyFilter!]
+  or: [ContactFilterCompanyFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  totalRevenue: IntFieldComparison
+  companySize: CompanyCompanySizeFilterComparison
+  industry: CompanyIndustryFilterComparison
+  businessType: CompanyBusinessTypeFilterComparison
+  country: StringFieldComparison
+  website: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input ContactFilterUserFilter {
+  and: [ContactFilterUserFilter!]
+  or: [ContactFilterUserFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input ContactFilterContactNoteFilter {
+  and: [ContactFilterContactNoteFilter!]
+  or: [ContactFilterContactNoteFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input ContactFilterDealFilter {
+  and: [ContactFilterDealFilter!]
+  or: [ContactFilterDealFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  value: FloatFieldComparison
+  closeDateYear: IntFieldComparison
+  closeDateMonth: IntFieldComparison
+  closeDateDay: IntFieldComparison
+  stageId: IDFilterComparison
+  dealOwnerId: IDFilterComparison
+  companyId: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input ContactSort {
+  field: ContactSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum ContactSortFields {
+  id
+  name
+  email
+  phone
+  jobTitle
+  timezone
+  stage
+  status
+  score
+  createdAt
+  updatedAt
+}
+
+input CompanyNoteFilter {
+  and: [CompanyNoteFilter!]
+  or: [CompanyNoteFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+  company: CompanyNoteFilterCompanyFilter
+  updatedBy: CompanyNoteFilterUserFilter
+  createdBy: CompanyNoteFilterUserFilter
+}
+
+input CompanyNoteFilterCompanyFilter {
+  and: [CompanyNoteFilterCompanyFilter!]
+  or: [CompanyNoteFilterCompanyFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  totalRevenue: IntFieldComparison
+  companySize: CompanyCompanySizeFilterComparison
+  industry: CompanyIndustryFilterComparison
+  businessType: CompanyBusinessTypeFilterComparison
+  country: StringFieldComparison
+  website: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CompanyNoteFilterUserFilter {
+  and: [CompanyNoteFilterUserFilter!]
+  or: [CompanyNoteFilterUserFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CompanyNoteSort {
+  field: CompanyNoteSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum CompanyNoteSortFields {
+  id
+  createdAt
+  updatedAt
+}
+
+type EventCategory {
+  id: ID!
+  title: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  createdBy: User!
+  updatedBy: User
+  events(
+    # Specify to filter the records returned.
+    filter: EventCategoryFilter! = {}
+
+    # Specify to sort results.
+    sorting: [EventCategorySort!]! = []
+  ): [EventCategory!]!
+}
+
+input EventCategoryFilter {
+  and: [EventCategoryFilter!]
+  or: [EventCategoryFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+  updatedBy: EventCategoryFilterUserFilter
+  createdBy: EventCategoryFilterUserFilter
+}
+
+input EventCategoryFilterUserFilter {
+  and: [EventCategoryFilterUserFilter!]
+  or: [EventCategoryFilterUserFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input EventCategorySort {
+  field: EventCategorySortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum EventCategorySortFields {
+  id
+  title
+  createdAt
+  updatedAt
+}
+
+type Event {
+  id: ID!
+  title: String!
+  description: String!
+  startDate: DateTime!
+  endDate: DateTime!
+  color: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  createdBy: User!
+  updatedBy: User
+  category: EventCategory!
+  participants(
+    # Specify to filter the records returned.
+    filter: UserFilter! = {}
+
+    # Specify to sort results.
+    sorting: [UserSort!]! = []
+  ): [User!]!
+}
+
+input UserFilter {
+  and: [UserFilter!]
+  or: [UserFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+  updatedBy: UserFilterUserFilter
+  createdBy: UserFilterUserFilter
+  deals: UserFilterDealFilter
+  tasks: UserFilterTaskFilter
+  events: UserFilterEventFilter
+  contacts: UserFilterContactFilter
+  companies: UserFilterCompanyFilter
+}
+
+input UserFilterUserFilter {
+  and: [UserFilterUserFilter!]
+  or: [UserFilterUserFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UserFilterDealFilter {
+  and: [UserFilterDealFilter!]
+  or: [UserFilterDealFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  value: FloatFieldComparison
+  closeDateYear: IntFieldComparison
+  closeDateMonth: IntFieldComparison
+  closeDateDay: IntFieldComparison
+  stageId: IDFilterComparison
+  dealOwnerId: IDFilterComparison
+  companyId: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UserFilterTaskFilter {
+  and: [UserFilterTaskFilter!]
+  or: [UserFilterTaskFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  description: StringFieldComparison
+  dueDate: DateFieldComparison
+  completed: BooleanFieldComparison
+  stageId: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input BooleanFieldComparison {
+  is: Boolean
+  isNot: Boolean
+}
+
+input UserFilterEventFilter {
+  and: [UserFilterEventFilter!]
+  or: [UserFilterEventFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  description: StringFieldComparison
+  startDate: DateFieldComparison
+  endDate: DateFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UserFilterContactFilter {
+  and: [UserFilterContactFilter!]
+  or: [UserFilterContactFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  stage: ContactStageFilterComparison
+  status: ContactStatusFilterComparison
+  score: IntFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UserFilterCompanyFilter {
+  and: [UserFilterCompanyFilter!]
+  or: [UserFilterCompanyFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  totalRevenue: IntFieldComparison
+  companySize: CompanyCompanySizeFilterComparison
+  industry: CompanyIndustryFilterComparison
+  businessType: CompanyBusinessTypeFilterComparison
+  country: StringFieldComparison
+  website: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UserSort {
+  field: UserSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum UserSortFields {
+  id
+  name
+  email
+  phone
+  jobTitle
+  timezone
+  role
+  createdAt
+  updatedAt
+}
+
+type CheckListItem {
+  title: String!
+  checked: Boolean!
+}
+
+type TaskComment {
+  id: ID!
+  comment: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  createdBy: User!
+  updatedBy: User
+  task: Task!
+}
+
+type TaskStage {
+  id: ID!
+  title: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  tasksAggregate(
+    # Filter to find records to aggregate on
+    filter: TaskAggregateFilter
+  ): [TaskStageTasksAggregateResponse!]!
+  createdBy: User!
+  updatedBy: User
+  tasks(
+    # Specify to filter the records returned.
+    filter: TaskFilter! = {}
+
+    # Specify to sort results.
+    sorting: [TaskSort!]! = []
+  ): [Task!]!
+}
+
+input TaskAggregateFilter {
+  and: [TaskAggregateFilter!]
+  or: [TaskAggregateFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  description: StringFieldComparison
+  dueDate: DateFieldComparison
+  completed: BooleanFieldComparison
+  stageId: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input TaskFilter {
+  and: [TaskFilter!]
+  or: [TaskFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  description: StringFieldComparison
+  dueDate: DateFieldComparison
+  completed: BooleanFieldComparison
+  stageId: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+  stage: TaskFilterTaskStageFilter
+  updatedBy: TaskFilterUserFilter
+  createdBy: TaskFilterUserFilter
+  comments: TaskFilterTaskCommentFilter
+}
+
+input TaskFilterTaskStageFilter {
+  and: [TaskFilterTaskStageFilter!]
+  or: [TaskFilterTaskStageFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input TaskFilterUserFilter {
+  and: [TaskFilterUserFilter!]
+  or: [TaskFilterUserFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input TaskFilterTaskCommentFilter {
+  and: [TaskFilterTaskCommentFilter!]
+  or: [TaskFilterTaskCommentFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input TaskSort {
+  field: TaskSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum TaskSortFields {
+  id
+  title
+  description
+  dueDate
+  completed
+  stageId
+  createdAt
+  updatedAt
+}
+
+type Task {
+  id: ID!
+  title: String!
+  description: String
+  dueDate: DateTime
+  checklist: [CheckListItem!]!
+  completed: Boolean!
+  stageId: ID
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  usersAggregate(
+    # Filter to find records to aggregate on
+    filter: UserAggregateFilter
+  ): [TaskUsersAggregateResponse!]!
+  commentsAggregate(
+    # Filter to find records to aggregate on
+    filter: TaskCommentAggregateFilter
+  ): [TaskCommentsAggregateResponse!]!
+  createdBy: User!
+  updatedBy: User
+  stage: TaskStage
+  users(
+    # Specify to filter the records returned.
+    filter: UserFilter! = {}
+
+    # Specify to sort results.
+    sorting: [UserSort!]! = []
+  ): [User!]!
+  comments(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: TaskCommentFilter! = {}
+
+    # Specify to sort results.
+    sorting: [TaskCommentSort!]! = []
+  ): TaskCommentsConnection!
+}
+
+input UserAggregateFilter {
+  and: [UserAggregateFilter!]
+  or: [UserAggregateFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input TaskCommentAggregateFilter {
+  and: [TaskCommentAggregateFilter!]
+  or: [TaskCommentAggregateFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input TaskCommentFilter {
+  and: [TaskCommentFilter!]
+  or: [TaskCommentFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+  task: TaskCommentFilterTaskFilter
+  updatedBy: TaskCommentFilterUserFilter
+  createdBy: TaskCommentFilterUserFilter
+}
+
+input TaskCommentFilterTaskFilter {
+  and: [TaskCommentFilterTaskFilter!]
+  or: [TaskCommentFilterTaskFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  description: StringFieldComparison
+  dueDate: DateFieldComparison
+  completed: BooleanFieldComparison
+  stageId: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input TaskCommentFilterUserFilter {
+  and: [TaskCommentFilterUserFilter!]
+  or: [TaskCommentFilterUserFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input TaskCommentSort {
+  field: TaskCommentSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum TaskCommentSortFields {
+  id
+  createdAt
+  updatedAt
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  phone: String
+  jobTitle: String
+  timezone: String
+  role: Role!
+  avatarUrl: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  createdBy: User
+  updatedBy: User
+  companies(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: CompanyFilter! = {}
+
+    # Specify to sort results.
+    sorting: [CompanySort!]! = []
+  ): UserCompaniesConnection!
+  contacts(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: ContactFilter! = {}
+
+    # Specify to sort results.
+    sorting: [ContactSort!]! = []
+  ): UserContactsConnection!
+  events(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: EventFilter! = {}
+
+    # Specify to sort results.
+    sorting: [EventSort!]! = []
+  ): UserEventsConnection!
+  tasks(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: TaskFilter! = {}
+
+    # Specify to sort results.
+    sorting: [TaskSort!]! = []
+  ): UserTasksConnection!
+  deals(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: DealFilter! = {}
+
+    # Specify to sort results.
+    sorting: [DealSort!]! = []
+  ): UserDealsConnection!
+}
+
+input CompanyFilter {
+  and: [CompanyFilter!]
+  or: [CompanyFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  totalRevenue: IntFieldComparison
+  companySize: CompanyCompanySizeFilterComparison
+  industry: CompanyIndustryFilterComparison
+  businessType: CompanyBusinessTypeFilterComparison
+  country: StringFieldComparison
+  website: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+  salesOwner: CompanyFilterUserFilter
+  updatedBy: CompanyFilterUserFilter
+  createdBy: CompanyFilterUserFilter
+  deals: CompanyFilterDealFilter
+  notes: CompanyFilterCompanyNoteFilter
+  contacts: CompanyFilterContactFilter
+}
+
+input CompanyFilterUserFilter {
+  and: [CompanyFilterUserFilter!]
+  or: [CompanyFilterUserFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CompanyFilterDealFilter {
+  and: [CompanyFilterDealFilter!]
+  or: [CompanyFilterDealFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  value: FloatFieldComparison
+  closeDateYear: IntFieldComparison
+  closeDateMonth: IntFieldComparison
+  closeDateDay: IntFieldComparison
+  stageId: IDFilterComparison
+  dealOwnerId: IDFilterComparison
+  companyId: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CompanyFilterCompanyNoteFilter {
+  and: [CompanyFilterCompanyNoteFilter!]
+  or: [CompanyFilterCompanyNoteFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CompanyFilterContactFilter {
+  and: [CompanyFilterContactFilter!]
+  or: [CompanyFilterContactFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  stage: ContactStageFilterComparison
+  status: ContactStatusFilterComparison
+  score: IntFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CompanySort {
+  field: CompanySortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum CompanySortFields {
+  id
+  name
+  totalRevenue
+  companySize
+  industry
+  businessType
+  country
+  website
+  createdAt
+  updatedAt
+}
+
+input EventFilter {
+  and: [EventFilter!]
+  or: [EventFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  description: StringFieldComparison
+  startDate: DateFieldComparison
+  endDate: DateFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+  category: EventFilterEventCategoryFilter
+  updatedBy: EventFilterUserFilter
+  createdBy: EventFilterUserFilter
+}
+
+input EventFilterEventCategoryFilter {
+  and: [EventFilterEventCategoryFilter!]
+  or: [EventFilterEventCategoryFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input EventFilterUserFilter {
+  and: [EventFilterUserFilter!]
+  or: [EventFilterUserFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input EventSort {
+  field: EventSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum EventSortFields {
+  id
+  title
+  description
+  startDate
+  endDate
+  createdAt
+  updatedAt
+}
+
+type QuoteItem {
+  title: String!
+  unitPrice: Float!
+  quantity: Int!
+  discount: Int!
+  totalPrice: Float!
+}
+
+type Quote {
+  id: ID!
+  title: String!
+  status: QuoteStatus!
+  description: String
+  items: [QuoteItem!]!
+  subTotal: Float!
+  tax: Int!
+  total: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  createdBy: User!
+  updatedBy: User
+  salesOwner: User!
+  contact: Contact!
+  company: Company!
+}
+
+# Quote status
+enum QuoteStatus {
+  DRAFT
+  SENT
+  ACCEPTED
+}
+
+type AuthResponse {
+  accessToken: String!
+  refreshToken: String!
+  user: User!
+}
+
+type AuditChange {
+  field: String!
+  from: String
+  to: String
+}
+
+type Audit {
+  id: ID!
+  action: String!
+  targetEntity: String!
+  targetId: Float!
+  changes: [AuditChange!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  user: User
+}
+
+type DeleteManyResponse {
+  # The number of records deleted.
+  deletedCount: Int!
+}
+
+type UserDeleteResponse {
+  id: ID
+  name: String
+  email: String
+  phone: String
+  jobTitle: String
+  timezone: String
+  role: Role
+  avatarUrl: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type UpdateManyResponse {
+  # The number of records updated.
+  updatedCount: Int!
+}
+
+type OffsetPageInfo {
+  # true if paging forward and there are more records.
+  hasNextPage: Boolean
+
+  # true if paging backwards and there are more records.
+  hasPreviousPage: Boolean
+}
+
+type UserConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [User!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type UserDealsConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [Deal!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type UserTasksConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [Task!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type UserEventsConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [Event!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type UserContactsConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [Contact!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type UserCompaniesConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [Company!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type CompanyDeleteResponse {
+  id: ID
+  name: String
+  avatarUrl: String
+  totalRevenue: Int
+  companySize: CompanySize
+  industry: Industry
+  businessType: BusinessType
+  country: String
+  website: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type CompanyConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [Company!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type CompanyAggregateGroupBy {
+  id: ID
+  name: String
+  totalRevenue: Int
+  companySize: CompanySize
+  industry: Industry
+  businessType: BusinessType
+  country: String
+  website: String
+  createdAt(by: GroupBy! = DAY): DateTime
+  updatedAt(by: GroupBy! = DAY): DateTime
+}
+
+# Group by
+enum GroupBy {
+  DAY
+  WEEK
+  MONTH
+  YEAR
+}
+
+type CompanyCountAggregate {
+  id: Int
+  name: Int
+  totalRevenue: Int
+  companySize: Int
+  industry: Int
+  businessType: Int
+  country: Int
+  website: Int
+  createdAt: Int
+  updatedAt: Int
+}
+
+type CompanySumAggregate {
+  id: Float
+  totalRevenue: Float
+}
+
+type CompanyAvgAggregate {
+  id: Float
+  totalRevenue: Float
+}
+
+type CompanyMinAggregate {
+  id: ID
+  name: String
+  totalRevenue: Int
+  companySize: CompanySize
+  industry: Industry
+  businessType: BusinessType
+  country: String
+  website: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type CompanyMaxAggregate {
+  id: ID
+  name: String
+  totalRevenue: Int
+  companySize: CompanySize
+  industry: Industry
+  businessType: BusinessType
+  country: String
+  website: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type CompanyAggregateResponse {
+  groupBy: CompanyAggregateGroupBy
+  count: CompanyCountAggregate
+  sum: CompanySumAggregate
+  avg: CompanyAvgAggregate
+  min: CompanyMinAggregate
+  max: CompanyMaxAggregate
+}
+
+type CompanyDealsConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [Deal!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type CompanyNotesConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [CompanyNote!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type CompanyContactsConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [Contact!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type CompanyDealsAggregateGroupBy {
+  id: ID
+  title: String
+  value: Float
+  closeDateYear: Int
+  closeDateMonth: Int
+  closeDateDay: Int
+  stageId: ID
+  dealOwnerId: ID
+  companyId: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type CompanyDealsCountAggregate {
+  id: Int
+  title: Int
+  value: Int
+  closeDateYear: Int
+  closeDateMonth: Int
+  closeDateDay: Int
+  stageId: Int
+  dealOwnerId: Int
+  companyId: Int
+  createdAt: Int
+  updatedAt: Int
+}
+
+type CompanyDealsSumAggregate {
+  id: Float
+  value: Float
+  closeDateYear: Float
+  closeDateMonth: Float
+  closeDateDay: Float
+  stageId: Float
+  dealOwnerId: Float
+  companyId: Float
+}
+
+type CompanyDealsAvgAggregate {
+  id: Float
+  value: Float
+  closeDateYear: Float
+  closeDateMonth: Float
+  closeDateDay: Float
+  stageId: Float
+  dealOwnerId: Float
+  companyId: Float
+}
+
+type CompanyDealsMinAggregate {
+  id: ID
+  title: String
+  value: Float
+  closeDateYear: Int
+  closeDateMonth: Int
+  closeDateDay: Int
+  stageId: ID
+  dealOwnerId: ID
+  companyId: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type CompanyDealsMaxAggregate {
+  id: ID
+  title: String
+  value: Float
+  closeDateYear: Int
+  closeDateMonth: Int
+  closeDateDay: Int
+  stageId: ID
+  dealOwnerId: ID
+  companyId: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type CompanyDealsAggregateResponse {
+  groupBy: CompanyDealsAggregateGroupBy
+  count: CompanyDealsCountAggregate
+  sum: CompanyDealsSumAggregate
+  avg: CompanyDealsAvgAggregate
+  min: CompanyDealsMinAggregate
+  max: CompanyDealsMaxAggregate
+}
+
+type CompanyNotesAggregateGroupBy {
+  id: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type CompanyNotesCountAggregate {
+  id: Int
+  createdAt: Int
+  updatedAt: Int
+}
+
+type CompanyNotesSumAggregate {
+  id: Float
+}
+
+type CompanyNotesAvgAggregate {
+  id: Float
+}
+
+type CompanyNotesMinAggregate {
+  id: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type CompanyNotesMaxAggregate {
+  id: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type CompanyNotesAggregateResponse {
+  groupBy: CompanyNotesAggregateGroupBy
+  count: CompanyNotesCountAggregate
+  sum: CompanyNotesSumAggregate
+  avg: CompanyNotesAvgAggregate
+  min: CompanyNotesMinAggregate
+  max: CompanyNotesMaxAggregate
+}
+
+type CompanyContactsAggregateGroupBy {
+  id: ID
+  name: String
+  email: String
+  phone: String
+  jobTitle: String
+  timezone: String
+  stage: ContactStage
+  status: ContactStatus
+  score: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type CompanyContactsCountAggregate {
+  id: Int
+  name: Int
+  email: Int
+  phone: Int
+  jobTitle: Int
+  timezone: Int
+  stage: Int
+  status: Int
+  score: Int
+  createdAt: Int
+  updatedAt: Int
+}
+
+type CompanyContactsSumAggregate {
+  id: Float
+  score: Float
+}
+
+type CompanyContactsAvgAggregate {
+  id: Float
+  score: Float
+}
+
+type CompanyContactsMinAggregate {
+  id: ID
+  name: String
+  email: String
+  phone: String
+  jobTitle: String
+  timezone: String
+  stage: ContactStage
+  status: ContactStatus
+  score: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type CompanyContactsMaxAggregate {
+  id: ID
+  name: String
+  email: String
+  phone: String
+  jobTitle: String
+  timezone: String
+  stage: ContactStage
+  status: ContactStatus
+  score: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type CompanyContactsAggregateResponse {
+  groupBy: CompanyContactsAggregateGroupBy
+  count: CompanyContactsCountAggregate
+  sum: CompanyContactsSumAggregate
+  avg: CompanyContactsAvgAggregate
+  min: CompanyContactsMinAggregate
+  max: CompanyContactsMaxAggregate
+}
+
+type ContactDeleteResponse {
+  id: ID
+  name: String
+  email: String
+  phone: String
+  jobTitle: String
+  timezone: String
+  avatarUrl: String
+  stage: ContactStage
+  status: ContactStatus
+  score: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ContactConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [Contact!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type ContactNotesConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [ContactNote!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type ContactDealsConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [Deal!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type EventCategoryDeleteResponse {
+  id: ID
+  title: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type EventCategoryConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [EventCategory!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type EventDeleteResponse {
+  id: ID
+  title: String
+  description: String
+  startDate: DateTime
+  endDate: DateTime
+  color: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type EventConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [Event!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type TaskDeleteResponse {
+  id: ID
+  title: String
+  description: String
+  dueDate: DateTime
+  checklist: [CheckListItem!]
+  completed: Boolean
+  stageId: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TaskConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [Task!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type TaskAggregateGroupBy {
+  id: ID
+  title: String
+  description: String
+  dueDate(by: GroupBy! = DAY): DateTime
+  completed: Boolean
+  stageId: ID
+  createdAt(by: GroupBy! = DAY): DateTime
+  updatedAt(by: GroupBy! = DAY): DateTime
+}
+
+type TaskCountAggregate {
+  id: Int
+  title: Int
+  description: Int
+  dueDate: Int
+  completed: Int
+  stageId: Int
+  createdAt: Int
+  updatedAt: Int
+}
+
+type TaskSumAggregate {
+  id: Float
+  stageId: Float
+}
+
+type TaskAvgAggregate {
+  id: Float
+  stageId: Float
+}
+
+type TaskMinAggregate {
+  id: ID
+  title: String
+  description: String
+  dueDate: DateTime
+  stageId: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TaskMaxAggregate {
+  id: ID
+  title: String
+  description: String
+  dueDate: DateTime
+  stageId: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TaskAggregateResponse {
+  groupBy: TaskAggregateGroupBy
+  count: TaskCountAggregate
+  sum: TaskSumAggregate
+  avg: TaskAvgAggregate
+  min: TaskMinAggregate
+  max: TaskMaxAggregate
+}
+
+type TaskCommentsConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [TaskComment!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type TaskCommentsAggregateGroupBy {
+  id: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TaskCommentsCountAggregate {
+  id: Int
+  createdAt: Int
+  updatedAt: Int
+}
+
+type TaskCommentsSumAggregate {
+  id: Float
+}
+
+type TaskCommentsAvgAggregate {
+  id: Float
+}
+
+type TaskCommentsMinAggregate {
+  id: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TaskCommentsMaxAggregate {
+  id: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TaskCommentsAggregateResponse {
+  groupBy: TaskCommentsAggregateGroupBy
+  count: TaskCommentsCountAggregate
+  sum: TaskCommentsSumAggregate
+  avg: TaskCommentsAvgAggregate
+  min: TaskCommentsMinAggregate
+  max: TaskCommentsMaxAggregate
+}
+
+type TaskUsersAggregateGroupBy {
+  id: ID
+  name: String
+  email: String
+  phone: String
+  jobTitle: String
+  timezone: String
+  role: Role
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TaskUsersCountAggregate {
+  id: Int
+  name: Int
+  email: Int
+  phone: Int
+  jobTitle: Int
+  timezone: Int
+  role: Int
+  createdAt: Int
+  updatedAt: Int
+}
+
+type TaskUsersSumAggregate {
+  id: Float
+}
+
+type TaskUsersAvgAggregate {
+  id: Float
+}
+
+type TaskUsersMinAggregate {
+  id: ID
+  name: String
+  email: String
+  phone: String
+  jobTitle: String
+  timezone: String
+  role: Role
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TaskUsersMaxAggregate {
+  id: ID
+  name: String
+  email: String
+  phone: String
+  jobTitle: String
+  timezone: String
+  role: Role
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TaskUsersAggregateResponse {
+  groupBy: TaskUsersAggregateGroupBy
+  count: TaskUsersCountAggregate
+  sum: TaskUsersSumAggregate
+  avg: TaskUsersAvgAggregate
+  min: TaskUsersMinAggregate
+  max: TaskUsersMaxAggregate
+}
+
+type TaskCommentDeleteResponse {
+  id: ID
+  comment: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TaskCommentConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [TaskComment!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type TaskStageDeleteResponse {
+  id: ID
+  title: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TaskStageConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [TaskStage!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type TaskStageAggregateGroupBy {
+  id: ID
+  title: String
+  createdAt(by: GroupBy! = DAY): DateTime
+  updatedAt(by: GroupBy! = DAY): DateTime
+}
+
+type TaskStageCountAggregate {
+  id: Int
+  title: Int
+  createdAt: Int
+  updatedAt: Int
+}
+
+type TaskStageSumAggregate {
+  id: Float
+}
+
+type TaskStageAvgAggregate {
+  id: Float
+}
+
+type TaskStageMinAggregate {
+  id: ID
+  title: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TaskStageMaxAggregate {
+  id: ID
+  title: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TaskStageAggregateResponse {
+  groupBy: TaskStageAggregateGroupBy
+  count: TaskStageCountAggregate
+  sum: TaskStageSumAggregate
+  avg: TaskStageAvgAggregate
+  min: TaskStageMinAggregate
+  max: TaskStageMaxAggregate
+}
+
+type TaskStageTasksAggregateGroupBy {
+  id: ID
+  title: String
+  description: String
+  dueDate: DateTime
+  completed: Boolean
+  stageId: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TaskStageTasksCountAggregate {
+  id: Int
+  title: Int
+  description: Int
+  dueDate: Int
+  completed: Int
+  stageId: Int
+  createdAt: Int
+  updatedAt: Int
+}
+
+type TaskStageTasksSumAggregate {
+  id: Float
+  stageId: Float
+}
+
+type TaskStageTasksAvgAggregate {
+  id: Float
+  stageId: Float
+}
+
+type TaskStageTasksMinAggregate {
+  id: ID
+  title: String
+  description: String
+  dueDate: DateTime
+  stageId: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TaskStageTasksMaxAggregate {
+  id: ID
+  title: String
+  description: String
+  dueDate: DateTime
+  stageId: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type TaskStageTasksAggregateResponse {
+  groupBy: TaskStageTasksAggregateGroupBy
+  count: TaskStageTasksCountAggregate
+  sum: TaskStageTasksSumAggregate
+  avg: TaskStageTasksAvgAggregate
+  min: TaskStageTasksMinAggregate
+  max: TaskStageTasksMaxAggregate
+}
+
+type CompanyNoteDeleteResponse {
+  id: ID
+  note: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type CompanyNoteConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [CompanyNote!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type ContactNoteDeleteResponse {
+  id: ID
+  note: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ContactNoteConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [ContactNote!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type DealStageDeleteResponse {
+  id: ID
+  title: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type DealStageConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [DealStage!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type DealStageDealsAggregateGroupBy {
+  id: ID
+  title: String
+  value: Float
+  closeDateYear: Int
+  closeDateMonth: Int
+  closeDateDay: Int
+  stageId: ID
+  dealOwnerId: ID
+  companyId: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type DealStageDealsCountAggregate {
+  id: Int
+  title: Int
+  value: Int
+  closeDateYear: Int
+  closeDateMonth: Int
+  closeDateDay: Int
+  stageId: Int
+  dealOwnerId: Int
+  companyId: Int
+  createdAt: Int
+  updatedAt: Int
+}
+
+type DealStageDealsSumAggregate {
+  id: Float
+  value: Float
+  closeDateYear: Float
+  closeDateMonth: Float
+  closeDateDay: Float
+  stageId: Float
+  dealOwnerId: Float
+  companyId: Float
+}
+
+type DealStageDealsAvgAggregate {
+  id: Float
+  value: Float
+  closeDateYear: Float
+  closeDateMonth: Float
+  closeDateDay: Float
+  stageId: Float
+  dealOwnerId: Float
+  companyId: Float
+}
+
+type DealStageDealsMinAggregate {
+  id: ID
+  title: String
+  value: Float
+  closeDateYear: Int
+  closeDateMonth: Int
+  closeDateDay: Int
+  stageId: ID
+  dealOwnerId: ID
+  companyId: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type DealStageDealsMaxAggregate {
+  id: ID
+  title: String
+  value: Float
+  closeDateYear: Int
+  closeDateMonth: Int
+  closeDateDay: Int
+  stageId: ID
+  dealOwnerId: ID
+  companyId: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type DealStageDealsAggregateResponse {
+  groupBy: DealStageDealsAggregateGroupBy
+  count: DealStageDealsCountAggregate
+  sum: DealStageDealsSumAggregate
+  avg: DealStageDealsAvgAggregate
+  min: DealStageDealsMinAggregate
+  max: DealStageDealsMaxAggregate
+}
+
+type DealDeleteResponse {
+  id: ID
+  title: String
+  value: Float
+  notes: String
+  closeDateYear: Int
+  closeDateMonth: Int
+  closeDateDay: Int
+  stageId: ID
+  dealOwnerId: ID
+  companyId: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type DealConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [Deal!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type DealAggregateGroupBy {
+  id: ID
+  title: String
+  value: Float
+  closeDateYear: Int
+  closeDateMonth: Int
+  closeDateDay: Int
+  stageId: ID
+  dealOwnerId: ID
+  companyId: ID
+  createdAt(by: GroupBy! = DAY): DateTime
+  updatedAt(by: GroupBy! = DAY): DateTime
+}
+
+type DealCountAggregate {
+  id: Int
+  title: Int
+  value: Int
+  closeDateYear: Int
+  closeDateMonth: Int
+  closeDateDay: Int
+  stageId: Int
+  dealOwnerId: Int
+  companyId: Int
+  createdAt: Int
+  updatedAt: Int
+}
+
+type DealSumAggregate {
+  id: Float
+  value: Float
+  closeDateYear: Float
+  closeDateMonth: Float
+  closeDateDay: Float
+  stageId: Float
+  dealOwnerId: Float
+  companyId: Float
+}
+
+type DealAvgAggregate {
+  id: Float
+  value: Float
+  closeDateYear: Float
+  closeDateMonth: Float
+  closeDateDay: Float
+  stageId: Float
+  dealOwnerId: Float
+  companyId: Float
+}
+
+type DealMinAggregate {
+  id: ID
+  title: String
+  value: Float
+  closeDateYear: Int
+  closeDateMonth: Int
+  closeDateDay: Int
+  stageId: ID
+  dealOwnerId: ID
+  companyId: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type DealMaxAggregate {
+  id: ID
+  title: String
+  value: Float
+  closeDateYear: Int
+  closeDateMonth: Int
+  closeDateDay: Int
+  stageId: ID
+  dealOwnerId: ID
+  companyId: ID
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type DealAggregateResponse {
+  groupBy: DealAggregateGroupBy
+  count: DealCountAggregate
+  sum: DealSumAggregate
+  avg: DealAvgAggregate
+  min: DealMinAggregate
+  max: DealMaxAggregate
+}
+
+type QuoteDeleteResponse {
+  id: ID
+  title: String
+  status: QuoteStatus
+  description: String
+  items: [QuoteItem!]
+  subTotal: Float
+  tax: Int
+  total: Float
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type QuoteConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [Quote!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type AuditDeleteResponse {
+  id: ID
+  action: String
+  targetEntity: String
+  targetId: Float
+  changes: [AuditChange!]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type AuditConnection {
+  # Paging information
+  pageInfo: OffsetPageInfo!
+
+  # Array of nodes.
+  nodes: [Audit!]!
+
+  # Fetch total count of records
+  totalCount: Int!
+}
+
+type Query {
+  me: User!
+  user(
+    # The id of the record to find.
+    id: ID!
+  ): User!
+  users(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: UserFilter! = {}
+
+    # Specify to sort results.
+    sorting: [UserSort!]! = []
+  ): UserConnection!
+  companyAggregate(
+    # Filter to find records to aggregate on
+    filter: CompanyAggregateFilter
+  ): [CompanyAggregateResponse!]!
+  company(
+    # The id of the record to find.
+    id: ID!
+  ): Company!
+  companies(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: CompanyFilter! = {}
+
+    # Specify to sort results.
+    sorting: [CompanySort!]! = []
+  ): CompanyConnection!
+  contact(
+    # The id of the record to find.
+    id: ID!
+  ): Contact!
+  contacts(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: ContactFilter! = {}
+
+    # Specify to sort results.
+    sorting: [ContactSort!]! = []
+  ): ContactConnection!
+  eventCategory(
+    # The id of the record to find.
+    id: ID!
+  ): EventCategory!
+  eventCategories(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: EventCategoryFilter! = {}
+
+    # Specify to sort results.
+    sorting: [EventCategorySort!]! = []
+  ): EventCategoryConnection!
+  event(
+    # The id of the record to find.
+    id: ID!
+  ): Event!
+  events(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: EventFilter! = {}
+
+    # Specify to sort results.
+    sorting: [EventSort!]! = []
+  ): EventConnection!
+  taskAggregate(
+    # Filter to find records to aggregate on
+    filter: TaskAggregateFilter
+  ): [TaskAggregateResponse!]!
+  task(
+    # The id of the record to find.
+    id: ID!
+  ): Task!
+  tasks(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: TaskFilter! = {}
+
+    # Specify to sort results.
+    sorting: [TaskSort!]! = []
+  ): TaskConnection!
+  taskComment(
+    # The id of the record to find.
+    id: ID!
+  ): TaskComment!
+  taskComments(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: TaskCommentFilter! = {}
+
+    # Specify to sort results.
+    sorting: [TaskCommentSort!]! = []
+  ): TaskCommentConnection!
+  taskStageAggregate(
+    # Filter to find records to aggregate on
+    filter: TaskStageAggregateFilter
+  ): [TaskStageAggregateResponse!]!
+  taskStage(
+    # The id of the record to find.
+    id: ID!
+  ): TaskStage!
+  taskStages(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: TaskStageFilter! = {}
+
+    # Specify to sort results.
+    sorting: [TaskStageSort!]! = []
+  ): TaskStageConnection!
+  companyNote(
+    # The id of the record to find.
+    id: ID!
+  ): CompanyNote!
+  companyNotes(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: CompanyNoteFilter! = {}
+
+    # Specify to sort results.
+    sorting: [CompanyNoteSort!]! = []
+  ): CompanyNoteConnection!
+  contactNote(
+    # The id of the record to find.
+    id: ID!
+  ): ContactNote!
+  contactNotes(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: ContactNoteFilter! = {}
+
+    # Specify to sort results.
+    sorting: [ContactNoteSort!]! = []
+  ): ContactNoteConnection!
+  dealStage(
+    # The id of the record to find.
+    id: ID!
+  ): DealStage!
+  dealStages(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: DealStageFilter! = {}
+
+    # Specify to sort results.
+    sorting: [DealStageSort!]! = []
+  ): DealStageConnection!
+  dealAggregate(
+    # Filter to find records to aggregate on
+    filter: DealAggregateFilter
+  ): [DealAggregateResponse!]!
+  deal(
+    # The id of the record to find.
+    id: ID!
+  ): Deal!
+  deals(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: DealFilter! = {}
+
+    # Specify to sort results.
+    sorting: [DealSort!]! = []
+  ): DealConnection!
+  quote(
+    # The id of the record to find.
+    id: ID!
+  ): Quote!
+  quotes(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: QuoteFilter! = {}
+
+    # Specify to sort results.
+    sorting: [QuoteSort!]! = []
+  ): QuoteConnection!
+  audit(
+    # The id of the record to find.
+    id: ID!
+  ): Audit!
+  audits(
+    # Limit or page results.
+    paging: OffsetPaging! = { limit: 10 }
+
+    # Specify to filter the records returned.
+    filter: AuditFilter! = {}
+
+    # Specify to sort results.
+    sorting: [AuditSort!]! = []
+  ): AuditConnection!
+}
+
+input CompanyAggregateFilter {
+  and: [CompanyAggregateFilter!]
+  or: [CompanyAggregateFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  totalRevenue: IntFieldComparison
+  companySize: CompanyCompanySizeFilterComparison
+  industry: CompanyIndustryFilterComparison
+  businessType: CompanyBusinessTypeFilterComparison
+  country: StringFieldComparison
+  website: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input TaskStageAggregateFilter {
+  and: [TaskStageAggregateFilter!]
+  or: [TaskStageAggregateFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input TaskStageFilter {
+  and: [TaskStageFilter!]
+  or: [TaskStageFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+  updatedBy: TaskStageFilterUserFilter
+  createdBy: TaskStageFilterUserFilter
+}
+
+input TaskStageFilterUserFilter {
+  and: [TaskStageFilterUserFilter!]
+  or: [TaskStageFilterUserFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input TaskStageSort {
+  field: TaskStageSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum TaskStageSortFields {
+  id
+  title
+  createdAt
+  updatedAt
+}
+
+input DealStageFilter {
+  and: [DealStageFilter!]
+  or: [DealStageFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+  updatedBy: DealStageFilterUserFilter
+  createdBy: DealStageFilterUserFilter
+  deals: DealStageFilterDealFilter
+}
+
+input DealStageFilterUserFilter {
+  and: [DealStageFilterUserFilter!]
+  or: [DealStageFilterUserFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input DealStageFilterDealFilter {
+  and: [DealStageFilterDealFilter!]
+  or: [DealStageFilterDealFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  value: FloatFieldComparison
+  closeDateYear: IntFieldComparison
+  closeDateMonth: IntFieldComparison
+  closeDateDay: IntFieldComparison
+  stageId: IDFilterComparison
+  dealOwnerId: IDFilterComparison
+  companyId: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input DealStageSort {
+  field: DealStageSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum DealStageSortFields {
+  id
+  title
+  createdAt
+  updatedAt
+}
+
+input QuoteFilter {
+  and: [QuoteFilter!]
+  or: [QuoteFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  status: QuoteStatusFilterComparison
+  total: FloatFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+  company: QuoteFilterCompanyFilter
+  contact: QuoteFilterContactFilter
+  salesOwner: QuoteFilterUserFilter
+  updatedBy: QuoteFilterUserFilter
+  createdBy: QuoteFilterUserFilter
+}
+
+input QuoteStatusFilterComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: QuoteStatus
+  neq: QuoteStatus
+  gt: QuoteStatus
+  gte: QuoteStatus
+  lt: QuoteStatus
+  lte: QuoteStatus
+  like: QuoteStatus
+  notLike: QuoteStatus
+  iLike: QuoteStatus
+  notILike: QuoteStatus
+  in: [QuoteStatus!]
+  notIn: [QuoteStatus!]
+}
+
+input QuoteFilterCompanyFilter {
+  and: [QuoteFilterCompanyFilter!]
+  or: [QuoteFilterCompanyFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  totalRevenue: IntFieldComparison
+  companySize: CompanyCompanySizeFilterComparison
+  industry: CompanyIndustryFilterComparison
+  businessType: CompanyBusinessTypeFilterComparison
+  country: StringFieldComparison
+  website: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input QuoteFilterContactFilter {
+  and: [QuoteFilterContactFilter!]
+  or: [QuoteFilterContactFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  stage: ContactStageFilterComparison
+  status: ContactStatusFilterComparison
+  score: IntFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input QuoteFilterUserFilter {
+  and: [QuoteFilterUserFilter!]
+  or: [QuoteFilterUserFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input QuoteSort {
+  field: QuoteSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum QuoteSortFields {
+  id
+  title
+  status
+  total
+  createdAt
+  updatedAt
+}
+
+input AuditFilter {
+  and: [AuditFilter!]
+  or: [AuditFilter!]
+  id: IDFilterComparison
+  action: StringFieldComparison
+  targetEntity: StringFieldComparison
+  targetId: NumberFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+  user: AuditFilterUserFilter
+}
+
+input NumberFieldComparison {
+  is: Boolean
+  isNot: Boolean
+  eq: Float
+  neq: Float
+  gt: Float
+  gte: Float
+  lt: Float
+  lte: Float
+  in: [Float!]
+  notIn: [Float!]
+  between: NumberFieldComparisonBetween
+  notBetween: NumberFieldComparisonBetween
+}
+
+input NumberFieldComparisonBetween {
+  lower: Float!
+  upper: Float!
+}
+
+input AuditFilterUserFilter {
+  and: [AuditFilterUserFilter!]
+  or: [AuditFilterUserFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input AuditSort {
+  field: AuditSortFields!
+  direction: SortDirection!
+  nulls: SortNulls
+}
+
+enum AuditSortFields {
+  id
+  action
+  targetEntity
+  targetId
+  createdAt
+  updatedAt
+}
+
+type Mutation {
+  login(loginInput: LoginInput!): AuthResponse!
+  refreshToken(refreshToken: String!): AuthResponse!
+  register(registerInput: RegisterInput!): User!
+  createOneUser(input: CreateOneUserInput!): User!
+  createManyUsers(input: CreateManyUsersInput!): [User!]!
+  updateOneUser(input: UpdateOneUserInput!): User!
+  updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
+  deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
+  deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
+  createOneCompany(input: CreateOneCompanyInput!): Company!
+  createManyCompanies(input: CreateManyCompaniesInput!): [Company!]!
+  updateOneCompany(input: UpdateOneCompanyInput!): Company!
+  updateManyCompanies(input: UpdateManyCompaniesInput!): UpdateManyResponse!
+  deleteOneCompany(input: DeleteOneCompanyInput!): CompanyDeleteResponse!
+  deleteManyCompanies(input: DeleteManyCompaniesInput!): DeleteManyResponse!
+  createOneContact(input: CreateOneContactInput!): Contact!
+  createManyContacts(input: CreateManyContactsInput!): [Contact!]!
+  updateOneContact(input: UpdateOneContactInput!): Contact!
+  updateManyContacts(input: UpdateManyContactsInput!): UpdateManyResponse!
+  deleteOneContact(input: DeleteOneContactInput!): ContactDeleteResponse!
+  deleteManyContacts(input: DeleteManyContactsInput!): DeleteManyResponse!
+  createOneEventCategory(input: CreateOneEventCategoryInput!): EventCategory!
+  createManyEventCategories(
+    input: CreateManyEventCategoriesInput!
+  ): [EventCategory!]!
+  updateOneEventCategory(input: UpdateOneEventCategoryInput!): EventCategory!
+  updateManyEventCategories(
+    input: UpdateManyEventCategoriesInput!
+  ): UpdateManyResponse!
+  deleteOneEventCategory(
+    input: DeleteOneEventCategoryInput!
+  ): EventCategoryDeleteResponse!
+  deleteManyEventCategories(
+    input: DeleteManyEventCategoriesInput!
+  ): DeleteManyResponse!
+  createOneEvent(input: CreateOneEventInput!): Event!
+  createManyEvents(input: CreateManyEventsInput!): [Event!]!
+  updateOneEvent(input: UpdateOneEventInput!): Event!
+  updateManyEvents(input: UpdateManyEventsInput!): UpdateManyResponse!
+  deleteOneEvent(input: DeleteOneEventInput!): EventDeleteResponse!
+  deleteManyEvents(input: DeleteManyEventsInput!): DeleteManyResponse!
+  createOneTask(input: CreateOneTaskInput!): Task!
+  createManyTasks(input: CreateManyTasksInput!): [Task!]!
+  updateOneTask(input: UpdateOneTaskInput!): Task!
+  updateManyTasks(input: UpdateManyTasksInput!): UpdateManyResponse!
+  deleteOneTask(input: DeleteOneTaskInput!): TaskDeleteResponse!
+  deleteManyTasks(input: DeleteManyTasksInput!): DeleteManyResponse!
+  createOneTaskComment(input: CreateOneTaskCommentInput!): TaskComment!
+  createManyTaskComments(input: CreateManyTaskCommentsInput!): [TaskComment!]!
+  updateOneTaskComment(input: UpdateOneTaskCommentInput!): TaskComment!
+  updateManyTaskComments(
+    input: UpdateManyTaskCommentsInput!
+  ): UpdateManyResponse!
+  deleteOneTaskComment(
+    input: DeleteOneTaskCommentInput!
+  ): TaskCommentDeleteResponse!
+  deleteManyTaskComments(
+    input: DeleteManyTaskCommentsInput!
+  ): DeleteManyResponse!
+  createOneTaskStage(input: CreateOneTaskStageInput!): TaskStage!
+  createManyTaskStages(input: CreateManyTaskStagesInput!): [TaskStage!]!
+  updateOneTaskStage(input: UpdateOneTaskStageInput!): TaskStage!
+  updateManyTaskStages(input: UpdateManyTaskStagesInput!): UpdateManyResponse!
+  deleteOneTaskStage(input: DeleteOneTaskStageInput!): TaskStageDeleteResponse!
+  deleteManyTaskStages(input: DeleteManyTaskStagesInput!): DeleteManyResponse!
+  createOneCompanyNote(input: CreateOneCompanyNoteInput!): CompanyNote!
+  createManyCompanyNotes(input: CreateManyCompanyNotesInput!): [CompanyNote!]!
+  updateOneCompanyNote(input: UpdateOneCompanyNoteInput!): CompanyNote!
+  updateManyCompanyNotes(
+    input: UpdateManyCompanyNotesInput!
+  ): UpdateManyResponse!
+  deleteOneCompanyNote(
+    input: DeleteOneCompanyNoteInput!
+  ): CompanyNoteDeleteResponse!
+  deleteManyCompanyNotes(
+    input: DeleteManyCompanyNotesInput!
+  ): DeleteManyResponse!
+  createOneContactNote(input: CreateOneContactNoteInput!): ContactNote!
+  createManyContactNotes(input: CreateManyContactNotesInput!): [ContactNote!]!
+  updateOneContactNote(input: UpdateOneContactNoteInput!): ContactNote!
+  updateManyContactNotes(
+    input: UpdateManyContactNotesInput!
+  ): UpdateManyResponse!
+  deleteOneContactNote(
+    input: DeleteOneContactNoteInput!
+  ): ContactNoteDeleteResponse!
+  deleteManyContactNotes(
+    input: DeleteManyContactNotesInput!
+  ): DeleteManyResponse!
+  createOneDealStage(input: CreateOneDealStageInput!): DealStage!
+  createManyDealStages(input: CreateManyDealStagesInput!): [DealStage!]!
+  updateOneDealStage(input: UpdateOneDealStageInput!): DealStage!
+  updateManyDealStages(input: UpdateManyDealStagesInput!): UpdateManyResponse!
+  deleteOneDealStage(input: DeleteOneDealStageInput!): DealStageDeleteResponse!
+  deleteManyDealStages(input: DeleteManyDealStagesInput!): DeleteManyResponse!
+  createOneDeal(input: CreateOneDealInput!): Deal!
+  createManyDeals(input: CreateManyDealsInput!): [Deal!]!
+  updateOneDeal(input: UpdateOneDealInput!): Deal!
+  updateManyDeals(input: UpdateManyDealsInput!): UpdateManyResponse!
+  deleteOneDeal(input: DeleteOneDealInput!): DealDeleteResponse!
+  deleteManyDeals(input: DeleteManyDealsInput!): DeleteManyResponse!
+  createOneQuote(input: CreateOneQuoteInput!): Quote!
+  createManyQuotes(input: CreateManyQuotesInput!): [Quote!]!
+  updateOneQuote(input: UpdateOneQuoteInput!): Quote!
+  updateManyQuotes(input: UpdateManyQuotesInput!): UpdateManyResponse!
+  deleteOneQuote(input: DeleteOneQuoteInput!): QuoteDeleteResponse!
+  deleteManyQuotes(input: DeleteManyQuotesInput!): DeleteManyResponse!
+}
+
+input LoginInput {
+  email: String!
+  password: String
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+}
+
+input CreateOneUserInput {
+  # The record to create
+  user: UserCreateInput!
+}
+
+input UserCreateInput {
+  name: String!
+  email: String!
+  phone: String!
+  jobTitle: String!
+  timezone: String!
+  role: Role!
+}
+
+input CreateManyUsersInput {
+  # Array of records to create
+  users: [UserCreateInput!]!
+}
+
+input UpdateOneUserInput {
+  # The id of the record to update
+  id: ID!
+
+  # The update to apply.
+  update: UserUpdateInput!
+}
+
+input UserUpdateInput {
+  name: String
+  email: String
+  phone: String
+  jobTitle: String
+  timezone: String
+  role: Role
+}
+
+input UpdateManyUsersInput {
+  # Filter used to find fields to update
+  filter: UserUpdateFilter!
+
+  # The update to apply to all records found using the filter
+  update: UserUpdateInput!
+}
+
+input UserUpdateFilter {
+  and: [UserUpdateFilter!]
+  or: [UserUpdateFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input DeleteOneUserInput {
+  # The id of the record to delete.
+  id: ID!
+}
+
+input DeleteManyUsersInput {
+  # Filter to find records to delete
+  filter: UserDeleteFilter!
+}
+
+input UserDeleteFilter {
+  and: [UserDeleteFilter!]
+  or: [UserDeleteFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CreateOneCompanyInput {
+  # The record to create
+  company: CompanyCreateInput!
+}
+
+input CompanyCreateInput {
+  name: String!
+  totalRevenue: Int
+  companySize: CompanySize
+  industry: Industry
+  businessType: BusinessType
+  country: String
+  website: String
+  salesOwnerId: ID!
+}
+
+input CreateManyCompaniesInput {
+  # Array of records to create
+  companies: [CompanyCreateInput!]!
+}
+
+input UpdateOneCompanyInput {
+  # The id of the record to update
+  id: ID!
+
+  # The update to apply.
+  update: CompanyUpdateInput!
+}
+
+input CompanyUpdateInput {
+  name: String
+  totalRevenue: Int
+  companySize: CompanySize
+  industry: Industry
+  businessType: BusinessType
+  country: String
+  website: String
+  salesOwnerId: ID
+}
+
+input UpdateManyCompaniesInput {
+  # Filter used to find fields to update
+  filter: CompanyUpdateFilter!
+
+  # The update to apply to all records found using the filter
+  update: CompanyUpdateInput!
+}
+
+input CompanyUpdateFilter {
+  and: [CompanyUpdateFilter!]
+  or: [CompanyUpdateFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  totalRevenue: IntFieldComparison
+  companySize: CompanyCompanySizeFilterComparison
+  industry: CompanyIndustryFilterComparison
+  businessType: CompanyBusinessTypeFilterComparison
+  country: StringFieldComparison
+  website: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input DeleteOneCompanyInput {
+  # The id of the record to delete.
+  id: ID!
+}
+
+input DeleteManyCompaniesInput {
+  # Filter to find records to delete
+  filter: CompanyDeleteFilter!
+}
+
+input CompanyDeleteFilter {
+  and: [CompanyDeleteFilter!]
+  or: [CompanyDeleteFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  totalRevenue: IntFieldComparison
+  companySize: CompanyCompanySizeFilterComparison
+  industry: CompanyIndustryFilterComparison
+  businessType: CompanyBusinessTypeFilterComparison
+  country: StringFieldComparison
+  website: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CreateOneContactInput {
+  # The record to create
+  contact: ContactCreateInput!
+}
+
+input ContactCreateInput {
+  name: String!
+  email: String!
+  phone: String
+  jobTitle: String
+  timezone: String
+  stage: ContactStage
+  status: ContactStatus
+  score: Int
+  salesOwnerId: ID!
+  companyId: ID!
+}
+
+input CreateManyContactsInput {
+  # Array of records to create
+  contacts: [ContactCreateInput!]!
+}
+
+input UpdateOneContactInput {
+  # The id of the record to update
+  id: ID!
+
+  # The update to apply.
+  update: ContactUpdateInput!
+}
+
+input ContactUpdateInput {
+  name: String
+  email: String
+  phone: String
+  jobTitle: String
+  timezone: String
+  stage: ContactStage
+  status: ContactStatus
+  score: Int
+  salesOwnerId: ID
+  companyId: String
+}
+
+input UpdateManyContactsInput {
+  # Filter used to find fields to update
+  filter: ContactUpdateFilter!
+
+  # The update to apply to all records found using the filter
+  update: ContactUpdateInput!
+}
+
+input ContactUpdateFilter {
+  and: [ContactUpdateFilter!]
+  or: [ContactUpdateFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  stage: ContactStageFilterComparison
+  status: ContactStatusFilterComparison
+  score: IntFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input DeleteOneContactInput {
+  # The id of the record to delete.
+  id: ID!
+}
+
+input DeleteManyContactsInput {
+  # Filter to find records to delete
+  filter: ContactDeleteFilter!
+}
+
+input ContactDeleteFilter {
+  and: [ContactDeleteFilter!]
+  or: [ContactDeleteFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  stage: ContactStageFilterComparison
+  status: ContactStatusFilterComparison
+  score: IntFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CreateOneEventCategoryInput {
+  # The record to create
+  eventCategory: EventCategoryCreateInput!
+}
+
+input EventCategoryCreateInput {
+  title: String!
+}
+
+input CreateManyEventCategoriesInput {
+  # Array of records to create
+  eventCategories: [EventCategoryCreateInput!]!
+}
+
+input UpdateOneEventCategoryInput {
+  # The id of the record to update
+  id: ID!
+
+  # The update to apply.
+  update: EventCategoryUpdateInput!
+}
+
+input EventCategoryUpdateInput {
+  title: String!
+}
+
+input UpdateManyEventCategoriesInput {
+  # Filter used to find fields to update
+  filter: EventCategoryUpdateFilter!
+
+  # The update to apply to all records found using the filter
+  update: EventCategoryUpdateInput!
+}
+
+input EventCategoryUpdateFilter {
+  and: [EventCategoryUpdateFilter!]
+  or: [EventCategoryUpdateFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input DeleteOneEventCategoryInput {
+  # The id of the record to delete.
+  id: ID!
+}
+
+input DeleteManyEventCategoriesInput {
+  # Filter to find records to delete
+  filter: EventCategoryDeleteFilter!
+}
+
+input EventCategoryDeleteFilter {
+  and: [EventCategoryDeleteFilter!]
+  or: [EventCategoryDeleteFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CreateOneEventInput {
+  # The record to create
+  event: EventCreateInput!
+}
+
+input EventCreateInput {
+  title: String!
+  description: String!
+  startDate: DateTime!
+  endDate: DateTime!
+  color: String!
+  categoryId: ID!
+  participantIds: [ID!]!
+}
+
+input CreateManyEventsInput {
+  # Array of records to create
+  events: [EventCreateInput!]!
+}
+
+input UpdateOneEventInput {
+  # The id of the record to update
+  id: ID!
+
+  # The update to apply.
+  update: EventUpdateInput!
+}
+
+input EventUpdateInput {
+  title: String
+  description: String
+  startDate: DateTime
+  endDate: DateTime
+  color: String
+  categoryId: ID
+  participantIds: [ID!]
+}
+
+input UpdateManyEventsInput {
+  # Filter used to find fields to update
+  filter: EventUpdateFilter!
+
+  # The update to apply to all records found using the filter
+  update: EventUpdateInput!
+}
+
+input EventUpdateFilter {
+  and: [EventUpdateFilter!]
+  or: [EventUpdateFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  description: StringFieldComparison
+  startDate: DateFieldComparison
+  endDate: DateFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input DeleteOneEventInput {
+  # The id of the record to delete.
+  id: ID!
+}
+
+input DeleteManyEventsInput {
+  # Filter to find records to delete
+  filter: EventDeleteFilter!
+}
+
+input EventDeleteFilter {
+  and: [EventDeleteFilter!]
+  or: [EventDeleteFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  description: StringFieldComparison
+  startDate: DateFieldComparison
+  endDate: DateFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CreateOneTaskInput {
+  # The record to create
+  task: TaskCreateInput!
+}
+
+input TaskCreateInput {
+  title: String!
+  description: String
+  dueDate: DateTime
+  stageId: Float
+  userIds: [ID!]
+  checklist: [ChecklistItemInput!]
+}
+
+input ChecklistItemInput {
+  title: String!
+  checked: Boolean!
+}
+
+input CreateManyTasksInput {
+  # Array of records to create
+  tasks: [TaskCreateInput!]!
+}
+
+input UpdateOneTaskInput {
+  # The id of the record to update
+  id: ID!
+
+  # The update to apply.
+  update: TaskUpdateInput!
+}
+
+input TaskUpdateInput {
+  title: String
+  description: String
+  dueDate: DateTime
+  userIds: [ID!]
+  checklist: [ChecklistItemInput!]
+  completed: Boolean
+  stageId: ID
+}
+
+input UpdateManyTasksInput {
+  # Filter used to find fields to update
+  filter: TaskUpdateFilter!
+
+  # The update to apply to all records found using the filter
+  update: TaskUpdateInput!
+}
+
+input TaskUpdateFilter {
+  and: [TaskUpdateFilter!]
+  or: [TaskUpdateFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  description: StringFieldComparison
+  dueDate: DateFieldComparison
+  completed: BooleanFieldComparison
+  stageId: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input DeleteOneTaskInput {
+  # The id of the record to delete.
+  id: ID!
+}
+
+input DeleteManyTasksInput {
+  # Filter to find records to delete
+  filter: TaskDeleteFilter!
+}
+
+input TaskDeleteFilter {
+  and: [TaskDeleteFilter!]
+  or: [TaskDeleteFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  description: StringFieldComparison
+  dueDate: DateFieldComparison
+  completed: BooleanFieldComparison
+  stageId: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CreateOneTaskCommentInput {
+  # The record to create
+  taskComment: TaskCommentCreateInput!
+}
+
+input TaskCommentCreateInput {
+  comment: String!
+  taskId: ID!
+}
+
+input CreateManyTaskCommentsInput {
+  # Array of records to create
+  taskComments: [TaskCommentCreateInput!]!
+}
+
+input UpdateOneTaskCommentInput {
+  # The id of the record to update
+  id: ID!
+
+  # The update to apply.
+  update: TaskCommentUpdateInput!
+}
+
+input TaskCommentUpdateInput {
+  comment: String!
+}
+
+input UpdateManyTaskCommentsInput {
+  # Filter used to find fields to update
+  filter: TaskCommentUpdateFilter!
+
+  # The update to apply to all records found using the filter
+  update: TaskCommentUpdateInput!
+}
+
+input TaskCommentUpdateFilter {
+  and: [TaskCommentUpdateFilter!]
+  or: [TaskCommentUpdateFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input DeleteOneTaskCommentInput {
+  # The id of the record to delete.
+  id: ID!
+}
+
+input DeleteManyTaskCommentsInput {
+  # Filter to find records to delete
+  filter: TaskCommentDeleteFilter!
+}
+
+input TaskCommentDeleteFilter {
+  and: [TaskCommentDeleteFilter!]
+  or: [TaskCommentDeleteFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CreateOneTaskStageInput {
+  # The record to create
+  taskStage: TaskStageCreateInput!
+}
+
+input TaskStageCreateInput {
+  title: String!
+}
+
+input CreateManyTaskStagesInput {
+  # Array of records to create
+  taskStages: [TaskStageCreateInput!]!
+}
+
+input UpdateOneTaskStageInput {
+  # The id of the record to update
+  id: ID!
+
+  # The update to apply.
+  update: TaskStageUpdateInput!
+}
+
+input TaskStageUpdateInput {
+  title: String!
+}
+
+input UpdateManyTaskStagesInput {
+  # Filter used to find fields to update
+  filter: TaskStageUpdateFilter!
+
+  # The update to apply to all records found using the filter
+  update: TaskStageUpdateInput!
+}
+
+input TaskStageUpdateFilter {
+  and: [TaskStageUpdateFilter!]
+  or: [TaskStageUpdateFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input DeleteOneTaskStageInput {
+  # The id of the record to delete.
+  id: ID!
+}
+
+input DeleteManyTaskStagesInput {
+  # Filter to find records to delete
+  filter: TaskStageDeleteFilter!
+}
+
+input TaskStageDeleteFilter {
+  and: [TaskStageDeleteFilter!]
+  or: [TaskStageDeleteFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CreateOneCompanyNoteInput {
+  # The record to create
+  companyNote: CompanyNoteCreateInput!
+}
+
+input CompanyNoteCreateInput {
+  note: String!
+  companyId: ID!
+}
+
+input CreateManyCompanyNotesInput {
+  # Array of records to create
+  companyNotes: [CompanyNoteCreateInput!]!
+}
+
+input UpdateOneCompanyNoteInput {
+  # The id of the record to update
+  id: ID!
+
+  # The update to apply.
+  update: CompanyNoteUpdateInput!
+}
+
+input CompanyNoteUpdateInput {
+  note: String!
+}
+
+input UpdateManyCompanyNotesInput {
+  # Filter used to find fields to update
+  filter: CompanyNoteUpdateFilter!
+
+  # The update to apply to all records found using the filter
+  update: CompanyNoteUpdateInput!
+}
+
+input CompanyNoteUpdateFilter {
+  and: [CompanyNoteUpdateFilter!]
+  or: [CompanyNoteUpdateFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input DeleteOneCompanyNoteInput {
+  # The id of the record to delete.
+  id: ID!
+}
+
+input DeleteManyCompanyNotesInput {
+  # Filter to find records to delete
+  filter: CompanyNoteDeleteFilter!
+}
+
+input CompanyNoteDeleteFilter {
+  and: [CompanyNoteDeleteFilter!]
+  or: [CompanyNoteDeleteFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CreateOneContactNoteInput {
+  # The record to create
+  contactNote: ContactNoteCreateInput!
+}
+
+input ContactNoteCreateInput {
+  note: String!
+  contactId: ID!
+}
+
+input CreateManyContactNotesInput {
+  # Array of records to create
+  contactNotes: [ContactNoteCreateInput!]!
+}
+
+input UpdateOneContactNoteInput {
+  # The id of the record to update
+  id: ID!
+
+  # The update to apply.
+  update: ContactNoteUpdateInput!
+}
+
+input ContactNoteUpdateInput {
+  note: String!
+}
+
+input UpdateManyContactNotesInput {
+  # Filter used to find fields to update
+  filter: ContactNoteUpdateFilter!
+
+  # The update to apply to all records found using the filter
+  update: ContactNoteUpdateInput!
+}
+
+input ContactNoteUpdateFilter {
+  and: [ContactNoteUpdateFilter!]
+  or: [ContactNoteUpdateFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input DeleteOneContactNoteInput {
+  # The id of the record to delete.
+  id: ID!
+}
+
+input DeleteManyContactNotesInput {
+  # Filter to find records to delete
+  filter: ContactNoteDeleteFilter!
+}
+
+input ContactNoteDeleteFilter {
+  and: [ContactNoteDeleteFilter!]
+  or: [ContactNoteDeleteFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CreateOneDealStageInput {
+  # The record to create
+  dealStage: DealStageCreateInput!
+}
+
+input DealStageCreateInput {
+  title: String!
+}
+
+input CreateManyDealStagesInput {
+  # Array of records to create
+  dealStages: [DealStageCreateInput!]!
+}
+
+input UpdateOneDealStageInput {
+  # The id of the record to update
+  id: ID!
+
+  # The update to apply.
+  update: DealStageUpdateInput!
+}
+
+input DealStageUpdateInput {
+  title: String
+  stageId: ID
+}
+
+input UpdateManyDealStagesInput {
+  # Filter used to find fields to update
+  filter: DealStageUpdateFilter!
+
+  # The update to apply to all records found using the filter
+  update: DealStageUpdateInput!
+}
+
+input DealStageUpdateFilter {
+  and: [DealStageUpdateFilter!]
+  or: [DealStageUpdateFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input DeleteOneDealStageInput {
+  # The id of the record to delete.
+  id: ID!
+}
+
+input DeleteManyDealStagesInput {
+  # Filter to find records to delete
+  filter: DealStageDeleteFilter!
+}
+
+input DealStageDeleteFilter {
+  and: [DealStageDeleteFilter!]
+  or: [DealStageDeleteFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CreateOneDealInput {
+  # The record to create
+  deal: DealCreateInput!
+}
+
+input DealCreateInput {
+  title: String!
+  value: Float
+  companyId: ID!
+  stageId: ID
+  dealOwnerId: ID!
+  dealContactId: ID
+}
+
+input CreateManyDealsInput {
+  # Array of records to create
+  deals: [DealCreateInput!]!
+}
+
+input UpdateOneDealInput {
+  # The id of the record to update
+  id: ID!
+
+  # The update to apply.
+  update: DealUpdateInput!
+}
+
+input DealUpdateInput {
+  title: String
+  value: Float
+  companyId: ID
+  stageId: ID
+  closeDateYear: Int
+  closeDateMonth: Int
+  closeDateDay: Int
+  notes: String
+  dealOwnerId: ID
+  dealContactId: ID
+}
+
+input UpdateManyDealsInput {
+  # Filter used to find fields to update
+  filter: DealUpdateFilter!
+
+  # The update to apply to all records found using the filter
+  update: DealUpdateInput!
+}
+
+input DealUpdateFilter {
+  and: [DealUpdateFilter!]
+  or: [DealUpdateFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  value: FloatFieldComparison
+  closeDateYear: IntFieldComparison
+  closeDateMonth: IntFieldComparison
+  closeDateDay: IntFieldComparison
+  stageId: IDFilterComparison
+  dealOwnerId: IDFilterComparison
+  companyId: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input DeleteOneDealInput {
+  # The id of the record to delete.
+  id: ID!
+}
+
+input DeleteManyDealsInput {
+  # Filter to find records to delete
+  filter: DealDeleteFilter!
+}
+
+input DealDeleteFilter {
+  and: [DealDeleteFilter!]
+  or: [DealDeleteFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  value: FloatFieldComparison
+  closeDateYear: IntFieldComparison
+  closeDateMonth: IntFieldComparison
+  closeDateDay: IntFieldComparison
+  stageId: IDFilterComparison
+  dealOwnerId: IDFilterComparison
+  companyId: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input CreateOneQuoteInput {
+  # The record to create
+  quote: QuoteCreateInput!
+}
+
+input QuoteCreateInput {
+  title: String!
+  salesOwnerId: ID!
+  companyId: ID!
+  contactId: ID!
+}
+
+input CreateManyQuotesInput {
+  # Array of records to create
+  quotes: [QuoteCreateInput!]!
+}
+
+input UpdateOneQuoteInput {
+  # The id of the record to update
+  id: ID!
+
+  # The update to apply.
+  update: QuoteUpdateInput!
+}
+
+input QuoteUpdateInput {
+  title: String
+  salesOwnerId: ID
+  companyId: ID
+  contactId: ID
+  status: QuoteStatus
+  items: [QuoteItemInput!]
+  tax: Int
+  description: String
+}
+
+input QuoteItemInput {
+  title: String!
+  unitPrice: Float!
+  quantity: Int!
+  discount: Int!
+}
+
+input UpdateManyQuotesInput {
+  # Filter used to find fields to update
+  filter: QuoteUpdateFilter!
+
+  # The update to apply to all records found using the filter
+  update: QuoteUpdateInput!
+}
+
+input QuoteUpdateFilter {
+  and: [QuoteUpdateFilter!]
+  or: [QuoteUpdateFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  status: QuoteStatusFilterComparison
+  total: FloatFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input DeleteOneQuoteInput {
+  # The id of the record to delete.
+  id: ID!
+}
+
+input DeleteManyQuotesInput {
+  # Filter to find records to delete
+  filter: QuoteDeleteFilter!
+}
+
+input QuoteDeleteFilter {
+  and: [QuoteDeleteFilter!]
+  or: [QuoteDeleteFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  status: QuoteStatusFilterComparison
+  total: FloatFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+type Subscription {
+  createdUser(input: CreateUserSubscriptionFilterInput): User!
+  updatedOneUser(input: UpdateOneUserSubscriptionFilterInput): User!
+  updatedManyUsers: UpdateManyResponse!
+  deletedOneUser(
+    input: DeleteOneUserSubscriptionFilterInput
+  ): UserDeleteResponse!
+  deletedManyUsers: DeleteManyResponse!
+  createdCompany(input: CreateCompanySubscriptionFilterInput): Company!
+  updatedOneCompany(input: UpdateOneCompanySubscriptionFilterInput): Company!
+  updatedManyCompanies: UpdateManyResponse!
+  deletedOneCompany(
+    input: DeleteOneCompanySubscriptionFilterInput
+  ): CompanyDeleteResponse!
+  deletedManyCompanies: DeleteManyResponse!
+  createdContact(input: CreateContactSubscriptionFilterInput): Contact!
+  updatedOneContact(input: UpdateOneContactSubscriptionFilterInput): Contact!
+  updatedManyContacts: UpdateManyResponse!
+  deletedOneContact(
+    input: DeleteOneContactSubscriptionFilterInput
+  ): ContactDeleteResponse!
+  deletedManyContacts: DeleteManyResponse!
+  createdEventCategory(
+    input: CreateEventCategorySubscriptionFilterInput
+  ): EventCategory!
+  updatedOneEventCategory(
+    input: UpdateOneEventCategorySubscriptionFilterInput
+  ): EventCategory!
+  updatedManyEventCategories: UpdateManyResponse!
+  deletedOneEventCategory(
+    input: DeleteOneEventCategorySubscriptionFilterInput
+  ): EventCategoryDeleteResponse!
+  deletedManyEventCategories: DeleteManyResponse!
+  createdEvent(input: CreateEventSubscriptionFilterInput): Event!
+  updatedOneEvent(input: UpdateOneEventSubscriptionFilterInput): Event!
+  updatedManyEvents: UpdateManyResponse!
+  deletedOneEvent(
+    input: DeleteOneEventSubscriptionFilterInput
+  ): EventDeleteResponse!
+  deletedManyEvents: DeleteManyResponse!
+  createdTask(input: CreateTaskSubscriptionFilterInput): Task!
+  updatedOneTask(input: UpdateOneTaskSubscriptionFilterInput): Task!
+  updatedManyTasks: UpdateManyResponse!
+  deletedOneTask(
+    input: DeleteOneTaskSubscriptionFilterInput
+  ): TaskDeleteResponse!
+  deletedManyTasks: DeleteManyResponse!
+  createdTaskComment(
+    input: CreateTaskCommentSubscriptionFilterInput
+  ): TaskComment!
+  updatedOneTaskComment(
+    input: UpdateOneTaskCommentSubscriptionFilterInput
+  ): TaskComment!
+  updatedManyTaskComments: UpdateManyResponse!
+  deletedOneTaskComment(
+    input: DeleteOneTaskCommentSubscriptionFilterInput
+  ): TaskCommentDeleteResponse!
+  deletedManyTaskComments: DeleteManyResponse!
+  createdTaskStage(input: CreateTaskStageSubscriptionFilterInput): TaskStage!
+  updatedOneTaskStage(
+    input: UpdateOneTaskStageSubscriptionFilterInput
+  ): TaskStage!
+  updatedManyTaskStages: UpdateManyResponse!
+  deletedOneTaskStage(
+    input: DeleteOneTaskStageSubscriptionFilterInput
+  ): TaskStageDeleteResponse!
+  deletedManyTaskStages: DeleteManyResponse!
+  createdCompanyNote(
+    input: CreateCompanyNoteSubscriptionFilterInput
+  ): CompanyNote!
+  updatedOneCompanyNote(
+    input: UpdateOneCompanyNoteSubscriptionFilterInput
+  ): CompanyNote!
+  updatedManyCompanyNotes: UpdateManyResponse!
+  deletedOneCompanyNote(
+    input: DeleteOneCompanyNoteSubscriptionFilterInput
+  ): CompanyNoteDeleteResponse!
+  deletedManyCompanyNotes: DeleteManyResponse!
+  createdContactNote(
+    input: CreateContactNoteSubscriptionFilterInput
+  ): ContactNote!
+  updatedOneContactNote(
+    input: UpdateOneContactNoteSubscriptionFilterInput
+  ): ContactNote!
+  updatedManyContactNotes: UpdateManyResponse!
+  deletedOneContactNote(
+    input: DeleteOneContactNoteSubscriptionFilterInput
+  ): ContactNoteDeleteResponse!
+  deletedManyContactNotes: DeleteManyResponse!
+  createdDealStage(input: CreateDealStageSubscriptionFilterInput): DealStage!
+  updatedOneDealStage(
+    input: UpdateOneDealStageSubscriptionFilterInput
+  ): DealStage!
+  updatedManyDealStages: UpdateManyResponse!
+  deletedOneDealStage(
+    input: DeleteOneDealStageSubscriptionFilterInput
+  ): DealStageDeleteResponse!
+  deletedManyDealStages: DeleteManyResponse!
+  createdDeal(input: CreateDealSubscriptionFilterInput): Deal!
+  updatedOneDeal(input: UpdateOneDealSubscriptionFilterInput): Deal!
+  updatedManyDeals: UpdateManyResponse!
+  deletedOneDeal(
+    input: DeleteOneDealSubscriptionFilterInput
+  ): DealDeleteResponse!
+  deletedManyDeals: DeleteManyResponse!
+  createdQuote(input: CreateQuoteSubscriptionFilterInput): Quote!
+  updatedOneQuote(input: UpdateOneQuoteSubscriptionFilterInput): Quote!
+  updatedManyQuotes: UpdateManyResponse!
+  deletedOneQuote(
+    input: DeleteOneQuoteSubscriptionFilterInput
+  ): QuoteDeleteResponse!
+  deletedManyQuotes: DeleteManyResponse!
+  createdAudit(input: CreateAuditSubscriptionFilterInput): Audit!
+  updatedOneAudit(input: UpdateOneAuditSubscriptionFilterInput): Audit!
+  updatedManyAudits: UpdateManyResponse!
+  deletedOneAudit(
+    input: DeleteOneAuditSubscriptionFilterInput
+  ): AuditDeleteResponse!
+  deletedManyAudits: DeleteManyResponse!
+}
+
+input CreateUserSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: UserSubscriptionFilter!
+}
+
+input UserSubscriptionFilter {
+  and: [UserSubscriptionFilter!]
+  or: [UserSubscriptionFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  role: UserRoleFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UpdateOneUserSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: UserSubscriptionFilter!
+}
+
+input DeleteOneUserSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: UserSubscriptionFilter!
+}
+
+input CreateCompanySubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: CompanySubscriptionFilter!
+}
+
+input CompanySubscriptionFilter {
+  and: [CompanySubscriptionFilter!]
+  or: [CompanySubscriptionFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  totalRevenue: IntFieldComparison
+  companySize: CompanyCompanySizeFilterComparison
+  industry: CompanyIndustryFilterComparison
+  businessType: CompanyBusinessTypeFilterComparison
+  country: StringFieldComparison
+  website: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UpdateOneCompanySubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: CompanySubscriptionFilter!
+}
+
+input DeleteOneCompanySubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: CompanySubscriptionFilter!
+}
+
+input CreateContactSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: ContactSubscriptionFilter!
+}
+
+input ContactSubscriptionFilter {
+  and: [ContactSubscriptionFilter!]
+  or: [ContactSubscriptionFilter!]
+  id: IDFilterComparison
+  name: StringFieldComparison
+  email: StringFieldComparison
+  phone: StringFieldComparison
+  jobTitle: StringFieldComparison
+  timezone: StringFieldComparison
+  stage: ContactStageFilterComparison
+  status: ContactStatusFilterComparison
+  score: IntFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UpdateOneContactSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: ContactSubscriptionFilter!
+}
+
+input DeleteOneContactSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: ContactSubscriptionFilter!
+}
+
+input CreateEventCategorySubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: EventCategorySubscriptionFilter!
+}
+
+input EventCategorySubscriptionFilter {
+  and: [EventCategorySubscriptionFilter!]
+  or: [EventCategorySubscriptionFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UpdateOneEventCategorySubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: EventCategorySubscriptionFilter!
+}
+
+input DeleteOneEventCategorySubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: EventCategorySubscriptionFilter!
+}
+
+input CreateEventSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: EventSubscriptionFilter!
+}
+
+input EventSubscriptionFilter {
+  and: [EventSubscriptionFilter!]
+  or: [EventSubscriptionFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  description: StringFieldComparison
+  startDate: DateFieldComparison
+  endDate: DateFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UpdateOneEventSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: EventSubscriptionFilter!
+}
+
+input DeleteOneEventSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: EventSubscriptionFilter!
+}
+
+input CreateTaskSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: TaskSubscriptionFilter!
+}
+
+input TaskSubscriptionFilter {
+  and: [TaskSubscriptionFilter!]
+  or: [TaskSubscriptionFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  description: StringFieldComparison
+  dueDate: DateFieldComparison
+  completed: BooleanFieldComparison
+  stageId: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UpdateOneTaskSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: TaskSubscriptionFilter!
+}
+
+input DeleteOneTaskSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: TaskSubscriptionFilter!
+}
+
+input CreateTaskCommentSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: TaskCommentSubscriptionFilter!
+}
+
+input TaskCommentSubscriptionFilter {
+  and: [TaskCommentSubscriptionFilter!]
+  or: [TaskCommentSubscriptionFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UpdateOneTaskCommentSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: TaskCommentSubscriptionFilter!
+}
+
+input DeleteOneTaskCommentSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: TaskCommentSubscriptionFilter!
+}
+
+input CreateTaskStageSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: TaskStageSubscriptionFilter!
+}
+
+input TaskStageSubscriptionFilter {
+  and: [TaskStageSubscriptionFilter!]
+  or: [TaskStageSubscriptionFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UpdateOneTaskStageSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: TaskStageSubscriptionFilter!
+}
+
+input DeleteOneTaskStageSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: TaskStageSubscriptionFilter!
+}
+
+input CreateCompanyNoteSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: CompanyNoteSubscriptionFilter!
+}
+
+input CompanyNoteSubscriptionFilter {
+  and: [CompanyNoteSubscriptionFilter!]
+  or: [CompanyNoteSubscriptionFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UpdateOneCompanyNoteSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: CompanyNoteSubscriptionFilter!
+}
+
+input DeleteOneCompanyNoteSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: CompanyNoteSubscriptionFilter!
+}
+
+input CreateContactNoteSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: ContactNoteSubscriptionFilter!
+}
+
+input ContactNoteSubscriptionFilter {
+  and: [ContactNoteSubscriptionFilter!]
+  or: [ContactNoteSubscriptionFilter!]
+  id: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UpdateOneContactNoteSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: ContactNoteSubscriptionFilter!
+}
+
+input DeleteOneContactNoteSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: ContactNoteSubscriptionFilter!
+}
+
+input CreateDealStageSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: DealStageSubscriptionFilter!
+}
+
+input DealStageSubscriptionFilter {
+  and: [DealStageSubscriptionFilter!]
+  or: [DealStageSubscriptionFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UpdateOneDealStageSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: DealStageSubscriptionFilter!
+}
+
+input DeleteOneDealStageSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: DealStageSubscriptionFilter!
+}
+
+input CreateDealSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: DealSubscriptionFilter!
+}
+
+input DealSubscriptionFilter {
+  and: [DealSubscriptionFilter!]
+  or: [DealSubscriptionFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  value: FloatFieldComparison
+  closeDateYear: IntFieldComparison
+  closeDateMonth: IntFieldComparison
+  closeDateDay: IntFieldComparison
+  stageId: IDFilterComparison
+  dealOwnerId: IDFilterComparison
+  companyId: IDFilterComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UpdateOneDealSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: DealSubscriptionFilter!
+}
+
+input DeleteOneDealSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: DealSubscriptionFilter!
+}
+
+input CreateQuoteSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: QuoteSubscriptionFilter!
+}
+
+input QuoteSubscriptionFilter {
+  and: [QuoteSubscriptionFilter!]
+  or: [QuoteSubscriptionFilter!]
+  id: IDFilterComparison
+  title: StringFieldComparison
+  status: QuoteStatusFilterComparison
+  total: FloatFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UpdateOneQuoteSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: QuoteSubscriptionFilter!
+}
+
+input DeleteOneQuoteSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: QuoteSubscriptionFilter!
+}
+
+input CreateAuditSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: AuditSubscriptionFilter!
+}
+
+input AuditSubscriptionFilter {
+  and: [AuditSubscriptionFilter!]
+  or: [AuditSubscriptionFilter!]
+  id: IDFilterComparison
+  action: StringFieldComparison
+  targetEntity: StringFieldComparison
+  targetId: NumberFieldComparison
+  createdAt: DateFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+input UpdateOneAuditSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: AuditSubscriptionFilter!
+}
+
+input DeleteOneAuditSubscriptionFilterInput {
+  # Specify to filter the records returned.
+  filter: AuditSubscriptionFilter!
+}

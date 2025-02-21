@@ -18,7 +18,6 @@ import { ForgotPasswordPage } from "./routes/forgot-password";
 import { LoginPage } from "./routes/login";
 import { RegisterPage } from "./routes/register";
 import UpdatePasswordPage from "./routes/update-password";
-import { useAutoLoginForDemo } from "./hooks";
 import { FullscreenLoading } from "./components/fullscreen-loading";
 
 import "@/utilities/init-dayjs";
@@ -26,15 +25,19 @@ import "@refinedev/antd/dist/reset.css";
 import "./styles/antd.css";
 import "./styles/fc.css";
 import "./styles/index.css";
+import {
+  CompanyCreatePage,
+  CompanyEditPage,
+  CompanyListPage,
+} from "./routes/companies";
 
 function App() {
   // This hook is used to automatically login the user.
   // We use this hook to skip the login page and demonstrate the application more quickly.
-  const { loading } = useAutoLoginForDemo();
-
-  if (loading) {
-    return <FullscreenLoading />;
-  }
+  // const { loading } = useAutoLoginForDemo();
+  // if (loading) {
+  //   return <FullscreenLoading />;
+  // }
 
   return (
     <BrowserRouter>
@@ -67,6 +70,20 @@ function App() {
                 }
               >
                 <Route index element={<DashboardPage />} />
+                <Route
+                  path="/companies"
+                  element={
+                    <CompanyListPage>
+                      <Outlet />
+                    </CompanyListPage>
+                  }
+                >
+                  <Route path="create" element={<CompanyCreatePage />} />
+                </Route>
+                <Route
+                  path="/companies/edit/:id"
+                  element={<CompanyEditPage />}
+                />
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
               <Route

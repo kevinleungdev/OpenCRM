@@ -115,7 +115,10 @@ export const DashboardLatestActivities: React.FC<{ limit?: number }> = ({
                   src={deal?.company.avatarUrl}
                 />
               </div>
-              <div className={styles.action}>
+              <div
+                className={styles.action}
+                style={{ textOverflow: "ellipsis", overflow: "hidden" }}
+              >
                 <Text type="secondary" size="xs">
                   {dayjs(createdAt).fromNow()}
                 </Text>

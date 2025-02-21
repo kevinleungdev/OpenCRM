@@ -1,4 +1,5 @@
-import { LoginMutation, MeQuery, RegisterMutation } from "@/graphql/types";
+import { User } from "@/graphql/schema.types";
+import { LoginMutation, RegisterMutation } from "@/graphql/types";
 import { client, dataProvider } from "@/providers/data";
 import { API_BASE_URL, API_URL } from "@/providers/urls";
 import { AuthProvider } from "@refinedev/core";
@@ -8,36 +9,24 @@ import {
   LOGIN_MUTATION,
   REGISTER_MUTATION,
 } from "./queries";
-import { enableAutoLogin } from "@/hooks";
-import { User } from "@/graphql/schema.types";
 
-export const emails = [
-  "michael.scott@dundermifflin.com",
-  "jim.halpert@dundermifflin.com",
-  "pam.beesly@dundermifflin.com",
-  "dwight.schrute@dundermifflin.com",
-  "angela.martin@dundermifflin.com",
-  "stanley.hudson@dundermifflin.com",
-  "phyllis.smith@dundermifflin.com",
-  "kevin.malone@dundermifflin.com",
-  "oscar.martinez@dundermifflin.com",
-  "creed.bratton@dundermifflin.com",
-  "meredith.palmer@dundermifflin.com",
-  "ryan.howard@dundermifflin.com",
-  "kelly.kapoor@dundermifflin.com",
-  "andy.bernard@dundermifflin.com",
-  "toby.flenderson@dundermifflin.com",
-];
+export const emails = ["michael.scott@dundermifflin.com"];
 
 const randomEmail = emails[Math.floor(Math.random() * emails.length)];
 
 export const demoCredentials = {
   email: randomEmail,
-  password: "demodemo",
+  password: "michael",
 };
 
 export const authProvider: AuthProvider = {
-  login: async ({ email, providerName, accessToken, refreshToken }) => {
+  login: async ({
+    email,
+    password,
+    providerName,
+    accessToken,
+    refreshToken,
+  }) => {
     if (accessToken && refreshToken) {
       client.setHeaders({
         Authorization: `Bearer ${accessToken}`,
@@ -63,13 +52,12 @@ export const authProvider: AuthProvider = {
     try {
       const response = await request<LoginMutation>(API_URL, LOGIN_MUTATION, {
         email,
+        password,
       });
 
       client.setHeaders({
         Authorization: `Bearer ${response.login.accessToken}`,
       });
-
-      enableAutoLogin(email);
 
       localStorage.setItem("access_token", response.login.accessToken);
       localStorage.setItem("refresh_token", response.login.refreshToken);
@@ -94,8 +82,6 @@ export const authProvider: AuthProvider = {
         email,
         password,
       });
-
-      enableAutoLogin(email);
 
       return {
         success: true,
